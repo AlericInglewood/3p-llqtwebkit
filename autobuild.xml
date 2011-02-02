@@ -118,10 +118,33 @@
       <string>qt</string>
       <key>platforms</key>
       <map>
-        <key>darwin</key>
+        <key>common</key>
         <map>
           <key>build_directory</key>
           <string>stage</string>
+          <key>manifest</key>
+          <array>
+            <string>include/*</string>
+            <string>include/Qt/*</string>
+            <string>include/QtCore/*</string>
+            <string>include/QtDeclarative/*</string>
+            <string>include/QtGui/*</string>
+            <string>include/QtMultimedia/*</string>
+            <string>include/QtNetwork/*</string>
+            <string>include/QtOpenGL/*</string>
+            <string>include/QtScript/*</string>
+            <string>include/QtScriptTools/*</string>
+            <string>include/QtSql/*</string>
+            <string>include/QtSvg/*</string>
+            <string>include/QtTest/*</string>
+            <string>include/QtWebKit/*</string>
+            <string>include/QtXml/*</string>
+          </array>
+          <key>name</key>
+          <string>common</string>
+        </map>
+        <key>darwin</key>
+        <map>
           <key>configurations</key>
           <map>
             <key>Release</key>
@@ -141,6 +164,10 @@
               <string>Release</string>
             </map>
           </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/*.a</string>
+          </array>
           <key>name</key>
           <string>darwin</string>
         </map>
