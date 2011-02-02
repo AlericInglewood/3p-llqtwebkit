@@ -3,10 +3,6 @@
 # make errors fatal
 set -e
 
-#QT_REPOS="http://qt.gitorious.org/qt/lindenqt/archive-tarball/lindenqt"
-QT_ARCHIVE="qt-everywhere-opensource-src-4.7.1.tar.gz"
-QT_URL="http://get.qt.nokia.com/qt/source/$QT_ARCHIVE"
-QT_MD5="6f88d96507c84e9fea5bf3a71ebeb6d7"
 QT_SOURCE_DIR="qt-everywhere-opensource-src-4.7.1"
 
 if [ -z "$AUTOBUILD" ] ; then 
@@ -20,24 +16,6 @@ fi
 # load autbuild provided shell functions and variables
 eval "$("$AUTOBUILD" source_environment)"
 
-fetch_git_as_tarball()
-{
-  local archive=$1
-  local url=$2
-
-  # *HACK work around the fact that gitorious.org screws us by being
-  # non-blocking while it's building the tarball
-  # *NOTE - keep trying until it actually hands us back a tarball or 15 minutes total
-  local retry_count=30
-  while (($retry_count)) && ! curl -q -I "$url" 2>/dev/null | grep -E "^Content-Type:.*application\/x-gzip" ; do
-    sleep 30
-    let retry_count--
-  done
-
-  # by now hopefully it's actually got a tarball ready for us
-  curl -q -o "$archive" "$url"
-}
-
 # turn on verbose debugging output for logging.
 set -x
 
@@ -47,17 +25,12 @@ top="$(pwd)"
 packages="$stage/packages"
 install="$stage"
 
-fetch_archive "$QT_URL" "$QT_ARCHIVE" "$QT_MD5"
-#extract "$QT_ARCHIVE"
-
 case "$AUTOBUILD_PLATFORM" in
     "windows")
         load_vsvars
-        # Its odd, but the extract command was not extracting configure.exe from the archive in cygwin!
-#	tar -xzvf "$QT_ARCHIVE" "$QT_SOURCE_DIR/configure.exe"
-
-	mkdir -p "$packages/lib/release"
-
+    
+        mkdir -p "$packages/lib/release"
+    
         QTDIR=$(cygpath -m "$(pwd)/$QT_SOURCE_DIR")
         pushd "$QT_SOURCE_DIR"
             chmod +x "./configure.exe"
@@ -65,13 +38,9 @@ case "$AUTOBUILD_PLATFORM" in
                 ./configure.exe -opensource -platform win32-msvc2005 -fast -debug-and-release -no-qt3support -prefix "$QTDIR" -no-phonon -no-phonon-backend -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I "$(cygpath -m "$packages/include")" -L "$(cygpath -m "$packages/lib/release")"
             export PATH="$(cygpath -u "$QTDIR")/bin:$PATH"
             export QMAKESPEC="win32-msvc2005"
-
+    
             nmake
         popd
-
-        qmake "CONFIG-=debug" && nmake
-        qmake "CONFIG+=debug" && nmake
-
 
         local qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
             qtmain.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
@@ -106,14 +75,6 @@ case "$AUTOBUILD_PLATFORM" in
         for plugin in $qtwebkit_imageplugins_release ; do
             cp "$QT_SOURCE_DIR/plugins/imageformats/$plugin" "$install/lib/release/imageformats"
         done
-
-        cp "debug/llqtwebkitd.lib"  "$install/lib/debug"
-        cp "release/llqtwebkit.lib" "$install/lib/release"
-
-        cp "llqtwebkit.h" "$install/include"
-
-        # *TODO copy license files to $LICENSE_OUT_DIR/qt-4.5-linden-changes.txt, qt-4.5-LICENSE.LGPL, qt-4.5-LGPL_EXCEPTION.txt
-
     ;;
     "darwin")
         pushd "$QT_SOURCE_DIR"
@@ -127,15 +88,6 @@ case "$AUTOBUILD_PLATFORM" in
             export PATH="$PATH:$QTDIR/bin"
             make install
         popd
-
-        ln -s "$QT_SOURCE_DIR" QTDIR
-        xcodebuild -project llqtwebkit.xcodeproj -target llqtwebkit -configuration Release
-
-        mkdir -p "$install/lib/release"
-        cp "build/Release/libllqtwebkit.dylib" "$install/lib/release"
-
-        mkdir -p "$install/include"
-        cp "llqtwebkit.h" "$install/include"
     ;;
     "linux")
         export MAKEFLAGS="-j12"
@@ -161,20 +113,10 @@ case "$AUTOBUILD_PLATFORM" in
             export PATH="$PATH:$QTDIR/bin"
             make install
         popd
-        qmake -platform linux-g++-32 CONFIG-=debug
-        make -j12
-
-        mkdir -p "$install/lib"
-        cp "libllqtwebkit.a" "$install/lib"
-
-        mkdir -p "$install/include"
-        cp "llqtwebkit.h" "$install/include"
-
-        mv "$install/plugins/imageformats"/libq*.a "$install/lib/release"
     ;;
 esac
 mkdir -p "$install/LICENSES"
-cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/"
+cp "LICENSE.LGPL" "$install/LICENSES/qt.txt"
 
 pass
 
