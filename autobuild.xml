@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<llsd>
+<map>
+    <key>package_description</key>
+    <map>
+      <key>copyright</key>
+      <string>Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).</string>
+      <key>description</key>
+      <string>QT cross-platform applicaiton and UI framework.</string>
+      <key>license</key>
+      <string>LGPL</string>
+      <key>license_file</key>
+      <string>LICENSES/qt.txt</string>
+      <key>name</key>
+      <string>qt</string>
+      <key>platforms</key>
+      <map>
+        <key>darwin</key>
+        <map>
+          <key>build_directory</key>
+          <string>stage</string>
+          <key>configurations</key>
+          <map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>sh</string>
+                <key>options</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+          </map>
+          <key>name</key>
+          <string>darwin</string>
+        </map>
+      </map>
+      <key>version</key>
+      <string>4.7.1</string>
+    </map>
+    <key>type</key>
+    <string>autobuild</string>
+    <key>version</key>
+    <string>1.2</string>
+  </map>
+</llsd>
