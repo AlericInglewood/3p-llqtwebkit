@@ -42,9 +42,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c847d54ac48f2da60d66aab97d350408</string>
+              <string>3e1847f7c38b4c78d8f594d269e96340</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/brad_openssl-autobuild/rev/204126/arch/CYGWIN/installer/openssl-0.9.8j-windows-20100428.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/220197/arch/CYGWIN/installer/openssl-0.9.8q-windows-20110202.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -204,6 +204,42 @@
           </array>
           <key>name</key>
           <string>linux</string>
+        </map>
+        <key>windows</key>
+        <map>
+          <key>build_directory</key>
+          <string>stage</string>
+          <key>configurations</key>
+          <map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                </array>
+                <key>command</key>
+                <string>sh</string>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+          </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/debug/*.lib</string>
+            <string>lib/debug/*.dll</string>
+            <string>lib/debug/imageformats/*.dll</string>
+            <string>lib/release/*.lib</string>
+            <string>lib/release/*.dll</string>
+            <string>lib/release/imageformats/*.dll</string>
+            <string>bin/*</string>
+          </array>
+          <key>name</key>
+          <string>windows</string>
         </map>
       </map>
       <key>version</key>
