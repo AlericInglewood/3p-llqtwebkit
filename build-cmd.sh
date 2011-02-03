@@ -41,7 +41,7 @@ case "$AUTOBUILD_PLATFORM" in
         popd
 
         qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
-            qtmain.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
+            qtmaind.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
             QtWebKitd4.dll QtWebKitd4.lib"
 
         mkdir -p "$install/lib/debug"
