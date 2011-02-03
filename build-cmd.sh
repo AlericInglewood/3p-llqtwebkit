@@ -87,6 +87,8 @@ case "$AUTOBUILD_PLATFORM" in
             make -j4 -C "src/3rdparty/webkit/JavaScriptCore"
             export PATH="$PATH:$QTDIR/bin"
             make install
+            
+            cp "src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
         popd
     ;;
     "linux")
@@ -116,7 +118,7 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
 esac
 mkdir -p "$install/LICENSES"
-cp "LICENSE.LGPL" "$install/LICENSES/qt.txt"
+cp "$QT_SOURCE_DIR/LICENSE.LGPL" "$install/LICENSES/qt.txt"
 
 pass
 

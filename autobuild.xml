@@ -167,6 +167,9 @@
           <key>manifest</key>
           <array>
             <string>lib/*.a</string>
+            <string>plugins/codecs/*.a</string>
+            <string>plugins/imageformats/*.a</string>
+            <string>bin/*</string>
           </array>
           <key>name</key>
           <string>darwin</string>
