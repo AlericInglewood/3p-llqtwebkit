@@ -174,6 +174,37 @@
           <key>name</key>
           <string>darwin</string>
         </map>
+        <key>linux</key>
+        <map>
+          <key>configurations</key>
+          <map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>sh</string>
+                <key>options</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+          </map>
+          <key>manifest</key>
+          <array>
+            <string>plugins/codecs/*.a</string>
+            <string>plugins/imageformats/*.a</string>
+            <string>bin/*</string>
+            <string>lib/*.a</string>
+          </array>
+          <key>name</key>
+          <string>linux</string>
+        </map>
       </map>
       <key>version</key>
       <string>4.7.1</string>

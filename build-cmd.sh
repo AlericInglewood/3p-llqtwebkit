@@ -93,8 +93,8 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
     "linux")
         export MAKEFLAGS="-j12"
-        export CXX="distcc g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
-        export CC='distcc gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
+        export CXX="g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
+        export CC='gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
         export LD="g++-4.1" LDFLAGS="-m32"
         pushd "$QT_SOURCE_DIR"
             export QTDIR="$(pwd)"
