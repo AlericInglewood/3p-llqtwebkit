@@ -82,6 +82,8 @@ case "$AUTOBUILD_PLATFORM" in
         for exe in $qtwebkit_exes ; do
             cp "$QTDIR/bin/$exe" "$install/bin"
         done
+        
+        cp -r "$QTDIR/mkspecs" "$install"
     ;;
     "darwin")
         pushd "$QT_SOURCE_DIR"
