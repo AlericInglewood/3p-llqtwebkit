@@ -73,6 +73,20 @@ case "$AUTOBUILD_PLATFORM" in
         for plugin in $qtwebkit_imageplugins_release ; do
             cp "$QTDIR/plugins/imageformats/$plugin" "$install/lib/release/imageformats"
         done
+
+        qtwebkit_codecs_debug="qjpcodecsd4.dll qcncodecsd4.dll qkrcodecsd4.dll qtwcodecsd4.dll"
+        
+        mkdir -p "$install/lib/debug/codecs"
+        for codec in $qtwebkit_codecs_debug ; do
+            cp "$QTDIR/plugins/codecs/$codec" "$install/lib/debug/codecs"
+        done
+
+        qtwebkit_codecs_release="qcncodecs4.dll qjpcodecs4.dll qkrcodecs4.dll qtwcodecs4.dll"
+        
+        mkdir -p "$install/lib/release/codecs"
+        for codec in $qtwebkit_codecs_release ; do
+            cp "$QTDIR/plugins/codecs/$codec" "$install/lib/release/codecs"
+        done
         
         mkdir -p "$install/include"
         cp -r "$QTDIR/include" "$install"
