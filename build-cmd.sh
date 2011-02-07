@@ -42,7 +42,7 @@ case "$AUTOBUILD_PLATFORM" in
 
         qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
             qtmaind.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
-            QtWebKitd4.dll QtWebKitd4.lib"
+            QtWebKitd4.dll QtWebKitd4.lib QtXmlPatterns4.dll"
 
         mkdir -p "$install/lib/debug"
         for lib in $qtwebkit_libs_debug ; do
@@ -51,7 +51,7 @@ case "$AUTOBUILD_PLATFORM" in
 
         qtwebkit_libs_release="QtCore4.dll QtCore4.lib QtGui4.dll QtGui4.lib \
             qtmain.lib QtNetwork4.dll QtNetwork4.lib QtOpenGL4.dll QtOpenGL4.lib \
-            QtWebKit4.dll QtWebKit4.lib"
+            QtWebKit4.dll QtWebKit4.lib QtXmlPatterns4.dll"
 
         mkdir -p "$install/lib/release"
         for lib in $qtwebkit_libs_release ; do
