@@ -20,21 +20,23 @@ eval "$("$AUTOBUILD" source_environment)"
 set -x
 
 stage="$(pwd)"
-cd "$(dirname "$0")"
-top="$(pwd)"
 packages="$stage/packages"
 install="$stage"
+
+cd "$(dirname "$0")"
 
 case "$AUTOBUILD_PLATFORM" in
     "windows")
         # build qt
+        pushd "$stage"
+        
         load_vsvars
         
-        QTDIR="$(pwd)/$QT_SOURCE_DIR"
+        QTDIR="$(pwd)/../$QT_SOURCE_DIR"
         chmod +x "$QTDIR/configure.exe"
         echo "yes" | \
             "$QTDIR/configure.exe" -opensource -platform win32-msvc2010 -fast \
-            -debug-and-release -no-qt3support -prefix "$stage" -no-phonon -no-phonon-backend \
+            -debug-and-release -no-qt3support -no-phonon -no-phonon-backend \
             -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I \
             "$(cygpath -m "$packages/include")" -L "$(cygpath -m "$packages/lib/release")"
         export PATH="$QTDIR"/bin:"$PATH"
@@ -42,6 +44,8 @@ case "$AUTOBUILD_PLATFORM" in
 
         nmake
         
+        popd
+
         # Move around libraries to match autobuild layout.
         
         qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
@@ -85,7 +89,7 @@ case "$AUTOBUILD_PLATFORM" in
         for codec in $qtwebkit_codecs_release ; do
             cp "$stage/plugins/codecs/$codec" "$install/lib/release/codecs"
         done
-
+        
         # Now build llqtwebkit...
         export PATH=$PATH:"$install/bin/"
         qmake "CONFIG-=debug" && nmake
@@ -165,7 +169,7 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
 esac
 mkdir -p "$install/LICENSES"
-cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/"
+cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/llqtwebkit.txt"
 
 pass
 
