@@ -27,6 +27,7 @@ install="$stage"
 
 case "$AUTOBUILD_PLATFORM" in
     "windows")
+        # build qt
         load_vsvars
         
         QTDIR="$(pwd)/$QT_SOURCE_DIR"
@@ -84,8 +85,21 @@ case "$AUTOBUILD_PLATFORM" in
         for codec in $qtwebkit_codecs_release ; do
             cp "$stage/plugins/codecs/$codec" "$install/lib/release/codecs"
         done
+
+        # Now build llqtwebkit...
+        export PATH=$PATH:"$install/bin/"
+        qmake "CONFIG-=debug" && nmake
+        qmake "CONFIG+=debug" && nmake
+
+        mkdir -p "$install/lib/debug"
+        mkdir -p "$install/lib/release"
+        cp "debug/llqtwebkitd.lib"  "$install/lib/debug"
+        cp "release/llqtwebkit.lib" "$install/lib/release"
+        mkdir -p "$install/include"
+        cp "llqtwebkit.h" "$install/include"
     ;;
     "darwin")
+        # Build qt...
         pushd "$QT_SOURCE_DIR"
             export QTDIR="$(pwd)"
             echo "yes" | \
@@ -99,8 +113,19 @@ case "$AUTOBUILD_PLATFORM" in
             
             cp "src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
         popd
+
+        # Now build llqtwebkit
+        ln -s "$packages" QTDIR
+        xcodebuild -project llqtwebkit.xcodeproj -target llqtwebkit -configuration Release
+
+        mkdir -p "$install/lib/release"
+        cp "build/Release/libllqtwebkit.dylib" "$install/lib/release"
+
+        mkdir -p "$install/include"
+        cp "llqtwebkit.h" "$install/include"
     ;;
     "linux")
+        #Build qt...
         export MAKEFLAGS="-j12"
         export CXX="g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
         export CC='gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
@@ -124,10 +149,23 @@ case "$AUTOBUILD_PLATFORM" in
             export PATH="$PATH:$QTDIR/bin"
             make install
         popd
+
+        # Now build llqtwebkit...
+        export PATH=$PATH:"$install/bin/"
+        qmake -platform linux-g++-32 CONFIG-=debug
+        make -j12
+
+        mkdir -p "$install/lib/release"
+        cp "libllqtwebkit.a" "$install/lib/release"
+
+        mkdir -p "$install/include"
+        cp "llqtwebkit.h" "$install/include"
+
+        mv "$packages/plugins/imageformats"/libq*.a "$install/lib/release"
     ;;
 esac
 mkdir -p "$install/LICENSES"
-cp "$QT_SOURCE_DIR/LICENSE.LGPL" "$install/LICENSES/qt.txt"
+cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/"
 
 pass
 

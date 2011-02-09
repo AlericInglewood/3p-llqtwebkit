@@ -113,9 +113,9 @@
       <key>license</key>
       <string>LGPL</string>
       <key>license_file</key>
-      <string>LICENSES/qt.txt</string>
+      <string>LICENSES/llqtwebkit.txt</string>
       <key>name</key>
-      <string>qt</string>
+      <string>llqtwebkit</string>
       <key>platforms</key>
       <map>
         <key>common</key>
