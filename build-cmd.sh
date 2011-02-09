@@ -29,75 +29,61 @@ case "$AUTOBUILD_PLATFORM" in
     "windows")
         load_vsvars
         
-        QTDIR=$(cygpath -m "$(pwd)/$QT_SOURCE_DIR")
-        pushd "$QT_SOURCE_DIR"
-            chmod +x "./configure.exe"
-            echo "yes" | \
-                ./configure.exe -opensource -platform win32-msvc2010 -fast -debug-and-release -no-qt3support -prefix "$QTDIR" -no-phonon -no-phonon-backend -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I "$(cygpath -m "$packages/include")" -L "$(cygpath -m "$packages/lib/release")"
-            export PATH="$(cygpath -u "$QTDIR")/bin:$PATH"
-            export QMAKESPEC="win32-msvc2010"
-    
-            nmake
-        popd
+        QTDIR="$(pwd)/$QT_SOURCE_DIR"
+        chmod +x "$QTDIR/configure.exe"
+        echo "yes" | \
+            "$QTDIR/configure.exe" -opensource -platform win32-msvc2010 -fast \
+            -debug-and-release -no-qt3support -prefix "$stage" -no-phonon -no-phonon-backend \
+            -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I \
+            "$(cygpath -m "$packages/include")" -L "$(cygpath -m "$packages/lib/release")"
+        export PATH="$QTDIR"/bin:"$PATH"
+        export QMAKESPEC="win32-msvc2010"
 
+        nmake
+        
+        # Move around libraries to match autobuild layout.
+        
         qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
             qtmaind.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
             QtWebKitd4.dll QtWebKitd4.lib QtXmlPatterns4.dll"
-
         mkdir -p "$install/lib/debug"
         for lib in $qtwebkit_libs_debug ; do
-            cp "$QTDIR/lib/$lib" "$install/lib/debug"
+            cp "$stage/lib/$lib" "$install/lib/debug"
         done
 
         qtwebkit_libs_release="QtCore4.dll QtCore4.lib QtGui4.dll QtGui4.lib \
             qtmain.lib QtNetwork4.dll QtNetwork4.lib QtOpenGL4.dll QtOpenGL4.lib \
             QtWebKit4.dll QtWebKit4.lib QtXmlPatterns4.dll"
-
         mkdir -p "$install/lib/release"
         for lib in $qtwebkit_libs_release ; do
-            cp "$QTDIR/lib/$lib" "$install/lib/release"
+            cp "$stage/lib/$lib" "$install/lib/release"
         done
 
         qtwebkit_imageplugins_debug="qgifd4.dll qicod4.dll qjpegd4.dll \
             qmngd4.dll qsvgd4.dll qtiffd4.dll"
-
         mkdir -p "$install/lib/debug/imageformats"
         for plugin in $qtwebkit_imageplugins_debug ; do
-            cp "$QTDIR/plugins/imageformats/$plugin" "$install/lib/debug/imageformats"
+            cp "$stage/plugins/imageformats/$plugin" "$install/lib/debug/imageformats"
         done
 
         qtwebkit_imageplugins_release="qgif4.dll qico4.dll qjpeg4.dll \
             qmng4.dll qsvg4.dll qtiff4.dll"
-
         mkdir -p "$install/lib/release/imageformats"
         for plugin in $qtwebkit_imageplugins_release ; do
-            cp "$QTDIR/plugins/imageformats/$plugin" "$install/lib/release/imageformats"
+            cp "$stage/plugins/imageformats/$plugin" "$install/lib/release/imageformats"
         done
 
         qtwebkit_codecs_debug="qjpcodecsd4.dll qcncodecsd4.dll qkrcodecsd4.dll qtwcodecsd4.dll"
-        
         mkdir -p "$install/lib/debug/codecs"
         for codec in $qtwebkit_codecs_debug ; do
-            cp "$QTDIR/plugins/codecs/$codec" "$install/lib/debug/codecs"
+            cp "$stage/plugins/codecs/$codec" "$install/lib/debug/codecs"
         done
 
         qtwebkit_codecs_release="qcncodecs4.dll qjpcodecs4.dll qkrcodecs4.dll qtwcodecs4.dll"
-        
         mkdir -p "$install/lib/release/codecs"
         for codec in $qtwebkit_codecs_release ; do
-            cp "$QTDIR/plugins/codecs/$codec" "$install/lib/release/codecs"
+            cp "$stage/plugins/codecs/$codec" "$install/lib/release/codecs"
         done
-        
-        mkdir -p "$install/include"
-        cp -r "$QTDIR/include" "$install"
-        
-        mkdir -p "$install/bin"
-        qtwebkit_exes="moc.exe qmake.exe rcc.exe uic.exe"
-        for exe in $qtwebkit_exes ; do
-            cp "$QTDIR/bin/$exe" "$install/bin"
-        done
-        
-        cp -r "$QTDIR/mkspecs" "$install"
     ;;
     "darwin")
         pushd "$QT_SOURCE_DIR"
