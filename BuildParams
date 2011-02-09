@@ -8,5 +8,7 @@ public_build = true
 
 AUTOBUILD_VSVER=100
 
+llqtwebkit-autobuild.PACKAGE_NAME = llqtwebkit
+
 # eof
 
