@@ -115,7 +115,10 @@ case "$AUTOBUILD_PLATFORM" in
         popd
 
         # Now build llqtwebkit
-        ln -s "$packages" QTDIR
+        if [ ! -e QTDIR ]
+        then
+            ln -s "$install" QTDIR
+        fi
         xcodebuild -project llqtwebkit.xcodeproj -target llqtwebkit -configuration Release
 
         mkdir -p "$install/lib/release"
