@@ -168,7 +168,7 @@ case "$AUTOBUILD_PLATFORM" in
         mkdir -p "$install/include"
         cp "llqtwebkit.h" "$install/include"
 
-        mv "$packages/plugins/imageformats"/libq*.a "$install/lib/release"
+        mv "$stage/plugins/imageformats"/libq*.a "$install/lib/release"
     ;;
 esac
 mkdir -p "$install/LICENSES"
