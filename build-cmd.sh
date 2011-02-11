@@ -30,22 +30,25 @@ case "$AUTOBUILD_PLATFORM" in
         load_vsvars
         
         QTDIR="$(pwd)/$QT_SOURCE_DIR"
+        
+        pushd "$stage"        
         chmod +x "$QTDIR/configure.exe"
         echo "yes" | \
             "$QTDIR/configure.exe" -opensource -platform win32-msvc2010 -fast \
             -debug-and-release -no-qt3support -prefix "$stage" -no-phonon -no-phonon-backend \
             -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I \
             "$(cygpath -m "$packages/include")" -L "$(cygpath -m "$packages/lib/release")"
-        export PATH="$QTDIR"/bin:"$PATH"
         export QMAKESPEC="win32-msvc2010"
 
         nmake
+        
+        popd
         
         # Move around libraries to match autobuild layout.
         
         qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
             qtmaind.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
-            QtWebKitd4.dll QtWebKitd4.lib QtXmlPatterns4.dll"
+            QtWebKitd4.dll QtWebKitd4.lib QtXmlPatterns4d.dll"
         mkdir -p "$install/lib/debug"
         for lib in $qtwebkit_libs_debug ; do
             cp "$stage/lib/$lib" "$install/lib/debug"
