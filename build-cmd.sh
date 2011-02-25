@@ -132,8 +132,8 @@ case "$AUTOBUILD_PLATFORM" in
         fi
         xcodebuild -project llqtwebkit.xcodeproj -target llqtwebkit -configuration Release
 
-        mkdir -p "$install/lib/release"
-        cp "build/Release/libllqtwebkit.dylib" "$install/lib/release"
+        mkdir -p "$install/lib"
+        cp "build/Release/libllqtwebkit.dylib" "$install/lib"
 
         mkdir -p "$install/include"
         cp "llqtwebkit.h" "$install/include"
@@ -169,13 +169,13 @@ case "$AUTOBUILD_PLATFORM" in
         qmake -platform linux-g++-32 CONFIG-=debug
         make -j12
 
-        mkdir -p "$install/lib/release"
-        cp "libllqtwebkit.a" "$install/lib/release"
+        mkdir -p "$install/lib"
+        cp "libllqtwebkit.a" "$install/lib"
 
         mkdir -p "$install/include"
         cp "llqtwebkit.h" "$install/include"
 
-        mv "$stage/plugins/imageformats"/libq*.a "$install/lib/release"
+        mv "$stage/plugins/imageformats"/libq*.a "$install/lib"
     ;;
 esac
 mkdir -p "$install/LICENSES"
