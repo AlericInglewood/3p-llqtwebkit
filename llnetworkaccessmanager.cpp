@@ -81,7 +81,7 @@ QNetworkReply *LLNetworkAccessManager::createRequest(Operation op, const QNetwor
 void LLNetworkAccessManager::sslErrorsSlot(QNetworkReply* reply, const QList<QSslError>& errors)
 {
 	// Enabling this can help diagnose certificate verification issues.
-	const bool ssl_debugging_on = true;
+	const bool ssl_debugging_on = false;
 	
 	// flag that indicates if the error that brought us here is one we care about or not
 	bool valid_ssl_error = false;
