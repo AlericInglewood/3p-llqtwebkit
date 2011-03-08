@@ -152,11 +152,7 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>lib/*.a</string>
-            <string>lib/*.dylib</string>
-            <string>plugins/codecs/*.a</string>
-            <string>plugins/imageformats/*.a</string>
-            <string>bin/*</string>
+            <string>lib/release/libllqtwebkit.dylib</string>
           </array>
           <key>name</key>
           <string>darwin</string>
