@@ -43,7 +43,10 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 6
+#define LLQTWEBKIT_API_VERSION 7
+// version 7:
+	// Added LLEmbeddedBrowserWindowEvent::setNavigationType() && LLEmbeddedBrowserWindowEvent::getNavigationType()
+	// Used to pass (and retrieve) the type of navigation event that caused a link to be activated.
 // version 6:
 	// Added LLQtWebKit::addCAFile()
 // version 5:
@@ -79,6 +82,7 @@ class LLEmbeddedBrowserWindowEvent
 		virtual ~LLEmbeddedBrowserWindowEvent() {}
 
 		void setEventUri(const std::string &uri) { mEventUri = uri; }
+		void setNavigationType(const std::string &type) { mNavigationType = type; }
 		void setIntValue(int val) { mIntVal = val; }
 		void setStringValue(const std::string &val) { mStringVal = val; }
 		void setStringValue2(const std::string &val) { mStringVal2 = val; }
@@ -92,6 +96,7 @@ class LLEmbeddedBrowserWindowEvent
 
 		int getEventWindowId() const { return mEventWindowId; }
 		std::string getEventUri() const	{ return mEventUri;	}
+		std::string getNavigationType() const { return mNavigationType;	}
 		int getIntValue() const	{ return mIntVal; };
 		std::string getStringValue() const	{ return mStringVal; }
 		std::string getStringValue2() const	{ return mStringVal2; }
@@ -106,6 +111,7 @@ class LLEmbeddedBrowserWindowEvent
 	private:
 		int mEventWindowId;
 		std::string mEventUri;
+		std::string mNavigationType;
 		int mIntVal;
 		std::string mStringVal;
 		std::string mStringVal2;
