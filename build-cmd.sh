@@ -132,7 +132,7 @@ case "$AUTOBUILD_PLATFORM" in
         fi
         xcodebuild -project llqtwebkit.xcodeproj -target llqtwebkit -configuration Release
 
-        mkdir -p "$install/lib"
+        mkdir -p "$install/lib/release"
         cp "build/Release/libllqtwebkit.dylib" "$install/lib/release"
 
         mkdir -p "$install/include"
