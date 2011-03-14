@@ -180,10 +180,7 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>plugins/codecs/*.a</string>
-            <string>plugins/imageformats/*.a</string>
-            <string>bin/*</string>
-            <string>lib/*.a</string>
+            <string>lib/release/*.a</string>
           </array>
           <key>name</key>
           <string>linux</string>

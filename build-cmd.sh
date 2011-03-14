@@ -140,6 +140,8 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
     "linux")
         #Build qt...
+        if [ 0 -eq 1]
+        then
         export MAKEFLAGS="-j12"
         export CXX="g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
         export CC='gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
@@ -163,19 +165,25 @@ case "$AUTOBUILD_PLATFORM" in
             export PATH="$PATH:$QTDIR/bin"
             make install
         popd
+        fi
 
         # Now build llqtwebkit...
         export PATH=$PATH:"$install/bin/"
         qmake -platform linux-g++-32 CONFIG-=debug
         make -j12
 
+        # Move lib's to cannonical autobuild location.
+        mv "$install/lib" "$install/release"
         mkdir -p "$install/lib"
-        cp "libllqtwebkit.a" "$install/lib"
+        mv "$install/release" "$install/lib"
+
+        LIB_DIR="$install/lib/release"
+        cp "libllqtwebkit.a" "$LIB_DIR"
 
         mkdir -p "$install/include"
         cp "llqtwebkit.h" "$install/include"
 
-        mv "$stage/plugins/imageformats"/libq*.a "$install/lib"
+        mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
     ;;
 esac
 mkdir -p "$install/LICENSES"
