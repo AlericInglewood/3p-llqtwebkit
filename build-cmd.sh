@@ -140,8 +140,6 @@ case "$AUTOBUILD_PLATFORM" in
     ;;
     "linux")
         #Build qt...
-        if [ 0 -eq 1]
-        then
         export MAKEFLAGS="-j12"
         export CXX="g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
         export CC='gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
@@ -165,7 +163,6 @@ case "$AUTOBUILD_PLATFORM" in
             export PATH="$PATH:$QTDIR/bin"
             make install
         popd
-        fi
 
         # Now build llqtwebkit...
         export PATH=$PATH:"$install/bin/"
