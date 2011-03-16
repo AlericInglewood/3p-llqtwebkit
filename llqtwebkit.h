@@ -43,7 +43,10 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 7
+#define LLQTWEBKIT_API_VERSION 8
+// version 8:
+	// Removed calls to set/clear 404 redirects and made the API now emit an event that the 
+	// consumer can catch and decide what to do when an HTTP status code after navigate is 400-499
 // version 7:
 	// Added LLEmbeddedBrowserWindowEvent::setNavigationType() && LLEmbeddedBrowserWindowEvent::getNavigationType()
 	// Used to pass (and retrieve) the type of navigation event that caused a link to be activated.
@@ -136,6 +139,7 @@ class LLEmbeddedBrowserWindowObserver
 		virtual void onPageChanged(const EventType& event);
 		virtual void onNavigateBegin(const EventType& event);
 		virtual void onNavigateComplete(const EventType& event);
+		virtual void onNavigateErrorPage(const EventType& event);
 		virtual void onUpdateProgress(const EventType& event);
 		virtual void onStatusTextChange(const EventType& event);
 		virtual void onTitleChange(const EventType& event);

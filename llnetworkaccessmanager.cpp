@@ -138,15 +138,19 @@ void LLNetworkAccessManager::sslErrorsSlot(QNetworkReply* reply, const QList<QSs
 
 void LLNetworkAccessManager::finishLoading(QNetworkReply* reply)
 {
-    if (reply->error() == QNetworkReply::ContentNotFoundError)
-    {
+	QVariant val = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+	int http_status_code = val.toInt();
+	if ( http_status_code >=400 && http_status_code <=499 )
+	{
         if (mBrowser)
         {
             std::string current_url = llToStdString(reply->url());
             foreach (LLEmbeddedBrowserWindow *window, mBrowser->windows)
             {
                 if (window->getCurrentUri() == current_url)
-                    window->load404RedirectUrl();
+                {
+                    window->navigateErrorPage( http_status_code );
+				}
             }
         }
     }
