@@ -29,7 +29,7 @@
 #include <string>
 #include <list>
 #include <algorithm>
-#ifdef _MSC_VER
+#if defined _MSC_VER && _MSC_VER < 1600
 #include "pstdint.h"
 #else
 #include <stdint.h>        // Use the C99 official header
