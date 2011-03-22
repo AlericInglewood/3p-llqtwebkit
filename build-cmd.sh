@@ -162,6 +162,9 @@ case "$AUTOBUILD_PLATFORM" in
             make -j12
             export PATH="$PATH:$QTDIR/bin"
             make install
+    
+            # libjscore.a doesn't get installed but some libs depend on it.
+            cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
         popd
 
         # Now build llqtwebkit...
