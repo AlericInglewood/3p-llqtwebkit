@@ -188,9 +188,10 @@ case "$AUTOBUILD_PLATFORM" in
             popd
 
             # Copy lib's to cannonical autobuild location.
-            mkdir -p "$install/release"
-            cp -a "$install/lib" "$install/release"
-            mv "$install/release" "$install/lib"
+            mkdir -p "$install/tmp"
+            cp -a "$install/lib" "$install/tmp"
+            mv "$install/tmp/lib" "$install/lib/release"
+            rmdir "$install/tmp"
 
             mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
         fi
