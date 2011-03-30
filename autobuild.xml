@@ -122,6 +122,24 @@
         <map>
           <key>build_directory</key>
           <string>stage</string>
+          <key>configurations</key>
+          <map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                  <string>-x</string>
+                </array>
+                <key>command</key>
+                <string>sh</string>
+              </map>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
+          </map>
           <key>manifest</key>
           <array>
             <string>include/llqtwebkit.h</string>
@@ -148,6 +166,16 @@
               <string>True</string>
               <key>name</key>
               <string>Release</string>
+            </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
             </map>
           </map>
           <key>manifest</key>
@@ -176,6 +204,16 @@
               <string>True</string>
               <key>name</key>
               <string>Release</string>
+            </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
             </map>
           </map>
           <key>manifest</key>
@@ -206,6 +244,16 @@
               <string>True</string>
               <key>name</key>
               <string>Release</string>
+            </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
             </map>
           </map>
           <key>manifest</key>
