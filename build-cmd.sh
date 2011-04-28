@@ -50,30 +50,16 @@ case "$AUTOBUILD_PLATFORM" in
                 export QMAKESPEC="win32-msvc2010"
         
                 chmod +x "$QTDIR/configure.exe"
-                common_configure_options="-opensource -platform win32-msvc2010 -fast \
+                common_configure_options="-opensource -confirm-license -platform win32-msvc2010 -fast \
                     -no-qt3support -no-phonon -no-phonon-backend \
                     -qt-libjpeg -qt-libpng -openssl-linked -no-plugin-manifests -nomake demos -nomake examples -I \
                     "$(cygpath -m "$packages/include")""
         
-                echo "yes" | \
-                    "$QTDIR/configure.exe" $common_configure_options -debug  -L "$(cygpath -m "$packages/lib/debug")"
-                nmake
-                
-                echo "yes" | \
-                    "$QTDIR/configure.exe" $common_configure_options -release  -L "$(cygpath -m "$packages/lib/release")"
+                "$QTDIR/configure.exe" $common_configure_options -release  -L "$(cygpath -m "$packages/lib/release")"
                 nmake
             popd
     
             # Move around libraries to match autobuild layout.
-            
-            qtwebkit_libs_debug="QtCored4.dll QtCored4.lib QtGuid4.dll QtGuid4.lib \
-                qtmaind.lib QtNetworkd4.dll QtNetworkd4.lib QtOpenGLd4.dll QtOpenGLd4.lib \
-                QtWebKitd4.dll QtWebKitd4.lib QtXmlPatternsd4.dll"
-            mkdir -p "$install/lib/debug"
-            for lib in $qtwebkit_libs_debug ; do
-                cp "$stage/lib/$lib" "$install/lib/debug"
-            done
-    
             qtwebkit_libs_release="QtCore4.dll QtCore4.lib QtGui4.dll QtGui4.lib \
                 qtmain.lib QtNetwork4.dll QtNetwork4.lib QtOpenGL4.dll QtOpenGL4.lib \
                 QtWebKit4.dll QtWebKit4.lib QtXmlPatterns4.dll"
@@ -82,24 +68,11 @@ case "$AUTOBUILD_PLATFORM" in
                 cp "$stage/lib/$lib" "$install/lib/release"
             done
     
-            qtwebkit_imageplugins_debug="qgifd4.dll qicod4.dll qjpegd4.dll \
-                qmngd4.dll qsvgd4.dll qtiffd4.dll"
-            mkdir -p "$install/lib/debug/imageformats"
-            for plugin in $qtwebkit_imageplugins_debug ; do
-                cp "$stage/plugins/imageformats/$plugin" "$install/lib/debug/imageformats"
-            done
-    
             qtwebkit_imageplugins_release="qgif4.dll qico4.dll qjpeg4.dll \
                 qmng4.dll qsvg4.dll qtiff4.dll"
             mkdir -p "$install/lib/release/imageformats"
             for plugin in $qtwebkit_imageplugins_release ; do
                 cp "$stage/plugins/imageformats/$plugin" "$install/lib/release/imageformats"
-            done
-    
-            qtwebkit_codecs_debug="qjpcodecsd4.dll qcncodecsd4.dll qkrcodecsd4.dll qtwcodecsd4.dll"
-            mkdir -p "$install/lib/debug/codecs"
-            for codec in $qtwebkit_codecs_debug ; do
-                cp "$stage/plugins/codecs/$codec" "$install/lib/debug/codecs"
             done
     
             qtwebkit_codecs_release="qcncodecs4.dll qjpcodecs4.dll qkrcodecs4.dll qtwcodecs4.dll"
@@ -111,16 +84,16 @@ case "$AUTOBUILD_PLATFORM" in
                 
         # Now build llqtwebkit...
         export PATH=$PATH:"$install/bin/"
-        qmake "CONFIG-=debug" && nmake
+        qmake CONFIG-=debug
         nmake clean
-        qmake "CONFIG+=debug" && nmake
+        nmake
 
-        mkdir -p "$install/lib/debug"
         mkdir -p "$install/lib/release"
-        cp "debug/llqtwebkitd.lib"  "$install/lib/debug"
         cp "release/llqtwebkit.lib" "$install/lib/release"
         mkdir -p "$install/include"
         cp "llqtwebkit.h" "$install/include"
+        
+        cp win32/3p-qt-vars.bat $stage/bin
     ;;
     "darwin")
         # Build qt...
@@ -169,7 +142,7 @@ case "$AUTOBUILD_PLATFORM" in
                 echo "DISTCC_HOSTS=$DISTCC_HOSTS"
     
                 # fix for build on lenny (not sure why the qt build isn't obeying the environment var
-                patch -p1 < "../000_qt_linux_mkspec_force_g++-4.1.patch"
+                patch -p1 < "../patches/000_qt_linux_mkspec_force_g++-4.1.patch"
     
                 echo "yes" | \
                 ./configure \

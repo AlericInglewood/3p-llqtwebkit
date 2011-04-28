@@ -53,6 +53,7 @@ Q_IMPORT_PLUGIN(qgif)
 #include <OpenGL/gl.h>
 #include <GLUT/glut.h>
 #else
+#define FREEGLUT_STATIC
 #include "GL/glut.h"
 #endif
 #include "llqtwebkit.h"

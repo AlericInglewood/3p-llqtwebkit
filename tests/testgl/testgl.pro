@@ -10,7 +10,6 @@ QT += webkit opengl network
 !mac {
 unix {
     DEFINES += LL_LINUX
-#    DEFINES += LL_LINUX LL_NEWER_GLUI
     LIBS += -lglui -lglut
     LIBS += $$PWD/../../libllqtwebkit.a
 }
@@ -19,26 +18,20 @@ unix {
 mac {
     DEFINES += LL_OSX
     LIBS += -framework GLUT -framework OpenGL
-   LIBS += $$PWD/libllqtwebkit.dylib
+    LIBS += $$PWD/libllqtwebkit.dylib
 }
 
-
-win32{
+win32 {
     DEFINES += _WINDOWS
     INCLUDEPATH += ../
-    LIBS += -L../GL 
-    DESTDIR=../GL
-    debug {
-      LIBS += $$PWD/../../Debug/llqtwebkitd.lib
-      LIBS += comdlg32.lib
-    }
+    INCLUDEPATH += $$PWD/../../stage/packages/include
+    DESTDIR=../build
     release {
-      LIBS += $$PWD/../../Release/llqtwebkit.lib
-      LIBS += comdlg32.lib
+        LIBS += $$PWD/../../Release/llqtwebkit.lib
+        LIBS += comdlg32.lib
     }
 }
 
 include(../../static.pri)
 
-# Input
 SOURCES += testgl.cpp

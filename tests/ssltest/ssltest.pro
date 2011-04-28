@@ -16,11 +16,8 @@ mac {
 win32 {
     DEFINES += _WINDOWS
     INCLUDEPATH += ../
-    DESTDIR=../GL
+    DESTDIR=../build
     LIBS += user32.lib 
-    debug {
-      LIBS += $$PWD/../../Debug/llqtwebkitd.lib
-    }
     release {
       LIBS += $$PWD/../../Release/llqtwebkit.lib
     }
