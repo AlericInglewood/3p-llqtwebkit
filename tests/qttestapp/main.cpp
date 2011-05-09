@@ -65,6 +65,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 private:
+	void updateSLvariables();
     int mBrowserWindowId;
 };
 
@@ -87,9 +88,17 @@ WebPage::WebPage(QWidget *parent)
 
     // don't flip bitmap
     LLQtWebKit::getInstance()->flipWindow(mBrowserWindowId, false);
+    
+	// test Second Life viewer specific functions
+	LLQtWebKit::getInstance()->setExposeObject( true );					// true means expose info to Javascript
+	LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
+	LLQtWebKit::getInstance()->setAgentRegion( "QtTestAppRegion" );		// name of region where agent is located
+	LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
+	LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
 
     // go to the "home page"
     QString url = QUrl::fromLocalFile(QDir::currentPath() + "/../testgl/testpage.html").toString();
+    
     LLQtWebKit::getInstance()->navigateTo(mBrowserWindowId, url.toStdString());
 }
 
@@ -100,6 +109,27 @@ WebPage::~WebPage()
 
     // clean up
     LLQtWebKit::getInstance()->reset();
+}
+
+void WebPage::updateSLvariables()
+{
+	// randomly update SL values to test
+	LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
+
+	if ( rand() % 2 )
+		LLQtWebKit::getInstance()->setAgentLanguage( "One language" );
+	else
+		LLQtWebKit::getInstance()->setAgentLanguage( "Another language" );
+	
+	if ( rand() % 2 )
+		LLQtWebKit::getInstance()->setAgentRegion( "Region Wibble" );
+	else
+		LLQtWebKit::getInstance()->setAgentRegion( "Region Flasm" );
+
+	if ( rand() % 2 )
+		LLQtWebKit::getInstance()->setAgentMaturity( "Adults only" );
+	else
+		LLQtWebKit::getInstance()->setAgentMaturity( "Children only" );
 }
 
 void WebPage::onCursorChanged(const EventType& event)
@@ -177,6 +207,7 @@ void WebPage::paintEvent(QPaintEvent *event)
     int height = LLQtWebKit::getInstance()->getBrowserHeight(mBrowserWindowId);
     const unsigned char* pixels = LLQtWebKit::getInstance()->getBrowserWindowPixels(mBrowserWindowId);
     QImage image(pixels, width, height, QImage::Format_RGB32);
+    image = image.rgbSwapped();
     QPainter painter(this);
     painter.drawImage(QPoint(0, 0), image);
 }
@@ -192,6 +223,8 @@ void WebPage::mouseDoubleClickEvent(QMouseEvent *event)
 
 void WebPage::mouseMoveEvent(QMouseEvent *event)
 {
+	updateSLvariables();
+	
 	LLQtWebKit::getInstance()->mouseEvent( mBrowserWindowId,
 											LLQtWebKit::ME_MOUSE_MOVE,
 												LLQtWebKit::MB_MOUSE_BUTTON_LEFT,

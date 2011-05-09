@@ -37,6 +37,7 @@ extern "C" {
 
 #include <iostream>
 #include <stdlib.h>
+#include <time.h>
 #include <fstream>
 
 #ifdef LL_OSX
@@ -220,6 +221,13 @@ class testGL :
 			LLQtWebKit::getInstance()->addCAFile( ca_pem_file_loc.c_str() );
 			std::cout << "Expected CA.pem file location is " << ca_pem_file_loc << std::endl;
 
+			// test Second Life viewer specific functions
+			LLQtWebKit::getInstance()->setExposeObject( true );					// true means expose info to Javascript
+			LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
+			LLQtWebKit::getInstance()->setAgentRegion( "TestGL region" );		// name of region where agent is located
+			LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
+			LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
+	
 			// go to the "home page" or URL passed in via command line
 			if ( ! argv1.empty() )
 				LLQtWebKit::getInstance()->navigateTo( mBrowserWindowId, argv1 );
@@ -288,10 +296,38 @@ class testGL :
 			glutPostRedisplay();
 		};
 
+		void updateSLvariables()
+		{
+			// randomly update SL values to test
+			LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
+
+			if ( rand() % 2 )
+				LLQtWebKit::getInstance()->setAgentLanguage( "One language" );
+			else
+				LLQtWebKit::getInstance()->setAgentLanguage( "Another language" );
+
+			if ( rand() % 2 )
+				LLQtWebKit::getInstance()->setAgentRegion( "Region Wibble" );
+			else
+				LLQtWebKit::getInstance()->setAgentRegion( "Region Flasm" );
+
+			if ( rand() % 2 )
+				LLQtWebKit::getInstance()->setAgentMaturity( "Adults only" );
+			else
+				LLQtWebKit::getInstance()->setAgentMaturity( "Children only" );
+		}
+
 		////////////////////////////////////////////////////////////////////////////////
 		//
 		void idle()
 		{
+			static time_t starttime = time( NULL );
+			if ( time( NULL ) - starttime )
+			{
+				updateSLvariables();
+				time( &starttime );
+			};
+			
 			LLQtWebKit::getInstance()->pump(100);
 
 			// onPageChanged event sets this

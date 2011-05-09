@@ -70,6 +70,13 @@ class LLEmbeddedBrowser
 		void setIgnoreSSLCertErrors(bool ignore);
 		bool getIgnoreSSLCertErrors();
 
+		// Second Life specific functions
+		void setExposeObject( bool expose_object );					
+        void setAgentLanguage( const std::string& agent_language );	
+        void setAgentRegion( const std::string& agent_region );		
+		void setAgentLocation( double x, double y, double z );		
+        void setAgentMaturity( const std::string& agent_maturity );	
+
     private:
         friend class LLEmbeddedBrowserWindow;
         friend class LLEmbeddedBrowserWindowPrivate;

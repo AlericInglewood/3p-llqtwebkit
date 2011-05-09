@@ -43,7 +43,9 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 8
+#define LLQTWEBKIT_API_VERSION 9
+// version 9:
+	// Added initial support for exposing certain Second Life viewer/agent variables to Javascript
 // version 8:
 	// Removed calls to set/clear 404 redirects and made the API now emit an event that the 
 	// consumer can catch and decide what to do when an HTTP status code after navigate is 400-499
@@ -398,6 +400,14 @@ class LLQtWebKit
 
 			KEY_NONE			= 0x00FF // not sent from keyboard.  For internal use only.
 		};
+		
+		// Second Life specific functions
+		// (Note, this is a departure from the generic nature of this library)
+		void setExposeObject( bool expose_object );						// true means expose info to Javascript
+        void setAgentLanguage( const std::string& agent_language );		// viewer language selected by agent
+        void setAgentRegion( const std::string& agent_region );			// name of region where agent is located
+		void setAgentLocation( double x, double y, double z );			// agent's x,y,z location within a region
+        void setAgentMaturity( const std::string& agent_maturity );		// selected maturity level of agent
 				
 	private:
 		LLQtWebKit();

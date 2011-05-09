@@ -37,12 +37,15 @@
 #include "llqtwebkit.h"
 #include "llembeddedbrowserwindow.h"
 #include "llembeddedbrowserwindow_p.h"
+#include "lljsobject.h"
 
 LLWebPage::LLWebPage(QObject *parent)
     : QWebPage(parent)
     , window(0)
     , mHostLanguage( "en" )
 {
+	mJsObject = new LLJsObject( parent );
+
     connect(this, SIGNAL(loadProgress(int)),
             this, SLOT(loadProgressSlot(int)));
     connect(this, SIGNAL(linkHovered(const QString &, const QString &, const QString &)),
@@ -63,6 +66,11 @@ LLWebPage::LLWebPage(QObject *parent)
             this, SLOT(titleChangedSlot(const QString&)));
     connect(mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),
             this, SLOT(extendNavigatorObject()));
+}
+
+LLWebPage::~LLWebPage()
+{
+	delete mJsObject;
 }
 
 void LLWebPage::loadProgressSlot(int progress)
@@ -268,6 +276,7 @@ void LLWebPage::extendNavigatorObject()
 	QString q_host_language = QString::fromStdString( mHostLanguage );
 
     mainFrame()->evaluateJavaScript(QString("navigator.hostLanguage=\"%1\"").arg( q_host_language ));
+	mainFrame()->addToJavaScriptWindowObject("slviewer", mJsObject );
 }
 
 QWebPage *LLWebPage::createWindow(WebWindowType type)
@@ -304,4 +313,41 @@ bool LLWebPage::extension(Extension, const ExtensionOption* option, ExtensionRet
         .arg(info->errorString).toUtf8();
 
     return true;
+}
+
+// Second Life viewer specific functions
+void LLWebPage::setExposeObject( bool expose_object )
+{
+	if ( mJsObject )
+		mJsObject->setExposeObject( expose_object );
+}
+
+void LLWebPage::setAgentLanguage( const std::string& agent_language )
+{
+	if ( mJsObject )
+		mJsObject->setAgentLanguage( QString::fromStdString( agent_language ) );
+}
+
+void LLWebPage::setAgentRegion( const std::string& agent_region )
+{
+	if ( mJsObject )
+		mJsObject->setAgentRegion( QString::fromStdString( agent_region ) );
+}
+
+void LLWebPage::setAgentLocation( double x, double y, double z )
+{
+	if ( mJsObject )
+	{
+		QVariantMap location;
+		location["x"] = x;
+		location["y"] = y;
+		location["z"] = z;
+		mJsObject->setAgentLocation( location );
+	}	
+}
+
+void LLWebPage::setAgentMaturity( const std::string& agent_maturity )
+{
+	if ( mJsObject )
+		mJsObject->setAgentMaturity( QString::fromStdString( agent_maturity ) );
 }

@@ -31,12 +31,15 @@ class QGraphicsWebView;
 #include "llqtwebkit.h"
 
 class LLEmbeddedBrowserWindow;
+class LLJsObject;
+
 class LLWebPage : public QWebPage
 {
     Q_OBJECT
 
     public:
         LLWebPage(QObject *parent = 0);
+        ~LLWebPage();
         LLEmbeddedBrowserWindow *window;
         bool event(QEvent *event);
 
@@ -45,6 +48,13 @@ class LLWebPage : public QWebPage
         void setHostLanguage(const std::string& host_language);
 		virtual bool supportsExtension(QWebPage::Extension extension) const;
 		virtual bool extension(Extension extension, const ExtensionOption* option, ExtensionReturn* output);
+		
+		// Second Life specific functions
+		void setExposeObject( bool expose_object );						
+		void setAgentLanguage( const std::string& agent_language );		
+		void setAgentRegion( const std::string& agent_region );			
+		void setAgentLocation( double x, double y, double z );			
+		void setAgentMaturity( const std::string& agent_maturity );		
 
     protected:
         bool acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest& request, NavigationType type);
@@ -73,7 +83,7 @@ class LLWebPage : public QWebPage
     private:
         QPoint currentPoint;
 	    std::string mHostLanguage;
+	    LLJsObject* mJsObject;
 };
 
 #endif
-

@@ -24,7 +24,8 @@ HEADERS += llembeddedbrowser.h \
            llqtwebkit.h \
            llwebpage.h \
            llwebpageopenshim.h \
- 	       llstyle.h
+ 	       llstyle.h \
+ 	       lljsobject.h
 
 SOURCES += llembeddedbrowser.cpp \
            llembeddedbrowserwindow.cpp \
@@ -32,7 +33,8 @@ SOURCES += llembeddedbrowser.cpp \
            llqtwebkit.cpp \
            llwebpage.cpp \
            llwebpageopenshim.cpp \
-	       llstyle.cpp
+	       llstyle.cpp \
+	       lljsobject.cpp
 
 FORMS +=   passworddialog.ui
 

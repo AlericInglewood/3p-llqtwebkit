@@ -419,6 +419,48 @@ bool LLEmbeddedBrowser::getIgnoreSSLCertErrors()
 	return d->mIgnoreSSLCertErrors;
 }
 
+// Second Life viewer specific functions
+void LLEmbeddedBrowser::setExposeObject( bool expose_object )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setExposeObject( expose_object );
+	}
+}
+
+void LLEmbeddedBrowser::setAgentLanguage( const std::string& agent_language )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentLanguage( agent_language );
+	}
+}
+
+void LLEmbeddedBrowser::setAgentRegion( const std::string& agent_region )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentRegion( agent_region );
+	}
+}
+
+void LLEmbeddedBrowser::setAgentLocation( double x, double y, double z )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentLocation( x, y, z );
+	}
+}
+
+void LLEmbeddedBrowser::setAgentMaturity( const std::string& agent_maturity )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentMaturity( agent_maturity );
+	}
+}
+
+
 LLNetworkCookieJar::LLNetworkCookieJar(QObject* parent, LLEmbeddedBrowser *browser)
     : NetworkCookieJar(parent)
     , mAllowCookies(true)

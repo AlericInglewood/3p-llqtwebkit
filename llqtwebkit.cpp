@@ -716,3 +716,28 @@ void LLEmbeddedBrowserWindowObserver::onLinkHovered(const EventType&)
 }
 
 
+// Second Life viewer specific functions
+void LLQtWebKit::setExposeObject( bool expose_object )
+{
+	LLEmbeddedBrowser::getInstance()->setExposeObject( expose_object );
+}
+
+void LLQtWebKit::setAgentLanguage( const std::string& agent_language )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentLanguage( agent_language );
+}
+
+void LLQtWebKit::setAgentRegion( const std::string& agent_region )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentRegion( agent_region );
+}
+
+void LLQtWebKit::setAgentLocation( double x, double y, double z )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentLocation( x, y, z );
+}
+
+void LLQtWebKit::setAgentMaturity( const std::string& agent_maturity )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentMaturity( agent_maturity );
+}
