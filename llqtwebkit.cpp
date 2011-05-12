@@ -722,6 +722,11 @@ void LLQtWebKit::setExposeObject( bool expose_object )
 	LLEmbeddedBrowser::getInstance()->setExposeObject( expose_object );
 }
 
+void LLQtWebKit::setValuesValid( bool valid )
+{
+	LLEmbeddedBrowser::getInstance()->setValuesValid( valid );
+}
+
 void LLQtWebKit::setAgentLanguage( const std::string& agent_language )
 {
 	LLEmbeddedBrowser::getInstance()->setAgentLanguage( agent_language );

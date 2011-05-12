@@ -428,6 +428,14 @@ void LLEmbeddedBrowser::setExposeObject( bool expose_object )
 	}
 }
 
+void LLEmbeddedBrowser::setValuesValid( bool valid )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setValuesValid( valid );
+	}
+}
+
 void LLEmbeddedBrowser::setAgentLanguage( const std::string& agent_language )
 {
 	foreach ( LLEmbeddedBrowserWindow* window, d->windows )

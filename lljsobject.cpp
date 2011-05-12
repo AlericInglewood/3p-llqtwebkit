@@ -29,6 +29,7 @@ LLJsObject::LLJsObject( QObject* parent ) :
 	QObject( parent )
 {
 	mExposeObject = false;
+	mValuesValid = false;
 	
 	mAgentLanguage = QString();
 	mAgentMaturity = QString();
@@ -41,6 +42,11 @@ LLJsObject::LLJsObject( QObject* parent ) :
 void LLJsObject::setExposeObject( bool expose_object )
 {
 	mExposeObject = expose_object;
+}
+
+void LLJsObject::setValuesValid( bool valid )
+{
+	mValuesValid = valid;
 }
 
 void LLJsObject::setAgentLanguage( const QString& agent_language )
@@ -91,6 +97,11 @@ void LLJsObject::setAgentLocation( const QVariantMap agent_location )
 		mAgentLocation[ "y" ] = 0.0;
 		mAgentLocation[ "z" ] = 0.0;
 	}
+}
+
+bool LLJsObject::valid()
+{
+	return mValuesValid;
 }
 
 const QVariantMap LLJsObject::agent()

@@ -404,6 +404,7 @@ class LLQtWebKit
 		// Second Life specific functions
 		// (Note, this is a departure from the generic nature of this library)
 		void setExposeObject( bool expose_object );						// true means expose info to Javascript
+		void setValuesValid( bool valid );								// true means values recorded are valid - e.g. location in SL because you are logged in
         void setAgentLanguage( const std::string& agent_language );		// viewer language selected by agent
         void setAgentRegion( const std::string& agent_region );			// name of region where agent is located
 		void setAgentLocation( double x, double y, double z );			// agent's x,y,z location within a region

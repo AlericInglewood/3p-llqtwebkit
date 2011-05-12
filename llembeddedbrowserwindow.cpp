@@ -877,6 +877,13 @@ void LLEmbeddedBrowserWindow::setExposeObject( bool expose_object )
 			d->mPage->setExposeObject( expose_object );
 }
 
+void LLEmbeddedBrowserWindow::setValuesValid( bool valid )
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->setValuesValid( valid );
+}
+
 void LLEmbeddedBrowserWindow::setAgentLanguage( const std::string& agent_language )
 {
 	if ( d )

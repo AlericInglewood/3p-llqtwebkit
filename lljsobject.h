@@ -39,16 +39,22 @@ class LLJsObject :
         LLJsObject( QObject* parent = 0 );
 
 		void setExposeObject( bool expose_object );
+        void setValuesValid( bool valid );
+        
         void setAgentLanguage( const QString& agent_language );
         void setAgentRegion( const QString& agent_region );
         void setAgentMaturity( const QString& agent_maturity );
 		void setAgentLocation( QVariantMap agent_location );
+
+		bool valid();
+		Q_PROPERTY( bool valid READ valid FINAL );
 
 		const QVariantMap agent();
 		Q_PROPERTY( QVariantMap agent READ agent FINAL );
 
     private:
     	bool mExposeObject;
+    	bool mValuesValid;
 	    QString mAgentLanguage;
 	    QString mAgentRegion;
 	    QString mAgentMaturity;

@@ -322,6 +322,12 @@ void LLWebPage::setExposeObject( bool expose_object )
 		mJsObject->setExposeObject( expose_object );
 }
 
+void LLWebPage::setValuesValid( bool valid )
+{
+	if ( mJsObject )
+		mJsObject->setValuesValid( valid );
+}
+
 void LLWebPage::setAgentLanguage( const std::string& agent_language )
 {
 	if ( mJsObject )

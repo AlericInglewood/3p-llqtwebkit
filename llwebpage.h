@@ -51,6 +51,7 @@ class LLWebPage : public QWebPage
 		
 		// Second Life specific functions
 		void setExposeObject( bool expose_object );						
+		void setValuesValid( bool valid );
 		void setAgentLanguage( const std::string& agent_language );		
 		void setAgentRegion( const std::string& agent_region );			
 		void setAgentLocation( double x, double y, double z );			
