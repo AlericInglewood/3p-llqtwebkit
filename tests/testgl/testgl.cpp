@@ -119,12 +119,10 @@ class testGL :
 		{
 #ifdef _WINDOWS	// to remove warning on Windows
 			mCwd = _getcwd(NULL, 1024);
-            mHomeUrl = mCwd;
 #else
             mCwd = getcwd(NULL, 1024);
-            mHomeUrl = mCwd;
 #endif
-            mHomeUrl.append("/testpage.html");
+            mHomeUrl = "http://callum-linden.s3.amazonaws.com/browsertest.html";
             std::cout << "LLQtWebKit version: " << LLQtWebKit::getInstance()->getVersion() << std::endl;
             
             std::cout << "Current working directory is " << mCwd << std::endl;
@@ -223,6 +221,7 @@ class testGL :
 
 			// test Second Life viewer specific functions
 			LLQtWebKit::getInstance()->setExposeObject( true );					// true means expose info to Javascript
+			LLQtWebKit::getInstance()->setValuesValid( true );					// true means values in object are valid
 			LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
 			LLQtWebKit::getInstance()->setAgentRegion( "TestGL region" );		// name of region where agent is located
 			LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
@@ -299,6 +298,16 @@ class testGL :
 		void updateSLvariables()
 		{
 			// randomly update SL values to test
+			if ( rand() % 2 )
+				LLQtWebKit::getInstance()->setExposeObject( false );
+			else			
+				LLQtWebKit::getInstance()->setExposeObject( true );
+			
+			if ( rand() % 2 )
+				LLQtWebKit::getInstance()->setValuesValid( false );
+			else			
+				LLQtWebKit::getInstance()->setValuesValid( true );
+			
 			LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
 
 			if ( rand() % 2 )
@@ -424,8 +433,10 @@ class testGL :
 			int modifiers = glutGetModifiers();
 
 			if ( GLUT_ACTIVE_SHIFT & modifiers )
+			{
 				result |= LLQtWebKit::KM_MODIFIER_SHIFT;
-
+			}
+			
 			if ( GLUT_ACTIVE_CTRL & modifiers )
 				result |= LLQtWebKit::KM_MODIFIER_CONTROL;
 

@@ -91,15 +91,14 @@ WebPage::WebPage(QWidget *parent)
     
 	// test Second Life viewer specific functions
 	LLQtWebKit::getInstance()->setExposeObject( true );					// true means expose info to Javascript
+	LLQtWebKit::getInstance()->setValuesValid( true );					// true means values in object are valid
 	LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
 	LLQtWebKit::getInstance()->setAgentRegion( "QtTestAppRegion" );		// name of region where agent is located
 	LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
 	LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
 
     // go to the "home page"
-    QString url = QUrl::fromLocalFile(QDir::currentPath() + "/../testgl/testpage.html").toString();
-    
-    LLQtWebKit::getInstance()->navigateTo(mBrowserWindowId, url.toStdString());
+    LLQtWebKit::getInstance()->navigateTo(mBrowserWindowId, "http://callum-linden.s3.amazonaws.com/browsertest.html");
 }
 
 WebPage::~WebPage()
