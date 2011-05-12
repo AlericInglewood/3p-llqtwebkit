@@ -276,7 +276,15 @@ void LLWebPage::extendNavigatorObject()
 	QString q_host_language = QString::fromStdString( mHostLanguage );
 
     mainFrame()->evaluateJavaScript(QString("navigator.hostLanguage=\"%1\"").arg( q_host_language ));
-	mainFrame()->addToJavaScriptWindowObject("slviewer", mJsObject );
+    
+   	if ( mJsObject )
+   	{
+		bool expose = mJsObject->getExposeObject();
+		if ( expose )
+		{
+			mainFrame()->addToJavaScriptWindowObject("slviewer", mJsObject );
+		};
+	};
 }
 
 QWebPage *LLWebPage::createWindow(WebWindowType type)

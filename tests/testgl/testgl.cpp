@@ -297,12 +297,6 @@ class testGL :
 
 		void updateSLvariables()
 		{
-			// randomly update SL values to test
-			if ( rand() % 2 )
-				LLQtWebKit::getInstance()->setExposeObject( false );
-			else			
-				LLQtWebKit::getInstance()->setExposeObject( true );
-			
 			if ( rand() % 2 )
 				LLQtWebKit::getInstance()->setValuesValid( false );
 			else			

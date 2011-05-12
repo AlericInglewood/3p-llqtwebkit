@@ -39,6 +39,7 @@ class LLJsObject :
         LLJsObject( QObject* parent = 0 );
 
 		void setExposeObject( bool expose_object );
+		bool getExposeObject();
         void setValuesValid( bool valid );
         
         void setAgentLanguage( const QString& agent_language );

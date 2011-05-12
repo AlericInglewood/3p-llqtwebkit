@@ -44,6 +44,11 @@ void LLJsObject::setExposeObject( bool expose_object )
 	mExposeObject = expose_object;
 }
 
+bool LLJsObject::getExposeObject()
+{
+	return mExposeObject;
+}
+
 void LLJsObject::setValuesValid( bool valid )
 {
 	mValuesValid = valid;
