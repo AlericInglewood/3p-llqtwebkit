@@ -20,6 +20,8 @@
 		99CCFC870A76AC7500ED39DE /* llqtwebkit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99CCFC810A76AC7500ED39DE /* llqtwebkit.cpp */; };
 		99CCFC880A76AC7500ED39DE /* llembeddedbrowserwindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99CCFC820A76AC7500ED39DE /* llembeddedbrowserwindow.cpp */; };
 		99F405EA119DDF6700E07C8B /* llwebpageopenshim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F405E8119DDF6700E07C8B /* llwebpageopenshim.cpp */; };
+		F27FE494137DBB4400C5DE62 /* lljsobject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F27FE492137DBB4400C5DE62 /* lljsobject.cpp */; };
+		F27FE497137DBBA800C5DE62 /* moc_lljsobject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F27FE496137DBBA800C5DE62 /* moc_lljsobject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,9 @@
 		99F405E8119DDF6700E07C8B /* llwebpageopenshim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llwebpageopenshim.cpp; sourceTree = SOURCE_ROOT; };
 		99F405E9119DDF6700E07C8B /* llwebpageopenshim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llwebpageopenshim.h; sourceTree = SOURCE_ROOT; };
 		D2AAC0630554660B00DB518D /* libllqtwebkit.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libllqtwebkit.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		F27FE492137DBB4400C5DE62 /* lljsobject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lljsobject.cpp; sourceTree = "<group>"; };
+		F27FE493137DBB4400C5DE62 /* lljsobject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lljsobject.h; sourceTree = "<group>"; };
+		F27FE496137DBBA800C5DE62 /* moc_lljsobject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_lljsobject.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +83,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				F27FE492137DBB4400C5DE62 /* lljsobject.cpp */,
+				F27FE493137DBB4400C5DE62 /* lljsobject.h */,
 				99CCFC830A76AC7500ED39DE /* llqtwebkit.h */,
 				99CCFC810A76AC7500ED39DE /* llqtwebkit.cpp */,
 				99CCFC7F0A76AC7500ED39DE /* llembeddedbrowser.h */,
@@ -99,6 +106,7 @@
 				9999856C1045F33B00417AF3 /* llnetworkaccessmanager.cpp */,
 				992EFFA21045F4DA00FD2F36 /* moc_llnetworkaccessmanager.cpp */,
 				9922B46B0F3A34170035C84F /* qtwebkit_cookiejar */,
+				F27FE496137DBBA800C5DE62 /* moc_lljsobject.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -195,7 +203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "QTDIR/bin/moc llwebpage.h -o moc_llwebpage.cpp\nQTDIR/bin/moc llwebpageopenshim.h -o moc_llwebpageopenshim.cpp\nQTDIR/bin/moc qtwebkit_cookiejar/src/networkcookiejar.h -o qtwebkit_cookiejar/src/moc_networkcookiejar.cpp\n\nQTDIR/bin/moc llembeddedbrowserwindow_p.h -o moc_llembeddedbrowserwindow_p.cpp\nQTDIR/bin/moc llnetworkaccessmanager.h -o moc_llnetworkaccessmanager.cpp\n\nQTDIR/bin/uic passworddialog.ui -o ui_passworddialog.h\n\n";
+			shellScript = "QTDIR/bin/moc llwebpage.h -o moc_llwebpage.cpp\nQTDIR/bin/moc lljsobject.h -o moc_lljsobject.cpp\nQTDIR/bin/moc llwebpageopenshim.h -o moc_llwebpageopenshim.cpp\nQTDIR/bin/moc qtwebkit_cookiejar/src/networkcookiejar.h -o qtwebkit_cookiejar/src/moc_networkcookiejar.cpp\n\nQTDIR/bin/moc llembeddedbrowserwindow_p.h -o moc_llembeddedbrowserwindow_p.cpp\nQTDIR/bin/moc llnetworkaccessmanager.h -o moc_llnetworkaccessmanager.cpp\n\nQTDIR/bin/uic passworddialog.ui -o ui_passworddialog.h\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -217,6 +225,8 @@
 				992EFFA31045F4DA00FD2F36 /* moc_llnetworkaccessmanager.cpp in Sources */,
 				99F405EA119DDF6700E07C8B /* llwebpageopenshim.cpp in Sources */,
 				9906522E119DE2EA0009B90A /* moc_llwebpageopenshim.cpp in Sources */,
+				F27FE494137DBB4400C5DE62 /* lljsobject.cpp in Sources */,
+				F27FE497137DBBA800C5DE62 /* moc_lljsobject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
