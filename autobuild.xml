@@ -30,9 +30,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>eab3a49d1ef77a651a3896d1d4864a78</string>
+              <string>cb1a84f34ee8ec50d028b17af42225c2</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/227862/arch/Linux/installer/openssl-1.0.0d-linux-20110427.tar.bz2</string>
+              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openssl-0.9.8j-linux-20101206.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -106,9 +106,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7b4cf3aa2c04937d0a20761516587896</string>
+              <string>f49a6b3ec4d951b6120b85164bdb1e74</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/223739/arch/Linux/installer/zlib-1.2.5-linux-20110314.tar.bz2</string>
+              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/brad_zlib-autobuild/rev/210074/arch/Linux/installer/zlib-1.2.3-linux-20100920.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
