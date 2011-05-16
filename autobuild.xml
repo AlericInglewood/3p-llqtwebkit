@@ -286,6 +286,10 @@
             <string>lib/release/*.dll</string>
             <string>lib/release/codecs/*.dll</string>
             <string>lib/release/imageformats/*.dll</string>
+            <string>lib/debug/*.lib</string>
+            <string>lib/debug/*.dll</string>
+            <string>lib/debug/codecs/*.dll</string>
+            <string>lib/debug/imageformats/*.dll</string>
           </array>
           <key>name</key>
           <string>windows</string>
