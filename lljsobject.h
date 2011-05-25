@@ -45,8 +45,10 @@ class LLJsObject :
         void setAgentLanguage( const QString& agent_language );
         void setAgentRegion( const QString& agent_region );
         void setAgentMaturity( const QString& agent_maturity );
-		void setAgentLocation( QVariantMap agent_location );
-
+		void setAgentLocation( const QVariantMap agent_location );
+		void setAgentGlobalLocation( const QVariantMap agent_global_location );			
+		void setAgentOrientation( const double angle );
+		
 		bool valid();
 		Q_PROPERTY( bool valid READ valid FINAL );
 
@@ -60,7 +62,9 @@ class LLJsObject :
 	    QString mAgentRegion;
 	    QString mAgentMaturity;
 		QVariantMap mAgentLocation;
-
+		QVariantMap mAgentGlobalLocation;
+		double mAgentOrientation;
+		
 		QVariantMap mAgent;
 };
 

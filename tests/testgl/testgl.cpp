@@ -225,6 +225,8 @@ class testGL :
 			LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
 			LLQtWebKit::getInstance()->setAgentRegion( "TestGL region" );		// name of region where agent is located
 			LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
+			LLQtWebKit::getInstance()->setAgentGlobalLocation( 1234.5, 6789.0, 3456.7 );	// agent's x,y,z location within a region
+			LLQtWebKit::getInstance()->setAgentOrientation( 175.69 );	// direction (0..359) agent is facing
 			LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
 	
 			// go to the "home page" or URL passed in via command line
@@ -303,6 +305,8 @@ class testGL :
 				LLQtWebKit::getInstance()->setValuesValid( true );
 			
 			LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
+			LLQtWebKit::getInstance()->setAgentGlobalLocation( (rand()%25600)/10.0f, (rand()%25600)/10.0f, (rand()%25600)/10.0f );
+			LLQtWebKit::getInstance()->setAgentOrientation( (rand()%3600)/10.0f );
 
 			if ( rand() % 2 )
 				LLQtWebKit::getInstance()->setAgentLanguage( "One language" );

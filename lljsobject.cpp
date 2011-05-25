@@ -104,6 +104,33 @@ void LLJsObject::setAgentLocation( const QVariantMap agent_location )
 	}
 }
 
+void LLJsObject::setAgentGlobalLocation( const QVariantMap agent_global_location )
+{
+	if ( mExposeObject )
+	{
+		mAgentGlobalLocation = agent_global_location;
+	}
+	else
+	{
+		mAgentGlobalLocation[ "x" ] = 0.0;
+		mAgentGlobalLocation[ "y" ] = 0.0;
+		mAgentGlobalLocation[ "z" ] = 0.0;
+	}
+}
+
+
+void LLJsObject::setAgentOrientation( const double angle  )
+{
+	if ( mExposeObject )
+	{
+		mAgentOrientation = angle;
+	}
+	else
+	{
+		mAgentOrientation = 0.0;
+	}
+}
+
 bool LLJsObject::valid()
 {
 	return mValuesValid;
@@ -115,6 +142,8 @@ const QVariantMap LLJsObject::agent()
 	mAgent[ "region" ] = mAgentRegion;
 	mAgent[ "maturity" ] = mAgentMaturity;
 	mAgent[ "location" ] = mAgentLocation;
+	mAgent[ "globalLocation" ] = mAgentGlobalLocation;
+	mAgent[ "orientation" ] = mAgentOrientation;
 
 	return mAgent; 
 }

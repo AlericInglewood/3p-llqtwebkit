@@ -742,6 +742,17 @@ void LLQtWebKit::setAgentLocation( double x, double y, double z )
 	LLEmbeddedBrowser::getInstance()->setAgentLocation( x, y, z );
 }
 
+void LLQtWebKit::setAgentGlobalLocation( double x, double y, double z )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentGlobalLocation( x, y, z );
+}
+
+void LLQtWebKit::setAgentOrientation( double angle )
+{
+	LLEmbeddedBrowser::getInstance()->setAgentOrientation( angle );
+}
+
+
 void LLQtWebKit::setAgentMaturity( const std::string& agent_maturity )
 {
 	LLEmbeddedBrowser::getInstance()->setAgentMaturity( agent_maturity );

@@ -460,6 +460,22 @@ void LLEmbeddedBrowser::setAgentLocation( double x, double y, double z )
 	}
 }
 
+void LLEmbeddedBrowser::setAgentGlobalLocation( double x, double y, double z )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentGlobalLocation( x, y, z );
+	}
+}
+
+void LLEmbeddedBrowser::setAgentOrientation( double angle )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setAgentOrientation( angle );
+	}
+}
+
 void LLEmbeddedBrowser::setAgentMaturity( const std::string& agent_maturity )
 {
 	foreach ( LLEmbeddedBrowserWindow* window, d->windows )

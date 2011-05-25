@@ -360,6 +360,26 @@ void LLWebPage::setAgentLocation( double x, double y, double z )
 	}	
 }
 
+void LLWebPage::setAgentGlobalLocation( double x, double y, double z )
+{
+	if ( mJsObject )
+	{
+		QVariantMap global_location;
+		global_location["x"] = x;
+		global_location["y"] = y;
+		global_location["z"] = z;
+		mJsObject->setAgentGlobalLocation( global_location );
+	}	
+}
+
+void LLWebPage::setAgentOrientation( double angle )
+{
+	if ( mJsObject )
+	{
+		mJsObject->setAgentOrientation( angle );
+	}	
+}
+
 void LLWebPage::setAgentMaturity( const std::string& agent_maturity )
 {
 	if ( mJsObject )

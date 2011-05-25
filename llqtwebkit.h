@@ -408,7 +408,9 @@ class LLQtWebKit
         void setAgentLanguage( const std::string& agent_language );		// viewer language selected by agent
         void setAgentRegion( const std::string& agent_region );			// name of region where agent is located
 		void setAgentLocation( double x, double y, double z );			// agent's x,y,z location within a region
-        void setAgentMaturity( const std::string& agent_maturity );		// selected maturity level of agent
+		void setAgentGlobalLocation( double x, double y, double z );	// agent's x,y,z location within the current grid
+		void setAgentOrientation( double angle );						// direction (0..359) agent is facing
+		void setAgentMaturity( const std::string& agent_maturity );		// selected maturity level of agent
 				
 	private:
 		LLQtWebKit();

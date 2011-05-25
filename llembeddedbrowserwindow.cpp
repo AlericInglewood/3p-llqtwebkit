@@ -905,6 +905,20 @@ void LLEmbeddedBrowserWindow::setAgentLocation( double x, double y, double z )
 			d->mPage->setAgentLocation( x, y, z );
 }
 
+void LLEmbeddedBrowserWindow::setAgentGlobalLocation( double x, double y, double z )
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->setAgentGlobalLocation( x, y, z );
+}
+
+void LLEmbeddedBrowserWindow::setAgentOrientation( double angle )
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->setAgentOrientation( angle );
+}
+
 void LLEmbeddedBrowserWindow::setAgentMaturity( const std::string& agent_maturity )
 {
 	if ( d )

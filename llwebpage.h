@@ -55,6 +55,8 @@ class LLWebPage : public QWebPage
 		void setAgentLanguage( const std::string& agent_language );		
 		void setAgentRegion( const std::string& agent_region );			
 		void setAgentLocation( double x, double y, double z );			
+		void setAgentGlobalLocation( double x, double y, double z );			
+		void setAgentOrientation( double angle );			
 		void setAgentMaturity( const std::string& agent_maturity );		
 
     protected:
