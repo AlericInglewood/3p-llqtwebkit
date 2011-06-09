@@ -273,14 +273,15 @@ bool LLWebPage::javaScriptPrompt(QWebFrame* frame, const QString& msg, const QSt
 
 void LLWebPage::extendNavigatorObject()
 {
+	// legacy - will go away in the future
 	QString q_host_language = QString::fromStdString( mHostLanguage );
-
     mainFrame()->evaluateJavaScript(QString("navigator.hostLanguage=\"%1\"").arg( q_host_language ));
     
+    // the new way
    	if ( mJsObject )
    	{
-		bool expose = mJsObject->getExposeObject();
-		if ( expose )
+		bool enabled = mJsObject->getSLObjectEnabled();
+		if ( enabled )
 		{
 			mainFrame()->addToJavaScriptWindowObject("slviewer", mJsObject );
 		};
@@ -324,16 +325,10 @@ bool LLWebPage::extension(Extension, const ExtensionOption* option, ExtensionRet
 }
 
 // Second Life viewer specific functions
-void LLWebPage::setExposeObject( bool expose_object )
+void LLWebPage::setSLObjectEnabled( bool enabled )
 {
 	if ( mJsObject )
-		mJsObject->setExposeObject( expose_object );
-}
-
-void LLWebPage::setValuesValid( bool valid )
-{
-	if ( mJsObject )
-		mJsObject->setValuesValid( valid );
+		mJsObject->setSLObjectEnabled( enabled );
 }
 
 void LLWebPage::setAgentLanguage( const std::string& agent_language )
@@ -384,4 +379,22 @@ void LLWebPage::setAgentMaturity( const std::string& agent_maturity )
 {
 	if ( mJsObject )
 		mJsObject->setAgentMaturity( QString::fromStdString( agent_maturity ) );
+}
+
+void LLWebPage::emitLocation()
+{
+	if ( mJsObject )
+		mJsObject->emitLocation();
+}
+
+void LLWebPage::emitMaturity()
+{
+	if ( mJsObject )
+		mJsObject->emitMaturity();
+}
+
+void LLWebPage::emitLanguage()
+{
+	if ( mJsObject )
+		mJsObject->emitLanguage();
 }

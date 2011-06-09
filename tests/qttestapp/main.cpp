@@ -90,12 +90,16 @@ WebPage::WebPage(QWidget *parent)
     LLQtWebKit::getInstance()->flipWindow(mBrowserWindowId, false);
     
 	// test Second Life viewer specific functions
-	LLQtWebKit::getInstance()->setExposeObject( true );					// true means expose info to Javascript
-	LLQtWebKit::getInstance()->setValuesValid( true );					// true means values in object are valid
+	LLQtWebKit::getInstance()->setSLObjectEnabled( true );				// true means feature is turned on
 	LLQtWebKit::getInstance()->setAgentLanguage( "tst-en" );			// viewer language selected by agent
 	LLQtWebKit::getInstance()->setAgentRegion( "QtTestAppRegion" );		// name of region where agent is located
 	LLQtWebKit::getInstance()->setAgentLocation( 9.8, 7.6, 5.4 );		// agent's x,y,z location within a region
+	LLQtWebKit::getInstance()->setAgentGlobalLocation( 119.8, 227.6, 335.4 );		// agent's x,y,z location within the grid
 	LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
+	LLQtWebKit::getInstance()->setAgentOrientation( (rand()%36000)/100.0f ); // direction avatar is facing
+	LLQtWebKit::getInstance()->emitLocation();
+	LLQtWebKit::getInstance()->emitLanguage();
+	LLQtWebKit::getInstance()->emitMaturity();
 
     // go to the "home page"
     LLQtWebKit::getInstance()->navigateTo(mBrowserWindowId, "http://callum-linden.s3.amazonaws.com/browsertest.html");
@@ -113,7 +117,9 @@ WebPage::~WebPage()
 void WebPage::updateSLvariables()
 {
 	// randomly update SL values to test
+	LLQtWebKit::getInstance()->setAgentOrientation( (rand()%36000)/100.0f );
 	LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
+	LLQtWebKit::getInstance()->setAgentGlobalLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
 
 	if ( rand() % 2 )
 		LLQtWebKit::getInstance()->setAgentLanguage( "One language" );
@@ -129,6 +135,10 @@ void WebPage::updateSLvariables()
 		LLQtWebKit::getInstance()->setAgentMaturity( "Adults only" );
 	else
 		LLQtWebKit::getInstance()->setAgentMaturity( "Children only" );
+		
+	LLQtWebKit::getInstance()->emitLocation();
+	LLQtWebKit::getInstance()->emitLanguage();
+	LLQtWebKit::getInstance()->emitMaturity();
 }
 
 void WebPage::onCursorChanged(const EventType& event)

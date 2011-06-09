@@ -715,16 +715,10 @@ void LLEmbeddedBrowserWindowObserver::onLinkHovered(const EventType&)
 {
 }
 
-
 // Second Life viewer specific functions
-void LLQtWebKit::setExposeObject( bool expose_object )
+void LLQtWebKit::setSLObjectEnabled( bool enabled )
 {
-	LLEmbeddedBrowser::getInstance()->setExposeObject( expose_object );
-}
-
-void LLQtWebKit::setValuesValid( bool valid )
-{
-	LLEmbeddedBrowser::getInstance()->setValuesValid( valid );
+	LLEmbeddedBrowser::getInstance()->setSLObjectEnabled( enabled );
 }
 
 void LLQtWebKit::setAgentLanguage( const std::string& agent_language )
@@ -756,4 +750,19 @@ void LLQtWebKit::setAgentOrientation( double angle )
 void LLQtWebKit::setAgentMaturity( const std::string& agent_maturity )
 {
 	LLEmbeddedBrowser::getInstance()->setAgentMaturity( agent_maturity );
+}
+
+void LLQtWebKit::emitLocation()
+{
+	LLEmbeddedBrowser::getInstance()->emitLocation();
+}
+
+void LLQtWebKit::emitMaturity()
+{
+	LLEmbeddedBrowser::getInstance()->emitMaturity();
+}
+
+void LLQtWebKit::emitLanguage()
+{
+	LLEmbeddedBrowser::getInstance()->emitLanguage();
 }

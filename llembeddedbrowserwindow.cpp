@@ -870,18 +870,11 @@ bool LLEmbeddedBrowserWindow::authRequest(const std::string &in_url, const std::
 }
 
 // Second Life viewer specific functions
-void LLEmbeddedBrowserWindow::setExposeObject( bool expose_object )
+void LLEmbeddedBrowserWindow::setSLObjectEnabled( bool enabled )
 {
 	if ( d )
 		if ( d->mPage )
-			d->mPage->setExposeObject( expose_object );
-}
-
-void LLEmbeddedBrowserWindow::setValuesValid( bool valid )
-{
-	if ( d )
-		if ( d->mPage )
-			d->mPage->setValuesValid( valid );
+			d->mPage->setSLObjectEnabled( enabled );
 }
 
 void LLEmbeddedBrowserWindow::setAgentLanguage( const std::string& agent_language )
@@ -924,6 +917,27 @@ void LLEmbeddedBrowserWindow::setAgentMaturity( const std::string& agent_maturit
 	if ( d )
 		if ( d->mPage )
 			d->mPage->setAgentMaturity( agent_maturity );
+}
+
+void LLEmbeddedBrowserWindow::emitLocation()
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->emitLocation();
+}
+
+void LLEmbeddedBrowserWindow::emitMaturity()
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->emitMaturity();
+}
+
+void LLEmbeddedBrowserWindow::emitLanguage()
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->emitLanguage();
 }
 
 LLGraphicsScene::LLGraphicsScene()

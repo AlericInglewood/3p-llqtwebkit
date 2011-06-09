@@ -50,14 +50,16 @@ class LLWebPage : public QWebPage
 		virtual bool extension(Extension extension, const ExtensionOption* option, ExtensionReturn* output);
 		
 		// Second Life specific functions
-		void setExposeObject( bool expose_object );						
-		void setValuesValid( bool valid );
-		void setAgentLanguage( const std::string& agent_language );		
 		void setAgentRegion( const std::string& agent_region );			
 		void setAgentLocation( double x, double y, double z );			
 		void setAgentGlobalLocation( double x, double y, double z );			
 		void setAgentOrientation( double angle );			
+		void setSLObjectEnabled( bool enabled );						
+		void setAgentLanguage( const std::string& agent_language );		
 		void setAgentMaturity( const std::string& agent_maturity );		
+		void emitLocation();
+		void emitMaturity();
+		void emitLanguage();
 
     protected:
         bool acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest& request, NavigationType type);

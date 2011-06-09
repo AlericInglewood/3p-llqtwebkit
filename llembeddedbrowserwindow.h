@@ -134,14 +134,16 @@ public:
 	bool authRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password);
 	
 	// Second Life specific functions
-	void setExposeObject( bool expose_object );						
-	void setValuesValid( bool valid );
+	void setSLObjectEnabled( bool enabled );
 	void setAgentLanguage( const std::string& agent_language );		
 	void setAgentRegion( const std::string& agent_region );			
 	void setAgentLocation( double x, double y, double z );			
 	void setAgentGlobalLocation( double x, double y, double z );			
 	void setAgentOrientation( double angle );			
 	void setAgentMaturity( const std::string& agent_maturity );		
+	void emitLocation();
+	void emitMaturity();
+	void emitLanguage();
 
 private:
     friend class LLWebPage;

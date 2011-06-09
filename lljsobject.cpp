@@ -23,40 +23,40 @@
  * COMPLETENESS OR PERFORMANCE.
  */
 
+#include <QDebug>
 #include "lljsobject.h"
 
 LLJsObject::LLJsObject( QObject* parent ) :
 	QObject( parent )
 {
-	mExposeObject = false;
-	mValuesValid = false;
+	mEnabled = false;
 	
 	mAgentLanguage = QString();
 	mAgentMaturity = QString();
 	mAgentRegion = QString();
+
 	mAgentLocation[ "x" ] = 0.0;
 	mAgentLocation[ "y" ] = 0.0;
 	mAgentLocation[ "z" ] = 0.0;
+
+	mAgentGlobalLocation[ "x" ] = 0.0;
+	mAgentGlobalLocation[ "y" ] = 0.0;
+	mAgentGlobalLocation[ "z" ] = 0.0;
 }
 
-void LLJsObject::setExposeObject( bool expose_object )
+void LLJsObject::setSLObjectEnabled( bool enabled )
 {
-	mExposeObject = expose_object;
+	mEnabled = enabled;
 }
 
-bool LLJsObject::getExposeObject()
+bool LLJsObject::getSLObjectEnabled()
 {
-	return mExposeObject;
-}
-
-void LLJsObject::setValuesValid( bool valid )
-{
-	mValuesValid = valid;
+	return mEnabled;
 }
 
 void LLJsObject::setAgentLanguage( const QString& agent_language )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentLanguage = agent_language;
 	}
@@ -68,7 +68,7 @@ void LLJsObject::setAgentLanguage( const QString& agent_language )
 
 void LLJsObject::setAgentRegion( const QString& agent_region )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentRegion = agent_region;
 	}
@@ -80,7 +80,7 @@ void LLJsObject::setAgentRegion( const QString& agent_region )
 
 void LLJsObject::setAgentMaturity( const QString& agent_maturity )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentMaturity = agent_maturity;
 	}
@@ -92,7 +92,7 @@ void LLJsObject::setAgentMaturity( const QString& agent_maturity )
 
 void LLJsObject::setAgentLocation( const QVariantMap agent_location )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentLocation = agent_location;
 	}
@@ -106,7 +106,7 @@ void LLJsObject::setAgentLocation( const QVariantMap agent_location )
 
 void LLJsObject::setAgentGlobalLocation( const QVariantMap agent_global_location )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentGlobalLocation = agent_global_location;
 	}
@@ -118,10 +118,9 @@ void LLJsObject::setAgentGlobalLocation( const QVariantMap agent_global_location
 	}
 }
 
-
 void LLJsObject::setAgentOrientation( const double angle  )
 {
-	if ( mExposeObject )
+	if ( mEnabled )
 	{
 		mAgentOrientation = angle;
 	}
@@ -131,19 +130,24 @@ void LLJsObject::setAgentOrientation( const double angle  )
 	}
 }
 
-bool LLJsObject::valid()
+void LLJsObject::emitLocation()
 {
-	return mValuesValid;
+	QVariantMap agent_location;
+	
+	agent_location[ "region" ] = mAgentRegion;
+	agent_location[ "location" ] = mAgentLocation;
+	agent_location[ "orientation" ] = mAgentOrientation;
+	agent_location[ "globalLocation" ] = mAgentGlobalLocation;
+	
+	emit getLocation( agent_location );
 }
 
-const QVariantMap LLJsObject::agent()
+void LLJsObject::emitMaturity()
 {
-	mAgent[ "language" ] = mAgentLanguage;
-	mAgent[ "region" ] = mAgentRegion;
-	mAgent[ "maturity" ] = mAgentMaturity;
-	mAgent[ "location" ] = mAgentLocation;
-	mAgent[ "globalLocation" ] = mAgentGlobalLocation;
-	mAgent[ "orientation" ] = mAgentOrientation;
+	emit getMaturity( mAgentMaturity );
+}
 
-	return mAgent; 
+void LLJsObject::emitLanguage()
+{
+	emit getLanguage( mAgentLanguage );
 }

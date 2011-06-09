@@ -38,9 +38,8 @@ class LLJsObject :
     public:
         LLJsObject( QObject* parent = 0 );
 
-		void setExposeObject( bool expose_object );
-		bool getExposeObject();
-        void setValuesValid( bool valid );
+		void setSLObjectEnabled( bool enabled );
+		bool getSLObjectEnabled();
         
         void setAgentLanguage( const QString& agent_language );
         void setAgentRegion( const QString& agent_region );
@@ -49,23 +48,24 @@ class LLJsObject :
 		void setAgentGlobalLocation( const QVariantMap agent_global_location );			
 		void setAgentOrientation( const double angle );
 		
-		bool valid();
-		Q_PROPERTY( bool valid READ valid FINAL );
-
-		const QVariantMap agent();
-		Q_PROPERTY( QVariantMap agent READ agent FINAL );
+		void emitLocation();
+		void emitMaturity();
+		void emitLanguage();
+		
+	signals:
+		void getLocation( const QVariantMap agent_location );
+		void getMaturity( const QString agent_maturity );
+		void getLanguage( const QString agent_language );
 
     private:
-    	bool mExposeObject;
-    	bool mValuesValid;
+    	bool mEnabled;
+    	
 	    QString mAgentLanguage;
-	    QString mAgentRegion;
 	    QString mAgentMaturity;
+	    QString mAgentRegion;
 		QVariantMap mAgentLocation;
 		QVariantMap mAgentGlobalLocation;
 		double mAgentOrientation;
-		
-		QVariantMap mAgent;
 };
 
 #endif	// LLJSOBJECT_H
