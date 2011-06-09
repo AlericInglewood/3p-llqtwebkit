@@ -301,7 +301,7 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>sh</string>
+                <string>bash</string>
                 <key>options</key>
                 <array>
                   <string>../build-cmd.sh</string>
@@ -332,7 +332,7 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>sh</string>
+                <string>bash</string>
                 <key>options</key>
                 <array>
                   <string>../build-cmd.sh</string>
@@ -369,7 +369,7 @@
                   <string>../build-cmd.sh</string>
                 </array>
                 <key>command</key>
-                <string>sh</string>
+                <string>bash</string>
               </map>
               <key>default</key>
               <string>True</string>
