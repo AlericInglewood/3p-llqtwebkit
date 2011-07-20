@@ -3,6 +3,30 @@
 <map>
     <key>installables</key>
     <map>
+      <key>freeglut</key>
+      <map>
+        <key>description</key>
+        <string>Freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library</string>
+        <key>license</key>
+        <string>X-Consortium</string>
+        <key>name</key>
+        <string>freeglut</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>825d5a9bafcc5bfe28dc4c1c4f87c576</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freeglut/rev/221064/arch/CYGWIN/installer/freeglut-2.6.0-windows-20110214.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+        </map>
+      </map>
       <key>openssl</key>
       <map>
         <key>license</key>
@@ -30,9 +54,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cb1a84f34ee8ec50d028b17af42225c2</string>
+              <string>eab3a49d1ef77a651a3896d1d4864a78</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openssl-0.9.8j-linux-20101206.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/227862/arch/Linux/installer/openssl-1.0.0d-linux-20110427.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -45,30 +69,6 @@
               <string>8ba049ecc76bb1adf3ab3e5bad64c39e</string>
               <key>url</key>
               <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/227862/arch/CYGWIN/installer/openssl-1.0.0d-windows-20110427.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-        </map>
-      </map>
-      <key>freeglut</key>
-      <map>
-        <key>description</key>
-        <string>Freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library</string>
-        <key>license</key>
-        <string>X-Consortium</string>
-        <key>name</key>
-        <string>freeglut</string>
-        <key>platforms</key>
-        <map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>825d5a9bafcc5bfe28dc4c1c4f87c576</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freeglut/rev/221064/arch/CYGWIN/installer/freeglut-2.6.0-windows-20110214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
