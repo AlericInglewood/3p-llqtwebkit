@@ -131,6 +131,8 @@ public:
 	
 	std::string requestFilePicker();
 
+	void enableWebInspector(bool enabled);
+
 	bool authRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password);
 	
 	// Second Life specific functions

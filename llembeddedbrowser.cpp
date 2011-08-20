@@ -260,6 +260,16 @@ bool LLEmbeddedBrowser::enableJavascript(bool enabled)
     return true;
 }
 
+bool LLEmbeddedBrowser::enableWebInspector(bool enabled)
+{
+	QWebSettings::globalSettings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, enabled);
+	foreach (LLEmbeddedBrowserWindow* window, d->windows)
+	{s
+		window->enableWebInspector(enabled);
+	}
+	return true;
+}
+
 /*
 	Sets a string that should be addded to the user agent to identify the application
 */

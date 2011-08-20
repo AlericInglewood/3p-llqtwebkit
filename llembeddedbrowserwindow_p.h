@@ -32,6 +32,7 @@
 #include <qgraphicsscene.h>
 #include <qgraphicsview.h>
 #include <qwebview.h>
+#include <QWebInspector>
 #include <list>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -161,6 +162,7 @@ class LLEmbeddedBrowserWindowPrivate
         , mView(0)
         , mGraphicsScene(0)
         , mGraphicsView(0)
+        , mInspector(0)
         , mCurrentMouseButtonState(Qt::NoButton)
         , mPercentComplete(0)
         , mStatusText("")
@@ -206,6 +208,10 @@ class LLEmbeddedBrowserWindowPrivate
 	        mGraphicsView->viewport()->setParent(mGraphicsView);
 	        mGraphicsView->deleteLater();
 		}
+		if(mInspector)
+		{
+			mInspector->deleteLater();
+		}
     }
 	
 	typedef LLEmbeddedBrowserWindowEmitter< LLEmbeddedBrowserWindowObserver> Emitter;
@@ -217,6 +223,7 @@ class LLEmbeddedBrowserWindowPrivate
 	ProxyList mProxyPages;
 
     LLWebView *mView;
+    QWebInspector* mInspector;
     LLGraphicsScene *mGraphicsScene;
     QGraphicsView *mGraphicsView;
     Qt::MouseButtons mCurrentMouseButtonState;

@@ -300,7 +300,7 @@ class testGL :
 		{
 			if ( rand() % 2 )
 				LLQtWebKit::getInstance()->setAgentRegion( "Region Wibble" );
-			else
+			else			
 				LLQtWebKit::getInstance()->setAgentRegion( "Region Flasm" );
 			LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
 			LLQtWebKit::getInstance()->setAgentGlobalLocation( (rand()%25600)/10.0f, (rand()%25600)/10.0f, (rand()%25600)/10.0f );
@@ -551,6 +551,11 @@ class testGL :
 			else if ( keyIn == 18 )
 			{
 				LLQtWebKit::getInstance()->userAction(mBrowserWindowId, LLQtWebKit::UA_NAVIGATE_RELOAD );
+			}
+			// control-I toggles inspector
+			else if ( keyIn == 23 )
+			{
+				LLQtWebKit::getInstance()->enableWebInspector( true );
 			}
 			else
 			{
