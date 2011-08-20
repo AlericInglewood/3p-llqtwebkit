@@ -72,13 +72,13 @@
 	}
 #endif
 
-//#define WEBHISTORYPATCH
-
 LLEmbeddedBrowserWindow::LLEmbeddedBrowserWindow()
 {
     d = new LLEmbeddedBrowserWindowPrivate();
 	
 	d->mPage = new LLWebPage;
+	d->mInspector = new QWebInspector;
+	d->mInspector->setPage(d->mPage);
     d->mPage->window = this;
     d->mView = new LLWebView;
     d->mPage->webView = d->mView;
@@ -111,6 +111,17 @@ void LLEmbeddedBrowserWindow::setParent(LLEmbeddedBrowser* parent)
     {
         d->mPage->setNetworkAccessManager(0);
     }
+}
+
+void LLEmbeddedBrowserWindow::enableWebInspector(bool enabled)
+{
+	if ( d )
+	{
+		if ( d->mInspector )
+		{
+			d->mInspector->setVisible( enabled );
+		}
+	}
 }
 
 // change the background color that gets used between pages (usually white)

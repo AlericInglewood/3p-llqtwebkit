@@ -54,6 +54,7 @@ class LLEmbeddedBrowser
 		std::string getAllCookies();
         bool enablePlugins(bool enabled);
         bool enableJavascript(bool enabled);
+        bool enableWebInspector(bool enabled);
         std::string getGREVersion();
         void setBrowserAgentId(std::string id);
         void setHostLanguage( const std::string& host_language );

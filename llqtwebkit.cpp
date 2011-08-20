@@ -557,6 +557,13 @@ bool LLQtWebKit::enableJavascript(bool enabled)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+bool LLQtWebKit::enableWebInspector(bool enabled)
+{
+    return LLEmbeddedBrowser::getInstance()->enableWebInspector(enabled);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 std::string LLQtWebKit::evaluateJavascript(int browser_window_id, const std::string script)
 {
     LLEmbeddedBrowserWindow* browser_window = getBrowserWindowFromWindowId(browser_window_id);

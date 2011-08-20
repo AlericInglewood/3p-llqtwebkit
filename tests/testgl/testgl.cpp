@@ -556,6 +556,11 @@ class testGL :
 			{
 				LLQtWebKit::getInstance()->userAction(mBrowserWindowId, LLQtWebKit::UA_NAVIGATE_RELOAD );
 			}
+			// control-I toggles inspector
+			else if ( keyIn == 23 )
+			{
+				LLQtWebKit::getInstance()->enableWebInspector( true );
+			}
 			else
 			{
 				char text[2];
