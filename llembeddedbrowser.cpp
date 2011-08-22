@@ -264,7 +264,7 @@ bool LLEmbeddedBrowser::enableWebInspector(bool enabled)
 {
 	QWebSettings::globalSettings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, enabled);
 	foreach (LLEmbeddedBrowserWindow* window, d->windows)
-	{s
+	{
 		window->enableWebInspector(enabled);
 	}
 	return true;
