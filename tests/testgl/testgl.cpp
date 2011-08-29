@@ -124,7 +124,7 @@ class testGL :
 #endif
             mHomeUrl = "http://callum-linden.s3.amazonaws.com/browsertest.html";
             std::cout << "LLQtWebKit version: " << LLQtWebKit::getInstance()->getVersion() << std::endl;
-            
+
             std::cout << "Current working directory is " << mCwd << std::endl;
 		};
 
@@ -215,7 +215,7 @@ class testGL :
 			// Tell llqtwebkit to look for a CA file in the application directory.
 			// If it can't find or parse the file, this should have no effect.
 			std::string ca_pem_file_loc = mCwd + PATH_SEPARATOR + "CA.pem";
-			
+
 			LLQtWebKit::getInstance()->addCAFile( ca_pem_file_loc.c_str() );
 			std::cout << "Expected CA.pem file location is " << ca_pem_file_loc << std::endl;
 
@@ -227,7 +227,7 @@ class testGL :
 			LLQtWebKit::getInstance()->setAgentGlobalLocation( 1234.5, 6789.0, 3456.7 );	// agent's x,y,z location within a region
 			LLQtWebKit::getInstance()->setAgentOrientation( 175.69 );	// direction (0..359) agent is facing
 			LLQtWebKit::getInstance()->setAgentMaturity( "Very immature" );		// selected maturity level of agent
-	
+
 			// go to the "home page" or URL passed in via command line
 			if ( ! argv1.empty() )
 				LLQtWebKit::getInstance()->navigateTo( mBrowserWindowId, argv1 );
@@ -300,7 +300,7 @@ class testGL :
 		{
 			if ( rand() % 2 )
 				LLQtWebKit::getInstance()->setAgentRegion( "Region Wibble" );
-			else			
+			else
 				LLQtWebKit::getInstance()->setAgentRegion( "Region Flasm" );
 			LLQtWebKit::getInstance()->setAgentLocation( (rand()%25600)/100.0f, (rand()%25600)/100.0f, (rand()%25600)/100.0f );
 			LLQtWebKit::getInstance()->setAgentGlobalLocation( (rand()%25600)/10.0f, (rand()%25600)/10.0f, (rand()%25600)/10.0f );
@@ -330,7 +330,7 @@ class testGL :
 				updateSLvariables();
 				time( &starttime );
 			};
-			
+
 			LLQtWebKit::getInstance()->pump(100);
 
 			// onPageChanged event sets this
@@ -430,7 +430,7 @@ class testGL :
 			{
 				result |= LLQtWebKit::KM_MODIFIER_SHIFT;
 			}
-			
+
 			if ( GLUT_ACTIVE_CTRL & modifiers )
 				result |= LLQtWebKit::KM_MODIFIER_CONTROL;
 
@@ -555,7 +555,7 @@ class testGL :
 			// control-I toggles inspector
 			else if ( keyIn == 23 )
 			{
-				LLQtWebKit::getInstance()->enableWebInspector( true );
+				LLQtWebKit::getInstance()->showWebInspector( true );
 			}
 			else
 			{
@@ -715,10 +715,10 @@ class testGL :
 		// virtual
 		void onLinkHovered( const EventType& eventIn )
 		{
-			std::cout 
-				<< "Link hovered, link = " << eventIn.getEventUri() 
-				<< ", title = " << eventIn.getStringValue() 
-				<< ", text = " << eventIn.getStringValue2() 
+			std::cout
+				<< "Link hovered, link = " << eventIn.getEventUri()
+				<< ", title = " << eventIn.getStringValue()
+				<< ", text = " << eventIn.getStringValue2()
 			<< std::endl;
 		};
 
@@ -929,9 +929,9 @@ int main( int argc, char* argv[] )
 		glutIdleFunc( glutIdle );
 
 		glutMainLoop();
-		
+
 		std::cout << "glutMainLoop returned" << std::endl;
-		
+
 		delete theApp;
 	};
 

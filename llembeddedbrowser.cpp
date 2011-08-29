@@ -1,5 +1,5 @@
 /* Copyright (c) 2006-2010, Linden Research, Inc.
- * 
+ *
  * LLQtWebKit Source Code
  * The source code in this file ("Source Code") is provided by Linden Lab
  * to you under the terms of the GNU General Public License, version 2.0
@@ -7,17 +7,17 @@
  * ("Other License"), formally executed by you and Linden Lab.  Terms of
  * the GPL can be found in GPL-license.txt in this distribution, or online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/gplv2
- * 
+ *
  * There are special exceptions to the terms and conditions of the GPL as
  * it is applied to this Source Code. View the full text of the exception
  * in the file FLOSS-exception.txt in this software distribution, or
  * online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/flossexception
- * 
+ *
  * By copying, modifying or distributing this software, you acknowledge
  * that you have read and understood your obligations described above,
  * and agree to abide by those obligations.
- * 
+ *
  * ALL LINDEN LAB SOURCE CODE IS PROVIDED "AS IS." LINDEN LAB MAKES NO
  * WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
  * COMPLETENESS OR PERFORMANCE.
@@ -60,7 +60,7 @@ LLEmbeddedBrowserPrivate::LLEmbeddedBrowserPrivate()
         static const char* argv[] = {""};
 		QApplication::setAttribute(Qt::AA_MacPluginApplication);
 		QApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
-		
+
         mApplication = new QApplication(argc, (char **)argv);
         mApplication->addLibraryPath(qApp->applicationDirPath());
     }
@@ -156,7 +156,7 @@ bool LLEmbeddedBrowser::init(std::string application_directory,
 
  	QWebSettings::globalSettings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
     QWebSettings::globalSettings()->setOfflineStoragePath(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-    
+
 	// use default text encoding - not sure how this helps right now so commenting out until we
 	// understand how to use it a little better.
     //QWebSettings::globalSettings()->setDefaultTextEncoding ( "" );
@@ -236,7 +236,7 @@ void LLEmbeddedBrowser::setCookies(const std::string &cookies)
 std::string LLEmbeddedBrowser::getAllCookies()
 {
 	std::string result;
-	
+
     if (d->mNetworkCookieJar)
 	{
 		result = d->mNetworkCookieJar->getAllCookiesInRawForm();
@@ -260,12 +260,12 @@ bool LLEmbeddedBrowser::enableJavascript(bool enabled)
     return true;
 }
 
-bool LLEmbeddedBrowser::enableWebInspector(bool enabled)
+bool LLEmbeddedBrowser::showWebInspector(bool show)
 {
-	QWebSettings::globalSettings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, enabled);
+	QWebSettings::globalSettings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, show);
 	foreach (LLEmbeddedBrowserWindow* window, d->windows)
 	{
-		window->enableWebInspector(enabled);
+		window->showWebInspector(show);
 	}
 	return true;
 }
@@ -278,7 +278,7 @@ void LLEmbeddedBrowser::setBrowserAgentId(std::string id)
     QCoreApplication::setApplicationName(QString::fromStdString(id));
 }
 
-// updates value of 'hostLanguage' in JavaScript 'Navigator' obect that 
+// updates value of 'hostLanguage' in JavaScript 'Navigator' obect that
 // embedded pages can query to see what language the host app is set to
 // IMPORTANT: call this before any windows are created - only gets passed
 //            to LLWebPage when new window is created
@@ -297,12 +297,12 @@ LLEmbeddedBrowserWindow* LLEmbeddedBrowser::createBrowserWindow(int width, int h
         newWin->setHostLanguage(d->mHostLanguage);
         clearLastError();
         d->windows.append(newWin);
-		
+
 		if(!target.empty() && (target != "_blank"))
 		{
 			newWin->setTarget(target);
 		}
-		
+
         return newWin;
     }
     return 0;
@@ -354,14 +354,14 @@ void LLEmbeddedBrowser::cookieChanged(const std::string &cookie, const std::stri
 bool LLEmbeddedBrowser::setCAFile(const std::string &ca_file)
 {
 	bool result = false;
-	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);	
+	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
 
 	// Extract the list of certificates from the specified file
 	QList<QSslCertificate> certs = QSslCertificate::fromPath(QString::fromStdString(ca_file));
-	
+
 	if(!certs.isEmpty())
 	{
-		qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "certs read: " << certs;	
+		qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "certs read: " << certs;
 
 		// Set the default CA cert for Qt's SSL implementation.
 		QSslConfiguration config = QSslConfiguration::defaultConfiguration();
@@ -369,7 +369,7 @@ bool LLEmbeddedBrowser::setCAFile(const std::string &ca_file)
 		QSslConfiguration::setDefaultConfiguration(config);
 		result = true;
 	}
-	
+
 	return result;
 }
 
@@ -391,8 +391,8 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 	}
 
 	bool result = false;
-	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);	
-	
+	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
+
 	if ( cert_debugging_on )
 	{
 		qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (From CA.pem)";
@@ -537,7 +537,7 @@ bool LLNetworkCookieJar::setCookiesFromUrl(const QList<QNetworkCookie> &cookie_l
 
 void LLNetworkCookieJar::onCookieSetFromURL(const QNetworkCookie &cookie, const QUrl &url, bool already_dead)
 {
-//	qDebug() << "LLNetworkCookieJar::" << __FUNCTION__ << (already_dead?"set dead cookie":"set cookie ") << cookie;	
+//	qDebug() << "LLNetworkCookieJar::" << __FUNCTION__ << (already_dead?"set dead cookie":"set cookie ") << cookie;
 
 	if(mBrowser)
 	{
@@ -563,16 +563,16 @@ void LLNetworkCookieJar::setCookiesFromRawForm(const std::string &cookie_string)
 std::string LLNetworkCookieJar::getAllCookiesInRawForm()
 {
 	std::string result;
-	
+
 	QList<QNetworkCookie> cookie_list = allCookies();
-	
+
 	foreach (const QNetworkCookie &cookie, cookie_list)
 	{
 		QByteArray raw_form = cookie.toRawForm(QNetworkCookie::Full);
 		result.append(raw_form.data(), raw_form.size());
 		result.append("\n");
 	}
-	
+
 	return result;
 }
 
@@ -590,23 +590,23 @@ QGraphicsWebView *LLEmbeddedBrowserPrivate::findView(QNetworkReply *reply)
 bool LLEmbeddedBrowserPrivate::authRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password)
 {
 	bool result = false;
-	
+
 //	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "requesting auth for url " << QString::fromStdString(in_url) << ", realm " << QString::fromStdString(in_realm);
 //
 //	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "window count is " << windows.count();
 
 	if(windows.count() > 1)
 	{
-		qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "WARNING: authRequest called with more than one window, using the first one";	
+		qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "WARNING: authRequest called with more than one window, using the first one";
 	}
-	
+
 	LLEmbeddedBrowserWindow* window = windows.first();
-	
+
 	if(window)
 	{
 		result = window->authRequest(in_url, in_realm, out_username, out_password);
 	}
-	
+
 	return result;
 }
 

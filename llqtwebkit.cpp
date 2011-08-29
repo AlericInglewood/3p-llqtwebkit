@@ -1,5 +1,5 @@
 /* Copyright (c) 2006-2010, Linden Research, Inc.
- * 
+ *
  * LLQtWebKit Source Code
  * The source code in this file ("Source Code") is provided by Linden Lab
  * to you under the terms of the GNU General Public License, version 2.0
@@ -7,17 +7,17 @@
  * ("Other License"), formally executed by you and Linden Lab.  Terms of
  * the GPL can be found in GPL-license.txt in this distribution, or online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/gplv2
- * 
+ *
  * There are special exceptions to the terms and conditions of the GPL as
  * it is applied to this Source Code. View the full text of the exception
  * in the file FLOSS-exception.txt in this software distribution, or
  * online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/flossexception
- * 
+ *
  * By copying, modifying or distributing this software, you acknowledge
  * that you have read and understood your obligations described above,
  * and agree to abide by those obligations.
- * 
+ *
  * ALL LINDEN LAB SOURCE CODE IS PROVIDED "AS IS." LINDEN LAB MAKES NO
  * WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
  * COMPLETENESS OR PERFORMANCE.
@@ -449,10 +449,10 @@ bool LLQtWebKit::scrollWheelEvent(int browser_window_id, int x, int y, int scrol
 //
 bool LLQtWebKit::keyboardEvent(
 		int browser_window_id,
-		EKeyEvent key_event, 
-		uint32_t key_code, 
-		const char *utf8_text, 
-		EKeyboardModifier modifiers, 
+		EKeyEvent key_event,
+		uint32_t key_code,
+		const char *utf8_text,
+		EKeyboardModifier modifiers,
 		uint32_t native_scan_code,
 		uint32_t native_virtual_key,
 		uint32_t native_modifiers)
@@ -557,9 +557,9 @@ bool LLQtWebKit::enableJavascript(bool enabled)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-bool LLQtWebKit::enableWebInspector(bool enabled)
+bool LLQtWebKit::showWebInspector(bool show)
 {
-    return LLEmbeddedBrowser::getInstance()->enableWebInspector(enabled);
+    return LLEmbeddedBrowser::getInstance()->showWebInspector(show);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

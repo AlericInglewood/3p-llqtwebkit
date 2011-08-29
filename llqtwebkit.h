@@ -1,5 +1,5 @@
 /* Copyright (c) 2006-2010, Linden Research, Inc.
- * 
+ *
  * LLQtWebKit Source Code
  * The source code in this file ("Source Code") is provided by Linden Lab
  * to you under the terms of the GNU General Public License, version 2.0
@@ -7,17 +7,17 @@
  * ("Other License"), formally executed by you and Linden Lab.  Terms of
  * the GPL can be found in GPL-license.txt in this distribution, or online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/gplv2
- * 
+ *
  * There are special exceptions to the terms and conditions of the GPL as
  * it is applied to this Source Code. View the full text of the exception
  * in the file FLOSS-exception.txt in this software distribution, or
  * online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/flossexception
- * 
+ *
  * By copying, modifying or distributing this software, you acknowledge
  * that you have read and understood your obligations described above,
  * and agree to abide by those obligations.
- * 
+ *
  * ALL LINDEN LAB SOURCE CODE IS PROVIDED "AS IS." LINDEN LAB MAKES NO
  * WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
  * COMPLETENESS OR PERFORMANCE.
@@ -43,11 +43,13 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 9
+#define LLQTWEBKIT_API_VERSION 10
+// version 10:
+	// Added initial support for creating and displaying the Qt Web Inspector
 // version 9:
 	// Added initial support for exposing certain Second Life viewer/agent variables to Javascript
 // version 8:
-	// Removed calls to set/clear 404 redirects and made the API now emit an event that the 
+	// Removed calls to set/clear 404 redirects and made the API now emit an event that the
 	// consumer can catch and decide what to do when an HTTP status code after navigate is 400-499
 // version 7:
 	// Added LLEmbeddedBrowserWindowEvent::setNavigationType() && LLEmbeddedBrowserWindowEvent::getNavigationType()
@@ -69,7 +71,7 @@ class LLEmbeddedBrowserWindow;
 	// Removed most of the construtor variants in LLEmbeddedBrowserWindowEvent and added setters in their place.
 	// Removed setCaretColor, since it's done nothing for some time now.
 	// Added LLEmbeddedBrowserWindowObserver::onWindowGeometryChangeRequested
-	// Added 
+	// Added
 // version 1:
 	// Added the LLQTWEBKIT_API_VERSION define.
 	// Added LLEmbeddedBrowserWindowObserver::onWindowCloseRequested
@@ -148,18 +150,18 @@ class LLEmbeddedBrowserWindowObserver
 		virtual void onLocationChange(const EventType& event);
 		virtual void onClickLinkHref(const EventType& event);
 		virtual void onClickLinkNoFollow(const EventType& event);
-		virtual void onCookieChanged(const EventType& event);	
+		virtual void onCookieChanged(const EventType& event);
 			// mStringVal will be the cookie in RFC 2109 string format
 			// mEventUri will be the url that caused the cookie change
 			// mIntVal will be true if the cookie is dead (i.e. being deleted), false otherwise
 		virtual std::string onRequestFilePicker(const EventType& event);
 		virtual void onWindowCloseRequested(const EventType& event);
 		virtual void onWindowGeometryChangeRequested(const EventType& event);
-		
+
 		// This should return true to attempt auth, or false to cancel.
 		virtual bool onAuthRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password);
 
-		virtual void onLinkHovered(const EventType& event);	
+		virtual void onLinkHovered(const EventType& event);
 			// mEventURI will be the link
 			// mStringVal will be the title
 			// mStringVal2 will be the text
@@ -246,10 +248,10 @@ class LLQtWebKit
 		std::string getVersion();
 		void setBrowserAgentId(std::string id);
 		bool enableProxy(bool enabled, std::string host_name, int port);
-		
+
 		bool enableCookies(bool enabled);
 		bool clearAllCookies();
-		
+
 		// The following two functions accept and return cookies in the same format that's used for the Set-Cookie: HTTP header
 		// as defined in RFC 2109 ( http://www.ietf.org/rfc/rfc2109.txt ).  The string should not contain the literal "Set-Cookie:",
 		// just the cookie itself.
@@ -259,9 +261,11 @@ class LLQtWebKit
 
 		bool enablePlugins(bool enabled);
 		bool enableJavascript(bool enabled);
- 		bool enableWebInspector(bool enabled);
 
-		// updates value of 'hostLanguage' in JavaScript 'Navigator' obect that 
+		// Web inspector - Firebug-esque debugger
+ 		bool showWebInspector(bool show);
+
+		// updates value of 'hostLanguage' in JavaScript 'Navigator' obect that
 		// embedded pages can query to see what language the host app is set to
 		void setHostLanguage(const std::string& host_language);
 
@@ -305,10 +309,10 @@ class LLQtWebKit
 		bool scrollWheelEvent(int browser_window_id, int x, int y, int scroll_x, int scroll_y, EKeyboardModifier modifiers);
 		bool keyboardEvent(
 			int browser_window_id,
-			EKeyEvent key_event, 
-			uint32_t key_code, 
-			const char *utf8_text, 
-			EKeyboardModifier modifiers, 
+			EKeyEvent key_event,
+			uint32_t key_code,
+			const char *utf8_text,
+			EKeyboardModifier modifiers,
 			uint32_t native_scan_code = 0,
 			uint32_t native_virtual_key = 0,
 			uint32_t native_modifiers = 0);
@@ -328,18 +332,18 @@ class LLQtWebKit
 		// Specify a path to a .pem file containing a list of CA certificates the browser should trust.
 		// NOTE that this will replace the default list of root certs (not add to it).
 		// If the file isn't found or doesn't contain any certs in the correct format, this call will have no effect and will return false.
-		// NOTE: Using this function causes strange cert verification issues on the Mac.  
+		// NOTE: Using this function causes strange cert verification issues on the Mac.
 		//   Using addCAFile() instead seems to work better.
 		bool setCAFile(const std::string &ca_file);
-		
+
 		// This behaves similarly, but instead of replacing the entire list it appends additional trusted root certs to the current list.
 		bool addCAFile(const std::string &ca_file);
-		
-		// Set a flag causing all SSL cert errors to be ignored.  
+
+		// Set a flag causing all SSL cert errors to be ignored.
 		// NOTE: this should only be used for testing, as it negates the security model of https.
 		void setIgnoreSSLCertErrors(bool ignore);
 		bool getIgnoreSSLCertErrors();
-		
+
 		// Copied from indra_constants.h.
 		// The key_code argument to keyboardEvent should either be one of these or a 7-bit ascii character.
 		enum keyCodes
@@ -401,7 +405,7 @@ class LLQtWebKit
 
 			KEY_NONE			= 0x00FF // not sent from keyboard.  For internal use only.
 		};
-		
+
 		// Second Life specific functions
 		// (Note, this is a departure from the generic nature of this library)
 		void setSLObjectEnabled( bool enabled );						// enable or disaable feature
@@ -414,7 +418,7 @@ class LLQtWebKit
 		void emitLocation();
 		void emitMaturity();
 		void emitLanguage();
-				
+
 	private:
 		LLQtWebKit();
 		LLEmbeddedBrowserWindow* getBrowserWindowFromWindowId(int browser_window_id);

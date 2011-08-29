@@ -1,5 +1,5 @@
 /* Copyright (c) 2006-2010, Linden Research, Inc.
- * 
+ *
  * LLQtWebKit Source Code
  * The source code in this file ("Source Code") is provided by Linden Lab
  * to you under the terms of the GNU General Public License, version 2.0
@@ -7,17 +7,17 @@
  * ("Other License"), formally executed by you and Linden Lab.  Terms of
  * the GPL can be found in GPL-license.txt in this distribution, or online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/gplv2
- * 
+ *
  * There are special exceptions to the terms and conditions of the GPL as
  * it is applied to this Source Code. View the full text of the exception
  * in the file FLOSS-exception.txt in this software distribution, or
  * online at
  * http://secondlifegrid.net/technology-programs/license-virtual-world/viewerlicensing/flossexception
- * 
+ *
  * By copying, modifying or distributing this software, you acknowledge
  * that you have read and understood your obligations described above,
  * and agree to abide by those obligations.
- * 
+ *
  * ALL LINDEN LAB SOURCE CODE IS PROVIDED "AS IS." LINDEN LAB MAKES NO
  * WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
  * COMPLETENESS OR PERFORMANCE.
@@ -75,7 +75,7 @@
 LLEmbeddedBrowserWindow::LLEmbeddedBrowserWindow()
 {
     d = new LLEmbeddedBrowserWindowPrivate();
-	
+
 	d->mPage = new LLWebPage;
 	d->mInspector = new QWebInspector;
 	d->mInspector->setPage(d->mPage);
@@ -113,13 +113,13 @@ void LLEmbeddedBrowserWindow::setParent(LLEmbeddedBrowser* parent)
     }
 }
 
-void LLEmbeddedBrowserWindow::enableWebInspector(bool enabled)
+void LLEmbeddedBrowserWindow::showWebInspector(bool show)
 {
 	if ( d )
 	{
 		if ( d->mInspector )
 		{
-			d->mInspector->setVisible( enabled );
+			d->mInspector->setVisible( show );
 		}
 	}
 }
@@ -543,10 +543,10 @@ void LLEmbeddedBrowserWindow::scrollByLines(int16_t lines)
 
 // Send a keyboard event with native event data.
 void LLEmbeddedBrowserWindow::keyboardEvent(
-		LLQtWebKit::EKeyEvent key_event, 
-		uint32_t key_code, 
-		const char *utf8_text, 
-		LLQtWebKit::EKeyboardModifier modifiers, 
+		LLQtWebKit::EKeyEvent key_event,
+		uint32_t key_code,
+		const char *utf8_text,
+		LLQtWebKit::EKeyboardModifier modifiers,
 		uint32_t native_scan_code,
 		uint32_t native_virtual_key,
 		uint32_t native_modifiers)
@@ -613,29 +613,29 @@ void LLEmbeddedBrowserWindow::keyboardEvent(
 		case LLQtWebKit::KEY_PAD_SUBTRACT:		key = Qt::Key_Minus;		qt_modifiers |= Qt::KeypadModifier; 	break;
 		case LLQtWebKit::KEY_PAD_MULTIPLY:		key = Qt::Key_Asterisk;		qt_modifiers |= Qt::KeypadModifier; 	break;
 		case LLQtWebKit::KEY_PAD_DIVIDE:		key = Qt::Key_Slash;		qt_modifiers |= Qt::KeypadModifier; 	break;
-		
+
 		case LLQtWebKit::KEY_NONE:			key = Qt::Key_unknown;		break;
-		
+
 		default:
 			key = (Qt::Key)toupper(key_code);
 		break;
     }
 
 
-	QKeyEvent *event = 
+	QKeyEvent *event =
 		QKeyEvent::createExtendedKeyEvent(
-			type, 
-			key, 
+			type,
+			key,
 			qt_modifiers,
-			native_scan_code, 
-			native_virtual_key, 
+			native_scan_code,
+			native_virtual_key,
 			native_modifiers,
 			text,
 			auto_repeat,
 			text.count());
 
     qApp->sendEvent(d->mGraphicsScene, event);
-	
+
 	delete event;
 }
 
@@ -682,7 +682,7 @@ void LLEmbeddedBrowserWindow::proxyWindowOpened(const std::string target, const 
 		qDebug() << "LLEmbeddedBrowserWindow::proxyWindowOpened: page list size is " << d->mProxyPages.size();
 #endif
 	}
-	
+
 	shim->setProxy(target, uuid);
 }
 
@@ -803,19 +803,19 @@ QWebPage *LLEmbeddedBrowserWindow::createWindow()
 		qDebug() << "LLEmbeddedBrowserWindow::createWindow: page list size is " << d->mProxyPages.size();
 #endif
 	}
-	
+
 	return result;
 }
 
 LLWebPageOpenShim *LLEmbeddedBrowserWindow::findShim(const std::string &uuid)
-{	
+{
 	LLEmbeddedBrowserWindowPrivate::ProxyList::iterator iter;
 	for(iter = d->mProxyPages.begin(); iter != d->mProxyPages.end(); iter++)
 	{
 		if((*iter)->matchesUUID(uuid))
 			return *iter;
 	}
-	
+
 	return NULL;
 }
 
@@ -837,28 +837,28 @@ void LLEmbeddedBrowserWindow::setTarget(const std::string &target)
 #endif
 
 	d->mOpeningSelf = true;
-	
+
 	std::stringstream s;
 	s << "window.open(\"\",\"" << target << "\");";
-	
+
 	evaluateJavascript(s.str());
 }
 
 std::string LLEmbeddedBrowserWindow::requestFilePicker()
 {
 	std::string filename_chosen;
-	
+
 	LLEmbeddedBrowserWindowEvent event(getWindowId());
 	event.setEventUri(getCurrentUri());
 	event.setStringValue("*.png;*.jpg");
-		
+
 	// If there's at least one observer registered, call it with the event.
 	LLEmbeddedBrowserWindowPrivate::Emitter::iterator i = d->mEventEmitter.begin();
 	if(i != d->mEventEmitter.end())
 	{
 		filename_chosen = (*i)->onRequestFilePicker(event);
 	}
-	
+
 	return filename_chosen;
 }
 
@@ -869,14 +869,14 @@ bool LLEmbeddedBrowserWindow::authRequest(const std::string &in_url, const std::
 #ifdef LLEMBEDDEDBROWSER_DEBUG
 	qDebug() << "LLEmbeddedBrowserWindow::authRequest: requesting auth for url " << QString::fromStdString(in_url) << ", realm " << QString::fromStdString(in_realm);
 #endif
-	
+
 	// If there's at least one observer registered, send it the auth request.
 	LLEmbeddedBrowserWindowPrivate::Emitter::iterator i = d->mEventEmitter.begin();
 	if(i != d->mEventEmitter.end())
 	{
 		result = (*i)->onAuthRequest(in_url, in_realm, out_username, out_password);
 	}
-	
+
 	return result;
 }
 
@@ -964,7 +964,7 @@ void LLGraphicsScene::repaintRequestedSlot(const QList<QRectF> &regions)
     if (!window)
         return;
     window->d->mDirty = true;
-    for (int i = 0; i < regions.count(); ++i) 
+    for (int i = 0; i < regions.count(); ++i)
 	{
         LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 		event.setEventUri(window->getCurrentUri());
@@ -1016,7 +1016,7 @@ bool LLWebView::event(QEvent* event)
 			event.setIntValue((int)llcursor);
             window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onCursorChanged, event);
         }
-		
+
 		return true;
     }
     return QGraphicsWebView::event(event);
