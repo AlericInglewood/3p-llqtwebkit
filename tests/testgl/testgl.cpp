@@ -172,11 +172,10 @@ class testGL :
 			// IMPORTANT: must be called before createBrowserWindow(...)
 			LLQtWebKit::getInstance()->setHostLanguage( "EN-AB-CD-EF" );
 
-			// enable Javascript
-			LLQtWebKit::getInstance()->enableJavascript( true );
-
-			// enable Plugins
-			LLQtWebKit::getInstance()->enablePlugins( true );
+			// set up features
+			LLQtWebKit::getInstance()->enableJavaScript( true );
+			LLQtWebKit::getInstance()->enableCookies( false );
+			LLQtWebKit::getInstance()->enablePlugins( false );
 
 			// make a browser window
 			mBrowserWindowId = LLQtWebKit::getInstance()->createBrowserWindow( mBrowserWindowWidth, mBrowserWindowHeight );
@@ -937,4 +936,3 @@ int main( int argc, char* argv[] )
 
 	return 0;
 }
-

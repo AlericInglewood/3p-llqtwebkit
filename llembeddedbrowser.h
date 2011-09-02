@@ -48,12 +48,20 @@ class LLEmbeddedBrowser
         bool reset();
         bool clearCache();
         bool enableProxy(bool enabled, std::string host_name, int port);
-        bool enableCookies(bool enabled);
         bool clearAllCookies();
 		void setCookies(const std::string &cookies);
 		std::string getAllCookies();
-        bool enablePlugins(bool enabled);
-        bool enableJavascript(bool enabled);
+
+		void enableCookies( bool enabled );
+		void enableCookiesTransient( bool enabled );
+		bool areCookiesEnabled();
+		void enablePlugins( bool enabled );
+		void enablePluginsTransient( bool enabled );
+		bool arePluginsEnabled();
+		void enableJavaScript( bool enabled );
+		void enableJavaScriptTransient( bool enabled );
+		bool isJavaScriptEnabled();
+
         bool showWebInspector(bool show);
         std::string getGREVersion();
         void setBrowserAgentId(std::string id);
@@ -87,6 +95,9 @@ class LLEmbeddedBrowser
         friend class LLEmbeddedBrowserWindow;
         friend class LLEmbeddedBrowserWindowPrivate;
         LLEmbeddedBrowserPrivate *d;
+		bool mPluginsEnabled;
+		bool mJavaScriptEnabled;
+		bool mCookiesEnabled;
 
         static LLEmbeddedBrowser* sInstance;
 };

@@ -35,6 +35,7 @@
 #include <qgraphicsproxywidget.h>
 
 #include "llqtwebkit.h"
+#include "llembeddedbrowser.h"
 #include "llembeddedbrowserwindow.h"
 #include "llembeddedbrowserwindow_p.h"
 #include "lljsobject.h"
@@ -43,6 +44,7 @@ LLWebPage::LLWebPage(QObject *parent)
     : QWebPage(parent)
     , window(0)
     , mHostLanguage( "en" )
+    , mWhiteListRegex( "^([^.]+\\.)*amazonaws\\.com$" )
 {
 	mJsObject = new LLJsObject( parent );
 
@@ -92,7 +94,7 @@ void LLWebPage::linkHoveredSlot(const QString &link, const QString &title, const
 	event.setEventUri(llToStdString(link));
 	event.setStringValue(llToStdString(title));
 	event.setStringValue2(llToStdString(textContent));
-    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onLinkHovered, event);		
+    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onLinkHovered, event);
 }
 
 void LLWebPage::statusBarMessageSlot(const QString& text)
@@ -117,12 +119,56 @@ void LLWebPage::titleChangedSlot(const QString& text)
 	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onTitleChange, event);
 }
 
+// set the regex used to determine if a page is trusted or not
+void LLWebPage::setWhiteListRegex( const std::string& regex )
+{
+	mWhiteListRegex = regex;
+}
+
+void LLWebPage::configureTrustedPage( bool is_trusted )
+{
+	// action happens in browser window parent
+	LLEmbeddedBrowser* parent_browser = 0;
+	if ( window && window->d && window->d->mParent )
+	{
+		parent_browser = window->d->mParent;
+		if ( parent_browser )
+		{
+			if ( is_trusted )
+			{
+				// trusted so turn everything on
+				parent_browser->enableJavaScriptTransient( true );
+				parent_browser->enableCookiesTransient( true );
+				parent_browser->enablePluginsTransient( true );
+			}
+			else
+			{
+				// restore default state set by client
+				parent_browser->enableJavaScript( parent_browser->isJavaScriptEnabled() );
+				parent_browser->enableCookies( parent_browser->areCookiesEnabled() );
+				parent_browser->enablePlugins( parent_browser->arePluginsEnabled() );
+			}
+		}
+	}
+}
+
 void LLWebPage::urlChangedSlot(const QUrl& url)
 {
-    Q_UNUSED(url);
-
     if (!window)
         return;
+
+	QRegExp reg_exp( "" );
+	reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
+	reg_exp.setMinimal( true );
+
+	if ( reg_exp.exactMatch( url.host() ) )
+	{
+		configureTrustedPage( true );	// page is "trusted" - go ahead and configure it as such
+	}
+	else
+	{
+		configureTrustedPage( false ); // page is "NOT trusted" - go ahead and configure it as such
+	}
 
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
@@ -160,7 +206,7 @@ bool LLWebPage::acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest&
         std::string rawUri = llToStdString(encodedUrl);
 		LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 		event.setEventUri(rawUri);
-		
+
 		// pass over the navigation type as per this page: http://apidocs.meego.com/1.1/core/html/qt4/qwebpage.html#NavigationType-enum
 		// pass as strings because telling everyone who needs to know about enums is too invasive.
 		std::string nav_type("unknown");
@@ -174,7 +220,7 @@ bool LLWebPage::acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest&
 		else
 		if  (type == QWebPage::NavigationTypeFormResubmitted) nav_type="form_resubmited";
 		event.setNavigationType(nav_type);
-		
+
 		window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onClickLinkNoFollow, event);
 
 //	 	qDebug() << "LLWebPage::acceptNavigationRequest: sending onClickLinkNoFollow, NavigationType is " << type << ", url is " << QString::fromStdString(rawUri) ;
@@ -228,7 +274,7 @@ QString LLWebPage::chooseFile(QWebFrame* parentFrame, const QString& suggestedFi
 {
     Q_UNUSED(parentFrame);
     Q_UNUSED(suggestedFile);
-	
+
     return QString::fromStdString( window->requestFilePicker() );
 }
 
@@ -276,7 +322,7 @@ void LLWebPage::extendNavigatorObject()
 	// legacy - will go away in the future
 	QString q_host_language = QString::fromStdString( mHostLanguage );
     mainFrame()->evaluateJavaScript(QString("navigator.hostLanguage=\"%1\"").arg( q_host_language ));
-    
+
     // the new way
    	if ( mJsObject )
    	{
@@ -352,7 +398,7 @@ void LLWebPage::setAgentLocation( double x, double y, double z )
 		location["y"] = y;
 		location["z"] = z;
 		mJsObject->setAgentLocation( location );
-	}	
+	}
 }
 
 void LLWebPage::setAgentGlobalLocation( double x, double y, double z )
@@ -364,7 +410,7 @@ void LLWebPage::setAgentGlobalLocation( double x, double y, double z )
 		global_location["y"] = y;
 		global_location["z"] = z;
 		mJsObject->setAgentGlobalLocation( global_location );
-	}	
+	}
 }
 
 void LLWebPage::setAgentOrientation( double angle )
@@ -372,7 +418,7 @@ void LLWebPage::setAgentOrientation( double angle )
 	if ( mJsObject )
 	{
 		mJsObject->setAgentOrientation( angle );
-	}	
+	}
 }
 
 void LLWebPage::setAgentMaturity( const std::string& agent_maturity )

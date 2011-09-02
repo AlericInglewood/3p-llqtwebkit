@@ -514,9 +514,9 @@ void LLQtWebKit::pump(int max_milliseconds)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-bool LLQtWebKit::enableCookies(bool enabled)
+void LLQtWebKit::enableCookies(bool enabled)
 {
-    return LLEmbeddedBrowser::getInstance()->enableCookies(enabled);
+    LLEmbeddedBrowser::getInstance()->enableCookies( enabled );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -543,16 +543,16 @@ std::string LLQtWebKit::getAllCookies()
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-bool LLQtWebKit::enablePlugins(bool enabled)
+void LLQtWebKit::enablePlugins(bool enabled)
 {
-    return LLEmbeddedBrowser::getInstance()->enablePlugins(enabled);
+    LLEmbeddedBrowser::getInstance()->enablePlugins(enabled);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-bool LLQtWebKit::enableJavascript(bool enabled)
+void LLQtWebKit::enableJavaScript(bool enabled)
 {
-    return LLEmbeddedBrowser::getInstance()->enableJavascript(enabled);
+    LLEmbeddedBrowser::getInstance()->enableJavaScript(enabled);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -564,12 +564,12 @@ bool LLQtWebKit::showWebInspector(bool show)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-std::string LLQtWebKit::evaluateJavascript(int browser_window_id, const std::string script)
+std::string LLQtWebKit::evaluateJavaScript(int browser_window_id, const std::string script)
 {
     LLEmbeddedBrowserWindow* browser_window = getBrowserWindowFromWindowId(browser_window_id);
     if (browser_window)
     {
-        return browser_window->evaluateJavascript(script);
+        return browser_window->evaluateJavaScript(script);
     }
 
     return "";

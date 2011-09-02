@@ -28,6 +28,7 @@ win32 {
     DESTDIR=../build
     release {
         LIBS += $$PWD/../../Release/llqtwebkit.lib
+        LIBS += $$PWD/../build/freeglut_static.lib
         LIBS += comdlg32.lib
     }
 }

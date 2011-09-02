@@ -86,7 +86,7 @@ public:
     bool navigateTo(const std::string uri);
 
     // javascript access/control
-    std::string evaluateJavascript(std::string script);
+    std::string evaluateJavaScript(std::string script);
 
     // redirection when you hit an error page
 	void navigateErrorPage( int http_status_code );

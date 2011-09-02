@@ -92,6 +92,9 @@ LLEmbeddedBrowserPrivate::~LLEmbeddedBrowserPrivate()
 
 LLEmbeddedBrowser::LLEmbeddedBrowser()
     : d(new LLEmbeddedBrowserPrivate)
+    , mPluginsEnabled( false )
+	, mJavaScriptEnabled( false )
+	, mCookiesEnabled( false )
 {
 }
 
@@ -209,14 +212,6 @@ bool LLEmbeddedBrowser::enableProxy(bool enabled, std::string host_name, int por
     return true;
 }
 
-bool LLEmbeddedBrowser::enableCookies(bool enabled)
-{
-    if (!d->mNetworkCookieJar)
-        return false;
-    d->mNetworkCookieJar->mAllowCookies = enabled;
-    return false;
-}
-
 bool LLEmbeddedBrowser::clearAllCookies()
 {
     if (!d->mNetworkCookieJar)
@@ -245,19 +240,58 @@ std::string LLEmbeddedBrowser::getAllCookies()
 	return result;
 }
 
-bool LLEmbeddedBrowser::enablePlugins(bool enabled)
+void LLEmbeddedBrowser::enableCookies( bool enabled )
 {
-    QWebSettings *defaultSettings = QWebSettings::globalSettings();
-    defaultSettings->setAttribute(QWebSettings::PluginsEnabled, enabled);
-    return true;
+	mCookiesEnabled = enabled;
+	enableCookiesTransient( mCookiesEnabled );
 }
 
-bool LLEmbeddedBrowser::enableJavascript(bool enabled)
+void LLEmbeddedBrowser::enableCookiesTransient( bool enabled )
 {
-    QWebSettings *defaultSettings = QWebSettings::globalSettings();
-    defaultSettings->setAttribute(QWebSettings::JavascriptEnabled, enabled);
-    defaultSettings->setAttribute(QWebSettings::JavascriptCanOpenWindows, enabled);
-    return true;
+    if ( d->mNetworkCookieJar )
+    {
+	    d->mNetworkCookieJar->mAllowCookies = enabled;
+	}
+}
+
+bool LLEmbeddedBrowser::areCookiesEnabled()
+{
+	return mCookiesEnabled;
+}
+
+void LLEmbeddedBrowser::enablePlugins( bool enabled )
+{
+	mPluginsEnabled = enabled;	// record state
+	enablePluginsTransient( mPluginsEnabled );
+}
+
+void LLEmbeddedBrowser::enablePluginsTransient( bool enabled )
+{
+    QWebSettings* default_settings = QWebSettings::globalSettings();
+    default_settings->setAttribute( QWebSettings::PluginsEnabled, enabled );
+}
+
+bool LLEmbeddedBrowser::arePluginsEnabled()
+{
+	return mPluginsEnabled;
+}
+
+void LLEmbeddedBrowser::enableJavaScript( bool enabled )
+{
+	mJavaScriptEnabled = enabled;	// record state
+	enableJavaScriptTransient( mJavaScriptEnabled );
+}
+
+void LLEmbeddedBrowser::enableJavaScriptTransient( bool enabled )
+{
+    QWebSettings* default_settings = QWebSettings::globalSettings();
+    default_settings->setAttribute( QWebSettings::JavascriptEnabled, enabled );
+    default_settings->setAttribute( QWebSettings::JavascriptCanOpenWindows, enabled );
+}
+
+bool LLEmbeddedBrowser::isJavaScriptEnabled()
+{
+	return mJavaScriptEnabled;
 }
 
 bool LLEmbeddedBrowser::showWebInspector(bool show)
@@ -354,14 +388,14 @@ void LLEmbeddedBrowser::cookieChanged(const std::string &cookie, const std::stri
 bool LLEmbeddedBrowser::setCAFile(const std::string &ca_file)
 {
 	bool result = false;
-	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
+	//qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
 
 	// Extract the list of certificates from the specified file
 	QList<QSslCertificate> certs = QSslCertificate::fromPath(QString::fromStdString(ca_file));
 
 	if(!certs.isEmpty())
 	{
-		qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "certs read: " << certs;
+		//qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "certs read: " << certs;
 
 		// Set the default CA cert for Qt's SSL implementation.
 		QSslConfiguration config = QSslConfiguration::defaultConfiguration();
@@ -382,16 +416,16 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 
 	if ( cert_debugging_on )
 	{
-		qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (Before add)";
+		//qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (Before add)";
 		QSslCertificate cert;
 		foreach(cert, QSslSocket::defaultCaCertificates())
 		{
-			qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
+			//qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
 		}
 	}
 
 	bool result = false;
-	qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
+	//qDebug() << "LLEmbeddedBrowser::" << __FUNCTION__ << "attempting to read certs from file: " << QString::fromStdString(ca_file);
 
 	if ( cert_debugging_on )
 	{
@@ -400,7 +434,7 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 		QSslCertificate cert;
 		foreach(cert, certs)
 		{
-			qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
+			//qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
 		}
 	}
 
@@ -412,7 +446,7 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 		QSslCertificate cert;
 		foreach(cert, QSslSocket::defaultCaCertificates())
 		{
-			qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
+			//qDebug()  << cert.issuerInfo(QSslCertificate::CommonName) << " --- " << cert.subjectInfo(QSslCertificate::CommonName);
 		}
 	}
 

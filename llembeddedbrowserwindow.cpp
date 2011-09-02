@@ -695,7 +695,7 @@ void LLEmbeddedBrowserWindow::proxyWindowClosed(const std::string uuid)
 	}
 }
 
-std::string LLEmbeddedBrowserWindow::evaluateJavascript(std::string script)
+std::string LLEmbeddedBrowserWindow::evaluateJavaScript(std::string script)
 {
 #ifdef LLEMBEDDEDBROWSER_DEBUG
     qDebug() << "LLEmbeddedBrowserWindow" << __FUNCTION__ << QString::fromStdString(script);
@@ -841,7 +841,7 @@ void LLEmbeddedBrowserWindow::setTarget(const std::string &target)
 	std::stringstream s;
 	s << "window.open(\"\",\"" << target << "\");";
 
-	evaluateJavascript(s.str());
+	evaluateJavaScript(s.str());
 }
 
 std::string LLEmbeddedBrowserWindow::requestFilePicker()

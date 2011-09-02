@@ -47,7 +47,7 @@ class LLEmbeddedBrowserWindow;
 // version 10:
 	// Added initial support for creating and displaying the Qt Web Inspector
 // version 9:
-	// Added initial support for exposing certain Second Life viewer/agent variables to Javascript
+	// Added initial support for exposing certain Second Life viewer/agent variables to JavaScript
 // version 8:
 	// Removed calls to set/clear 404 redirects and made the API now emit an event that the
 	// consumer can catch and decide what to do when an HTTP status code after navigate is 400-499
@@ -249,7 +249,7 @@ class LLQtWebKit
 		void setBrowserAgentId(std::string id);
 		bool enableProxy(bool enabled, std::string host_name, int port);
 
-		bool enableCookies(bool enabled);
+		void enableCookies(bool enabled);
 		bool clearAllCookies();
 
 		// The following two functions accept and return cookies in the same format that's used for the Set-Cookie: HTTP header
@@ -259,8 +259,8 @@ class LLQtWebKit
 		void setCookies(const std::string &cookies);
 		std::string getAllCookies();
 
-		bool enablePlugins(bool enabled);
-		bool enableJavascript(bool enabled);
+		void enablePlugins(bool enabled);
+		void enableJavaScript(bool enabled);
 
 		// Web inspector - Firebug-esque debugger
  		bool showWebInspector(bool show);
@@ -289,7 +289,7 @@ class LLQtWebKit
 		bool userActionIsEnabled(int browser_window_id, EUserAction action);
 
 		// javascript access/control
-		std::string evaluateJavascript(int browser_window_id, const std::string script);
+		std::string evaluateJavaScript(int browser_window_id, const std::string script);
 
 		// set/clear URL to redirect to when a 404 page is reached
 		bool set404RedirectUrl(int browser_window_in, std::string redirect_url);
