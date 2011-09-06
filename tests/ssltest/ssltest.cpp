@@ -77,14 +77,14 @@ class sslTest :
 
 			LLQtWebKit::getInstance()->init( cwd, cwd, profile_dir, native_window_handle );
 
-			LLQtWebKit::getInstance()->enableJavascript( true );
+			LLQtWebKit::getInstance()->enableJavaScript( true );
 			LLQtWebKit::getInstance()->enablePlugins( true );
 
 			mBrowserWindowHandle = LLQtWebKit::getInstance()->createBrowserWindow( mBrowserWindowWidth, mBrowserWindowHeight );
 			LLQtWebKit::getInstance()->setSize( mBrowserWindowHandle, mBrowserWindowWidth, mBrowserWindowHeight );
 
 			LLQtWebKit::getInstance()->addObserver( mBrowserWindowHandle, this );
-	
+
 			if ( ! ignore_ca_file )
 			{
 				std::cout << "ssltest> Expected certificate authority file location is " << ca_file_loc << std::endl;
@@ -94,7 +94,7 @@ class sslTest :
 			{
 				std::cout << "ssltest> Not loading certificate authority file" << std::endl;
 			};
-			
+
 			if ( ignore_ssl_errors )
 			{
 				LLQtWebKit::getInstance()->setIgnoreSSLCertErrors( true );
@@ -104,7 +104,7 @@ class sslTest :
 			{
 				std::cout << "ssltest> Not ignoring SSL errors " << std::endl;
 			};
-		
+
 			LLQtWebKit::getInstance()->navigateTo( mBrowserWindowHandle, url );
 
 			std::cout << "ssltest> navigating to " << url << std::endl;
@@ -114,7 +114,7 @@ class sslTest :
 		{
 			LLQtWebKit::getInstance()->pump( 100 );
 
-#if _WINDOWS	
+#if _WINDOWS
 			MSG msg;
 			while ( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) )
 			{
@@ -176,14 +176,14 @@ int main( int argc, char* argv[] )
 {
 	bool ingore_ssl_errors = false;
 	bool ignore_ca_file = false;
-	
+
 	for( int i = 1; i < argc; ++i )
 	{
 		if ( std::string( argv[ i ] ) == "--help" )
 		{
 			std::cout << std::endl << "ssltest <url> [--ignoresslerrors] [--ignorecafile]" << std::endl;
 			std::cout << "Looks for cert file CA.pem in the current working directory";
-			
+
 			exit( 0 );
 		};
 
@@ -203,10 +203,10 @@ int main( int argc, char* argv[] )
 			break;
 		};
 	};
-	
+
 	std::cout << std::endl << " --------- sslTest application starting --------- " << std::endl;
 	std::cout << "ssltest> URL specified is " << url << std::endl;
-	
+
 	sslTest* app = new sslTest( url, ignore_ca_file, ingore_ssl_errors );
 
 	bool result = app->idle();
@@ -218,6 +218,6 @@ int main( int argc, char* argv[] )
 	delete app;
 
 	std::cout << " --------- sslTest application ending  --------- " << std::endl;
-	
+
 	return 0;
 }
