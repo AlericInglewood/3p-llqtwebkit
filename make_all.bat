@@ -57,6 +57,7 @@
 mkdir tests\build
 copy .\stage\packages\lib\release\libeay32.dll tests\build /Y
 copy .\stage\packages\lib\release\ssleay32.dll tests\build /Y
+copy .\stage\packages\lib\release\freeglut_static.lib tests\build /Y
 
 @rem clean and make a release version of LLQtWebKit
 @rem No longer patching Qt as of v4.7.0 so switch off code that referenced changes
