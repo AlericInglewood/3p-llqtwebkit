@@ -44,7 +44,7 @@ LLWebPage::LLWebPage(QObject *parent)
     : QWebPage(parent)
     , window(0)
     , mHostLanguage( "en" )
-    , mWhiteListRegex( "^([^.]+\\.)*amazonaws\\.com$" )
+    , mWhiteListRegex( "" )
 {
 	mJsObject = new LLJsObject( parent );
 
@@ -157,17 +157,24 @@ void LLWebPage::urlChangedSlot(const QUrl& url)
     if (!window)
         return;
 
-	QRegExp reg_exp( "" );
-	reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
-	reg_exp.setMinimal( true );
-
-	if ( reg_exp.exactMatch( url.host() ) )
+	if ( mWhiteListRegex.length() )
 	{
-		configureTrustedPage( true );	// page is "trusted" - go ahead and configure it as such
+		QRegExp reg_exp( QString::fromStdString( mWhiteListRegex ) );
+		reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
+		reg_exp.setMinimal( true );
+
+		if ( reg_exp.exactMatch( url.host() ) )
+		{
+			configureTrustedPage( true );	// page is "trusted" - go ahead and configure it as such
+		}
+		else
+		{
+			configureTrustedPage( false ); // page is "NOT trusted" - go ahead and configure it as such
+		}
 	}
 	else
+	// no regex specified, don't do anything (i.e. don't change trust state)
 	{
-		configureTrustedPage( false ); // page is "NOT trusted" - go ahead and configure it as such
 	}
 
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());

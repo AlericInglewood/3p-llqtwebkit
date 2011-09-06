@@ -406,6 +406,9 @@ class LLQtWebKit
 			KEY_NONE			= 0x00FF // not sent from keyboard.  For internal use only.
 		};
 
+		// set the regex used to determine if a page is trusted or not
+		void setWhiteListRegex( int browser_window_id, const std::string& regex );
+
 		// Second Life specific functions
 		// (Note, this is a departure from the generic nature of this library)
 		void setSLObjectEnabled( bool enabled );						// enable or disaable feature

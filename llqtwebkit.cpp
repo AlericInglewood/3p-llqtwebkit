@@ -722,6 +722,16 @@ void LLEmbeddedBrowserWindowObserver::onLinkHovered(const EventType&)
 {
 }
 
+// set the regex used to determine if a page is trusted or not
+void LLQtWebKit::setWhiteListRegex( int browser_window_id, const std::string& regex )
+{
+    LLEmbeddedBrowserWindow* browser_window = getBrowserWindowFromWindowId(browser_window_id);
+    if (browser_window)
+    {
+        browser_window->setWhiteListRegex(regex);
+    }
+}
+
 // Second Life viewer specific functions
 void LLQtWebKit::setSLObjectEnabled( bool enabled )
 {

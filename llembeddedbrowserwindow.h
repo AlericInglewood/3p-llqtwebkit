@@ -135,6 +135,8 @@ public:
 
 	bool authRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password);
 
+	void setWhiteListRegex( const std::string& regex );
+
 	// Second Life specific functions
 	void setSLObjectEnabled( bool enabled );
 	void setAgentLanguage( const std::string& agent_language );

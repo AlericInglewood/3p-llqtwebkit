@@ -192,6 +192,9 @@ class testGL :
 			// don't flip bitmap
 			LLQtWebKit::getInstance()->flipWindow( mBrowserWindowId, false );
 
+			// only "trust" pages whose host match this regex
+			LLQtWebKit::getInstance()->setWhiteListRegex( mBrowserWindowId, "^([^.]+\\.)*amazonaws\\.com$" );
+
 			// Attempt to read cookies from the cookie file and send them to llqtwebkit.
 			{
 				std::ifstream cookie_file(mCookiePath.c_str(), std::ios_base::in);

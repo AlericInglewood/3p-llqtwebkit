@@ -880,6 +880,13 @@ bool LLEmbeddedBrowserWindow::authRequest(const std::string &in_url, const std::
 	return result;
 }
 
+void LLEmbeddedBrowserWindow::setWhiteListRegex( const std::string& regex )
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->setWhiteListRegex( regex );
+}
+
 // Second Life viewer specific functions
 void LLEmbeddedBrowserWindow::setSLObjectEnabled( bool enabled )
 {
