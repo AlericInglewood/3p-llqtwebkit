@@ -136,6 +136,8 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 		{
 			if ( is_trusted )
 			{
+				qDebug() << "Whitelist passed - turning on";
+
 				// trusted so turn everything on
 				parent_browser->enableJavaScriptTransient( true );
 				parent_browser->enableCookiesTransient( true );
@@ -143,6 +145,8 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 			}
 			else
 			{
+				qDebug() << "Whitelist failed - reverting to default state";
+
 				// restore default state set by client
 				parent_browser->enableJavaScript( parent_browser->isJavaScriptEnabled() );
 				parent_browser->enableCookies( parent_browser->areCookiesEnabled() );
@@ -152,23 +156,28 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 	}
 }
 
-void LLWebPage::urlChangedSlot(const QUrl& url)
+void LLWebPage::checkWhiteList( const QUrl& url )
 {
-    if (!window)
-        return;
+	qDebug() << "URL changed slot activated - url is " << url;
 
 	if ( mWhiteListRegex.length() )
 	{
+		qDebug() << "Whitelist regex exists - value is " << QString::fromStdString( mWhiteListRegex );
+
 		QRegExp reg_exp( QString::fromStdString( mWhiteListRegex ) );
 		reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
 		reg_exp.setMinimal( true );
 
+		qDebug() << "Checking host: " << url.host();
+
 		if ( reg_exp.exactMatch( url.host() ) )
 		{
+			qDebug() << "trusted: " << url.host();
 			configureTrustedPage( true );	// page is "trusted" - go ahead and configure it as such
 		}
 		else
 		{
+			qDebug() << "untrusted: " << url.host();
 			configureTrustedPage( false ); // page is "NOT trusted" - go ahead and configure it as such
 		}
 	}
@@ -176,6 +185,14 @@ void LLWebPage::urlChangedSlot(const QUrl& url)
 	// no regex specified, don't do anything (i.e. don't change trust state)
 	{
 	}
+}
+
+void LLWebPage::urlChangedSlot(const QUrl& url)
+{
+    if (!window)
+        return;
+
+	checkWhiteList( url );
 
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
@@ -243,6 +260,11 @@ void LLWebPage::loadStarted()
 {
     if (!window)
         return;
+
+	QUrl url( QString::fromStdString( window->getCurrentUri() ) );
+	//qDebug() << "loadStarted() --> url is " << url;
+	checkWhiteList( url );
+
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
     window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateBegin, event);

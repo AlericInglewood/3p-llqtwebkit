@@ -53,6 +53,9 @@ class LLWebPage : public QWebPage
 		// set the regex used to determine if a page is trusted or not
 		void setWhiteListRegex( const std::string& regex );
 
+		// check the whitelist and update browser config as appropriate
+		void checkWhiteList( const QUrl& url );
+
 		// code to change settings if page is known to be trusted goes here
 		void configureTrustedPage( bool is_trusted );
 

@@ -174,8 +174,8 @@ class testGL :
 
 			// set up features
 			LLQtWebKit::getInstance()->enableJavaScript( true );
-			LLQtWebKit::getInstance()->enableCookies( false );
-			LLQtWebKit::getInstance()->enablePlugins( false );
+			LLQtWebKit::getInstance()->enableCookies( true );
+			LLQtWebKit::getInstance()->enablePlugins( true );
 
 			// make a browser window
 			mBrowserWindowId = LLQtWebKit::getInstance()->createBrowserWindow( mBrowserWindowWidth, mBrowserWindowHeight );
@@ -193,7 +193,7 @@ class testGL :
 			LLQtWebKit::getInstance()->flipWindow( mBrowserWindowId, false );
 
 			// only "trust" pages whose host match this regex
-			LLQtWebKit::getInstance()->setWhiteListRegex( mBrowserWindowId, "^([^.]+\\.)*amazonaws\\.com$" );
+			LLQtWebKit::getInstance()->setWhiteListRegex( mBrowserWindowId, "^([^.]+\\.)*amazonaws\\.com$|^([^.]+\\.)*secondlife\\.com$" );
 
 			// Attempt to read cookies from the cookie file and send them to llqtwebkit.
 			{

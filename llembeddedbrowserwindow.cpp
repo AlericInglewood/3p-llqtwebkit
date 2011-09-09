@@ -280,6 +280,7 @@ bool LLEmbeddedBrowserWindow::navigateTo(const std::string uri)
     QUrl url = QUrl::fromUserInput(QString::fromStdString(uri));
 
     d->mPage->triggerAction(QWebPage::Stop);
+    d->mPage->mainFrame()->setUrl(url);
     d->mPage->mainFrame()->load(url);
     return true;
 }
