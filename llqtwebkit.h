@@ -43,7 +43,9 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 10
+#define LLQTWEBKIT_API_VERSION 11
+// version 11:
+	// Added initial support for url/host whitelist via a regex
 // version 10:
 	// Added initial support for creating and displaying the Qt Web Inspector
 // version 9:
