@@ -429,7 +429,7 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 
 	if ( cert_debugging_on )
 	{
-		qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (From CA.pem)";
+		//qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (From CA.pem)";
 		QList<QSslCertificate> certs = QSslCertificate::fromPath(QString::fromStdString(ca_file));
 		QSslCertificate cert;
 		foreach(cert, certs)
@@ -442,7 +442,7 @@ bool LLEmbeddedBrowser::addCAFile(const std::string &ca_file)
 
 	if ( cert_debugging_on )
 	{
-		qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (After add)";
+		//qDebug() << "\n\nLLEmbeddedBrowser::" << __FUNCTION__ << " ------------------- (After add)";
 		QSslCertificate cert;
 		foreach(cert, QSslSocket::defaultCaCertificates())
 		{

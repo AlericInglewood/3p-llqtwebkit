@@ -193,7 +193,7 @@ class testGL :
 			LLQtWebKit::getInstance()->flipWindow( mBrowserWindowId, false );
 
 			// only "trust" pages whose host match this regex
-			LLQtWebKit::getInstance()->setWhiteListRegex( mBrowserWindowId, "^([^.]+\\.)*amazonaws\\.com$|^([^.]+\\.)*secondlife\\.com$" );
+			LLQtWebKit::getInstance()->setWhiteListRegex( mBrowserWindowId, "^([^.]+\\.)*amazonaws\\.com$" );
 
 			// Attempt to read cookies from the cookie file and send them to llqtwebkit.
 			{
@@ -686,6 +686,16 @@ class testGL :
 			// Since we never actually open the window, send a "proxy window closed" back to webkit to keep it from leaking.
 			LLQtWebKit::getInstance()->proxyWindowClosed(mBrowserWindowId, uuid);
 		};
+
+		// virtual
+		void onClickLinkNoFollow(const EventType& eventIn)
+		{
+			std::cout << "Clink link no-follow --" << std::endl;
+			std::cout << "      URL:" << eventIn.getEventUri() << std::endl;
+			std::cout << "     type:" << eventIn.getNavigationType() << std::endl;
+			std::cout << "  trusted:" << eventIn.getTrustedHost() << std::endl;
+		}
+
 
 		////////////////////////////////////////////////////////////////////////////////
 		// virtual

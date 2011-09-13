@@ -43,7 +43,9 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 11
+#define LLQTWEBKIT_API_VERSION 12
+// version 12:
+	// Pass over value to indicate if host for current URL is trusted as per whitelist regex or not
 // version 11:
 	// Added initial support for url/host whitelist via a regex
 // version 10:
@@ -92,6 +94,7 @@ class LLEmbeddedBrowserWindowEvent
 
 		void setEventUri(const std::string &uri) { mEventUri = uri; }
 		void setNavigationType(const std::string &type) { mNavigationType = type; }
+		void setTrustedHost(const bool trusted) { mTrustedHost = trusted; }
 		void setIntValue(int val) { mIntVal = val; }
 		void setStringValue(const std::string &val) { mStringVal = val; }
 		void setStringValue2(const std::string &val) { mStringVal2 = val; }
@@ -106,6 +109,7 @@ class LLEmbeddedBrowserWindowEvent
 		int getEventWindowId() const { return mEventWindowId; }
 		std::string getEventUri() const	{ return mEventUri;	}
 		std::string getNavigationType() const { return mNavigationType;	}
+		bool getTrustedHost() const { return mTrustedHost;	}
 		int getIntValue() const	{ return mIntVal; };
 		std::string getStringValue() const	{ return mStringVal; }
 		std::string getStringValue2() const	{ return mStringVal2; }
@@ -121,6 +125,7 @@ class LLEmbeddedBrowserWindowEvent
 		int mEventWindowId;
 		std::string mEventUri;
 		std::string mNavigationType;
+		bool mTrustedHost;
 		int mIntVal;
 		std::string mStringVal;
 		std::string mStringVal2;

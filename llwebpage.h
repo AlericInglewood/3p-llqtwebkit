@@ -96,6 +96,7 @@ class LLWebPage : public QWebPage
         QWebPage *createWindow(WebWindowType type);
 
     private:
+		bool checkRegex( const QUrl& url );
         QPoint currentPoint;
 	    std::string mHostLanguage;
 	    std::string mWhiteListRegex;

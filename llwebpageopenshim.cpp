@@ -47,10 +47,10 @@ LLWebPageOpenShim::LLWebPageOpenShim(LLEmbeddedBrowserWindow *in_window, QObject
             this, SLOT(windowCloseRequested()));
     connect(this, SIGNAL(geometryChangeRequested(const QRect&)),
             this, SLOT(geometryChangeRequested(const QRect&)));
-	
+
 	// Create a unique UUID for this proxy
 	mUUID = llToStdString(QUuid::createUuid().toString());
-	
+
 	// mTarget starts out as the empty string, which is what we want.
 }
 
@@ -66,22 +66,22 @@ void LLWebPageOpenShim::windowCloseRequested()
 	{
 		LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 		event.setStringValue(mUUID);
-	    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onWindowCloseRequested, event);	
+	    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onWindowCloseRequested, event);
 	}
 }
 
 void LLWebPageOpenShim::geometryChangeRequested(const QRect& geom)
 {
 //	qDebug() << "LLWebPageOpenShim::geometryChangeRequested: " << geom ;
-	
+
 	// This seems to happen before acceptNavigationRequest is called.  If this is the case, delay sending the message until afterwards.
-	
+
 	if(window && mHasSentUUID)
 	{
 		LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 		event.setStringValue(mUUID);
 		event.setRectValue(geom.x(), geom.y(), geom.width(), geom.height());
-	    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onWindowGeometryChangeRequested, event);	
+	    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onWindowGeometryChangeRequested, event);
 	}
 	else
 	{
@@ -105,9 +105,9 @@ void LLWebPageOpenShim::setProxy(const std::string &target, const std::string &u
 {
 	mTarget = target;
 	mUUID = uuid;
-	
+
 	mHasSentUUID = false;
-	
+
 	mOpeningSelf = true;
 
     mainFrame()->evaluateJavaScript(QString("window.open("", \"%1\");").arg( QString::fromStdString(target) ));
@@ -120,16 +120,16 @@ bool LLWebPageOpenShim::acceptNavigationRequest(QWebFrame* frame, const QNetwork
 	{
         return false;
 	}
-	
+
 	if(mOpeningSelf)
 	{
 		qDebug() << "LLWebPageOpenShim::acceptNavigationRequest: reopening self to set target name.";
 		return true;
 	}
-			
+
 #if 0
-	qDebug() << "LLWebPageOpenShim::acceptNavigationRequest called, NavigationType is " << type 
-		<< ", web frame is " << frame 
+	qDebug() << "LLWebPageOpenShim::acceptNavigationRequest called, NavigationType is " << type
+		<< ", web frame is " << frame
 		<< ", frame->page is " << frame->page()
 		<< ", url is " << request.url()
 		<< ", frame name is " << frame->frameName()
@@ -156,21 +156,21 @@ bool LLWebPageOpenShim::acceptNavigationRequest(QWebFrame* frame, const QNetwork
 	event.setStringValue2(mUUID);
 
 	window->d->mEventEmitter.update( &LLEmbeddedBrowserWindowObserver::onClickLinkHref, event );
-	
+
 	mHasSentUUID = true;
-	
+
 	if(mGeometryChangeRequested)
 	{
 		geometryChangeRequested(mGeometry);
 		mGeometryChangeRequested = false;
 	}
-	
+
     return false;
 }
 
 QWebPage *LLWebPageOpenShim::createWindow(WebWindowType type)
 {
     Q_UNUSED(type);
-	
+
 	return this;
 }

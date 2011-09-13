@@ -136,7 +136,7 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 		{
 			if ( is_trusted )
 			{
-				qDebug() << "Whitelist passed - turning on";
+				//qDebug() << "Whitelist passed - turning on";
 
 				// trusted so turn everything on
 				parent_browser->enableJavaScriptTransient( true );
@@ -145,7 +145,7 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 			}
 			else
 			{
-				qDebug() << "Whitelist failed - reverting to default state";
+				//qDebug() << "Whitelist failed - reverting to default state";
 
 				// restore default state set by client
 				parent_browser->enableJavaScript( parent_browser->isJavaScriptEnabled() );
@@ -156,28 +156,32 @@ void LLWebPage::configureTrustedPage( bool is_trusted )
 	}
 }
 
+bool LLWebPage::checkRegex( const QUrl& url )
+{
+	QRegExp reg_exp( QString::fromStdString( mWhiteListRegex ) );
+	reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
+	reg_exp.setMinimal( true );
+
+	if ( reg_exp.exactMatch( url.host() ) )
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void LLWebPage::checkWhiteList( const QUrl& url )
 {
-	qDebug() << "URL changed slot activated - url is " << url;
-
 	if ( mWhiteListRegex.length() )
 	{
-		qDebug() << "Whitelist regex exists - value is " << QString::fromStdString( mWhiteListRegex );
-
-		QRegExp reg_exp( QString::fromStdString( mWhiteListRegex ) );
-		reg_exp.setCaseSensitivity( Qt::CaseInsensitive );
-		reg_exp.setMinimal( true );
-
-		qDebug() << "Checking host: " << url.host();
-
-		if ( reg_exp.exactMatch( url.host() ) )
+		if ( checkRegex( url ) )
 		{
-			qDebug() << "trusted: " << url.host();
 			configureTrustedPage( true );	// page is "trusted" - go ahead and configure it as such
 		}
 		else
 		{
-			qDebug() << "untrusted: " << url.host();
 			configureTrustedPage( false ); // page is "NOT trusted" - go ahead and configure it as such
 		}
 	}
@@ -245,9 +249,34 @@ bool LLWebPage::acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest&
 		if  (type == QWebPage::NavigationTypeFormResubmitted) nav_type="form_resubmited";
 		event.setNavigationType(nav_type);
 
+		if ( mWhiteListRegex.length() )
+		{
+			if ( frame )
+			{
+				if ( checkRegex( frame->url() ) )
+				{
+					event.setTrustedHost( true );
+				}
+				else
+				{
+					event.setTrustedHost( false );
+				}
+			}
+			else
+			// no frame - no trust (TODO: when can this happen?)
+			{
+				event.setTrustedHost( false );
+			}
+		}
+		else
+		// no regex is like switching it off and indicating everything is trusted
+		{
+			event.setTrustedHost( true );
+		}
+
 		window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onClickLinkNoFollow, event);
 
-//	 	qDebug() << "LLWebPage::acceptNavigationRequest: sending onClickLinkNoFollow, NavigationType is " << type << ", url is " << QString::fromStdString(rawUri) ;
+		//qDebug() << "LLWebPage::acceptNavigationRequest: sending onClickLinkNoFollow, NavigationType is " << type << ", url is " << QString::fromStdString(rawUri) ;
 		return false;
     }
 
