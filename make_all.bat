@@ -36,9 +36,18 @@
 @rem Delete testGL files
 @rmdir tests\testgl\Release\ /s /q
 @rmdir tests\testgl\Debug\ /s /q
+@rmdir tests\testgl\testGL_profile\ /s /q
 @del tests\testgl\Makefile
 @del tests\testgl\Makefile.Release
 @del tests\testgl\Makefile.Debug
+
+@rem Delete 3dgl files
+@rmdir tests\3dgl\Release\ /s /q
+@rmdir tests\3dgl\Debug\ /s /q
+@rmdir tests\3dgl\profile\ /s /q
+@del tests\3dgl\Makefile
+@del tests\3dgl\Makefile.Release
+@del tests\3dgl\Makefile.Debug
 
 @rem Delete ssltest files
 @rmdir tests\ssltest\Release\ /s /q
@@ -58,6 +67,7 @@ mkdir tests\build
 copy .\stage\packages\lib\release\libeay32.dll tests\build /Y
 copy .\stage\packages\lib\release\ssleay32.dll tests\build /Y
 copy .\stage\packages\lib\release\freeglut_static.lib tests\build /Y
+copy llqtwebkit.h .\stage\include /Y
 
 @rem clean and make a release version of LLQtWebKit
 @rem No longer patching Qt as of v4.7.0 so switch off code that referenced changes
@@ -68,7 +78,16 @@ nmake
 @rem clean and make a release version of testGL test app
 pushd .
 cd tests\testgl
-qmake CONFIG-=debug
+qmake CONFIG-=debug CONFIG+=console
+nmake clean
+nmake
+popd
+
+
+@rem clean and make a release version of 3dGL test app
+pushd .
+cd tests\3dgl
+qmake CONFIG-=debug CONFIG+=console
 nmake clean
 nmake
 popd
@@ -93,6 +112,7 @@ popd
 @if not exist release\llqtwebkit.lib echo ****** ERROR: Failed to build LLQtWebKit (release) library
 @if not exist tests\build\qttestapp.exe echo ****** ERROR: Failed to build QtTestApp test app
 @if not exist tests\build\testgl.exe echo ****** ERROR: Failed to build testGL test app
+@if not exist tests\build\3dgl.exe echo ****** ERROR: Failed to build 3dGL test app
 @if not exist tests\build\ssltest.exe echo ****** ERROR: Failed to build SSL test app
 
 @echo -- End of batch file --
