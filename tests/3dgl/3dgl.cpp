@@ -37,53 +37,103 @@ int gBrowserWindowId=-1;
 GLuint gBrowserTexture=-1;
 GLuint gCheckerTexture=-1;
 
+// manually make part of the browser texture transparent - for testing - LLQtWebKit will handle this eventually
+void alphaize_browser_texture(unsigned char* texture_pixels)
+{
+	const int texture_depth=4;
+
+	int texture_width = LLQtWebKit::getInstance()->getBrowserWidth(gBrowserWindowId);
+	int texture_height = LLQtWebKit::getInstance()->getBrowserHeight(gBrowserWindowId);
+
+	const int num_squares=16;
+	int sqr1_alpha=0xff;
+	int sqr2_alpha=0x00;
+
+	for(int y1=0;y1<num_squares;++y1)
+	{
+		for(int x1=0;x1<num_squares;++x1)
+		{
+			int px_start=texture_width*x1/num_squares;
+			int px_end=(texture_width*(x1+1))/num_squares;
+			int py_start=texture_height*y1/num_squares;
+			int py_end=(texture_height*(y1+1))/num_squares;
+
+			for(int y2=py_start;y2<py_end;++y2)
+			{
+				for(int x2=px_start;x2<px_end;++x2)
+				{
+					int rowspan=texture_width*texture_depth;
+
+					if((y1%2)^(x1%2))
+					{
+						texture_pixels[y2*rowspan+x2*texture_depth+3]=sqr1_alpha;
+					}
+					else
+					{
+						texture_pixels[y2*rowspan+x2*texture_depth+3]=sqr2_alpha;
+					};
+				};
+			};
+		};
+	};
+}
+
 void idle(void)
 {
-	LLQtWebKit::getInstance()->pump(100);
-	LLQtWebKit::getInstance()->grabBrowserWindow( gBrowserWindowId );
-	glutPostRedisplay();
+	if(!gDebugMode)
+	{
+		LLQtWebKit::getInstance()->pump(200);
+		LLQtWebKit::getInstance()->grabBrowserWindow( gBrowserWindowId );
+		glutPostRedisplay();
+	};
 }
 
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
-
-	glBindTexture(GL_TEXTURE_2D, gBrowserTexture);
-	if(!gDebugMode)
-	{
-		const unsigned char* pixels=LLQtWebKit::getInstance()->getBrowserWindowPixels(gBrowserWindowId);
-		if(pixels)
-		{
-			glTexSubImage2D(GL_TEXTURE_2D, 0,
-								0, 0,
-								LLQtWebKit::getInstance()->getBrowserWidth(gBrowserWindowId), LLQtWebKit::getInstance()->getBrowserHeight(gBrowserWindowId),
-								GL_RGBA,
-								GL_UNSIGNED_BYTE,
-								pixels);
-		};
-	};
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glBegin(GL_QUADS);
-		glNormal3f( 0.0f, 0.0f, 1.0f);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.8f, -0.8f,  0.8f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f( 0.8f, -0.8f,  0.8f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f( 0.8f,  0.8f,  0.8f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.8f,  0.8f,  0.8f);
-	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, gCheckerTexture);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
-		glNormal3f( 0.0f, 0.0f,1.0f);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.8f, -0.8f, -0.8f);
 		glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.8f,  0.8f, -0.8f);
 		glTexCoord2f(0.0f, 1.0f); glVertex3f( 0.8f,  0.8f, -0.8f);
 		glTexCoord2f(0.0f, 0.0f); glVertex3f( 0.8f, -0.8f, -0.8f);
 	glEnd();
 
+	glBindTexture(GL_TEXTURE_2D, gBrowserTexture);
+	if(!gDebugMode)
+	{
+		const unsigned char* browser_pixels=LLQtWebKit::getInstance()->getBrowserWindowPixels(gBrowserWindowId);
+		if(browser_pixels)
+		{
+			int texture_width = LLQtWebKit::getInstance()->getBrowserWidth(gBrowserWindowId);
+			int texture_height = LLQtWebKit::getInstance()->getBrowserHeight(gBrowserWindowId);
+			int texture_depth = 4;
 
+			unsigned char* texture_pixels = new unsigned char[texture_width*texture_height*texture_depth];
+			memcpy(texture_pixels, browser_pixels, texture_width*texture_height*texture_depth);
+			alphaize_browser_texture(texture_pixels);
+
+			glTexSubImage2D(GL_TEXTURE_2D, 0,
+								0, 0,
+								texture_width, texture_height,
+								GL_RGBA,
+								GL_UNSIGNED_BYTE,
+								texture_pixels);
+
+			delete [] texture_pixels;
+		};
+	};
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.8f, -0.8f,  0.8f);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f( 0.8f, -0.8f,  0.8f);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f( 0.8f,  0.8f,  0.8f);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.8f,  0.8f,  0.8f);
+	glEnd();
 
 	glPopMatrix();
 
@@ -96,7 +146,7 @@ GLuint make_rgba_texture(int texture_width, int texture_height)
 
 	unsigned char* texture_pixels = new unsigned char[texture_width*texture_height*texture_depth];
 
-	const int num_squares=rand()%10+4;
+	const int num_squares=rand()%10+10;
 	int sqr1_r=rand()%0xa0+0x20;
 	int sqr1_g=rand()%0xa0+0x20;
 	int sqr1_b=rand()%0xa0+0x20;
@@ -146,7 +196,7 @@ GLuint make_rgba_texture(int texture_width, int texture_height)
 	glBindTexture(GL_TEXTURE_2D, texture_id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width, texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_pixels );
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width, texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_pixels);
 
 	delete [] texture_pixels;
 
@@ -157,11 +207,11 @@ int main(int argc, char* argv[])
 {
 	srand((unsigned int)time(0));
 
-	const int browser_width=512;
-	const int browser_height=512;
+	const int browser_width=1024;
+	const int browser_height=1024;
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowPosition(80, 0);
 	glutInitWindowSize(600,600);
 
@@ -172,24 +222,18 @@ int main(int argc, char* argv[])
 
 	zprInit();
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glClearDepth(1.0f);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_LIGHTING);
-	//glDepthFunc(GL_LESS);
-	//glDisable(GL_DEPTH_TEST);
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_NORMALIZE);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-
-	gCheckerTexture = make_rgba_texture( browser_width, browser_height);
-
 	if(gDebugMode)
 	{
-		gBrowserTexture = make_rgba_texture( browser_width, browser_height);
+		gBrowserTexture = make_rgba_texture(browser_width, browser_height);
 	}
 	else
 	{
@@ -198,23 +242,26 @@ int main(int argc, char* argv[])
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, browser_width, browser_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+
+		std::string working_dir=_getcwd(NULL, 1024);
+		std::string app_dir("");
+		std::string profile_dir=working_dir+"/profile";
+		std::string cookie_path=profile_dir+"/cookies.txt";
+		LLQtWebKit::getInstance()->init(std::string(), app_dir, profile_dir, GetDesktopWindow());
+
+		LLQtWebKit::getInstance()->enableJavaScript(true);
+		LLQtWebKit::getInstance()->enableCookies(true);
+		LLQtWebKit::getInstance()->enablePlugins(true);
+
+		const std::string start_url("http://news.google.com");
+		//const std::string start_url("http://www.youtube.com/watch?v=4Z3r9X8OahA&feature=rbl_entertainment");
+		gBrowserWindowId=LLQtWebKit::getInstance()->createBrowserWindow(browser_width, browser_height);
+		LLQtWebKit::getInstance()->setSize(gBrowserWindowId, browser_width, browser_height);
+		LLQtWebKit::getInstance()->flipWindow(gBrowserWindowId, true);
+		LLQtWebKit::getInstance()->navigateTo(gBrowserWindowId, start_url);
 	}
 
-	std::string working_dir=_getcwd(NULL, 1024);
-	std::string app_dir("");
-	std::string profile_dir=working_dir+"/profile";
-	std::string cookie_path=profile_dir+"/cookies.txt";
-	LLQtWebKit::getInstance()->init(std::string(), app_dir, profile_dir, GetDesktopWindow());
-
-	LLQtWebKit::getInstance()->enableJavaScript(true);
-	LLQtWebKit::getInstance()->enableCookies(true);
-	LLQtWebKit::getInstance()->enablePlugins(true);
-
-	const std::string start_url("http://news.google.com");
-	gBrowserWindowId=LLQtWebKit::getInstance()->createBrowserWindow(browser_width, browser_height);
-	LLQtWebKit::getInstance()->setSize(gBrowserWindowId, browser_width, browser_height);
-	LLQtWebKit::getInstance()->flipWindow(gBrowserWindowId, true);
-	LLQtWebKit::getInstance()->navigateTo(gBrowserWindowId, start_url);
+	gCheckerTexture = make_rgba_texture( browser_width, browser_height);
 
 	glutMainLoop();
 
