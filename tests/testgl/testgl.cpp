@@ -218,7 +218,7 @@ class testGL :
 			// If it can't find or parse the file, this should have no effect.
 			std::string ca_pem_file_loc = mCwd + PATH_SEPARATOR + "CA.pem";
 
-			LLQtWebKit::getInstance()->addCAFile( ca_pem_file_loc.c_str() );
+			LLQtWebKit::getInstance()->setCAFile( ca_pem_file_loc.c_str() );
 			std::cout << "Expected CA.pem file location is " << ca_pem_file_loc << std::endl;
 
 			// test Second Life viewer specific functions
@@ -721,6 +721,14 @@ class testGL :
 			out_username = "";	// replace these temporarily with site username/password as required.
 			out_password = "";
 			return false;
+		}
+
+		////////////////////////////////////////////////////////////////////////////////
+		// virtual
+		bool onCertError(const std::string &in_url, const std::string &in_msg)
+		{
+			std::cout << "Cert error, url = " << in_url << ", message = " << in_msg << std::endl;
+			return false; // cancel (return true to ignore errors and continue)
 		}
 
 		////////////////////////////////////////////////////////////////////////////////

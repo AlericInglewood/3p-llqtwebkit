@@ -881,6 +881,20 @@ bool LLEmbeddedBrowserWindow::authRequest(const std::string &in_url, const std::
 	return result;
 }
 
+bool LLEmbeddedBrowserWindow::certError(const std::string &in_url, const std::string &in_msg)
+{
+	bool result = false;
+
+	// If there's at least one observer registered, send it the auth request.
+	LLEmbeddedBrowserWindowPrivate::Emitter::iterator i = d->mEventEmitter.begin();
+	if(i != d->mEventEmitter.end())
+	{
+		result = (*i)->onCertError(in_url, in_msg);
+	}
+
+	return result;
+}
+
 void LLEmbeddedBrowserWindow::setWhiteListRegex( const std::string& regex )
 {
 	if ( d )

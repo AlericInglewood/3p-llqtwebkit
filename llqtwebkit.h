@@ -43,7 +43,9 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 12
+#define LLQTWEBKIT_API_VERSION 13
+// version 13:
+	// Added LLEmbeddedBrowserWindowObserver::onCertError
 // version 12:
 	// Pass over value to indicate if host for current URL is trusted as per whitelist regex or not
 // version 11:
@@ -167,6 +169,9 @@ class LLEmbeddedBrowserWindowObserver
 
 		// This should return true to attempt auth, or false to cancel.
 		virtual bool onAuthRequest(const std::string &in_url, const std::string &in_realm, std::string &out_username, std::string &out_password);
+
+		// This should return true to continue after cert error, or false to cancel and abort.
+		virtual bool onCertError(const std::string &in_url, const std::string &in_msg);
 
 		virtual void onLinkHovered(const EventType& event);
 			// mEventURI will be the link

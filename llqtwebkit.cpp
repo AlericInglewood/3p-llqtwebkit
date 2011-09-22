@@ -718,6 +718,11 @@ bool LLEmbeddedBrowserWindowObserver::onAuthRequest(const std::string &, const s
 	return false;
 }
 
+bool LLEmbeddedBrowserWindowObserver::onCertError(const std::string &, const std::string &)
+{
+	return false; // cancel and abort after cert error
+}
+
 void LLEmbeddedBrowserWindowObserver::onLinkHovered(const EventType&)
 {
 }

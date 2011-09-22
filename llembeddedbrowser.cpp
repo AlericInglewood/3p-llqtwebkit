@@ -644,3 +644,15 @@ bool LLEmbeddedBrowserPrivate::authRequest(const std::string &in_url, const std:
 	return result;
 }
 
+bool LLEmbeddedBrowserPrivate::certError(const std::string &in_url, const std::string &in_msg)
+{
+	bool result = false;
+
+	LLEmbeddedBrowserWindow* window = windows.first();
+	if(window)
+	{
+		result = window->certError(in_url, in_msg);
+	}
+
+	return result;
+}
