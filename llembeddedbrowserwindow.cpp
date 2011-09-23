@@ -313,7 +313,7 @@ bool LLEmbeddedBrowserWindow::userAction(LLQtWebKit::EUserAction action)
 			d->mPage->triggerAction(QWebPage::Forward);
 		break;
 		case LLQtWebKit::UA_NAVIGATE_RELOAD:
-			d->mPage->triggerAction(QWebPage::Reload);
+			d->mPage->triggerAction(QWebPage::ReloadAndBypassCache);
 		break;
 		default:
 			result = false;

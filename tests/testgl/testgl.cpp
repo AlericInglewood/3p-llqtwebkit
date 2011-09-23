@@ -39,6 +39,7 @@ extern "C" {
 #include <stdlib.h>
 #include <time.h>
 #include <fstream>
+#include <vector>
 
 #ifdef LL_OSX
 // I'm not sure why STATIC_QT is getting defined, but the Q_IMPORT_PLUGIN thing doesn't seem to be necessary on the mac.
@@ -214,12 +215,29 @@ class testGL :
 				}
 			}
 
+			const std::vector<std::string> before=LLQtWebKit::getInstance()->getInstalledCertsList();
+			std::cout << "Certs before CA.pem load: " << before.size() << " items" << std::endl;
+			for(int i=0;i<before.size();++i)
+			{
+				std::cout << "    " << before[i] << std::endl;
+			}
+			std::cout << "---- end of list ----" << std::endl;
+
 			// Tell llqtwebkit to look for a CA file in the application directory.
 			// If it can't find or parse the file, this should have no effect.
 			std::string ca_pem_file_loc = mCwd + PATH_SEPARATOR + "CA.pem";
 
+
 			LLQtWebKit::getInstance()->setCAFile( ca_pem_file_loc.c_str() );
 			std::cout << "Expected CA.pem file location is " << ca_pem_file_loc << std::endl;
+
+			const std::vector<std::string> after=LLQtWebKit::getInstance()->getInstalledCertsList();
+			std::cout << "Certs after CA.pem load: " << after.size() << " items" << std::endl;
+			for(int i=0;i<after.size();++i)
+			{
+				std::cout << "    " << after[i] << std::endl;
+			}
+			std::cout << "---- end of list ----" << std::endl;
 
 			// test Second Life viewer specific functions
 			LLQtWebKit::getInstance()->setSLObjectEnabled( true );				// true means the feature is turned on

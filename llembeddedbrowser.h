@@ -28,6 +28,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 class LLEmbeddedBrowserWindow;
 class LLEmbeddedBrowserWindowObserver;
@@ -78,6 +79,7 @@ class LLEmbeddedBrowser
 		bool addCAFile(const std::string &ca_file);
 		void setIgnoreSSLCertErrors(bool ignore);
 		bool getIgnoreSSLCertErrors();
+		const std::vector< std::string > getInstalledCertsList();
 
 		// Second Life specific functions
 		void setSLObjectEnabled( bool enabled );

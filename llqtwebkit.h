@@ -35,6 +35,7 @@ typedef unsigned long uint32_t;
 
 #include <string>
 #include <map>
+#include <vector>
 
 class LLEmbeddedBrowser;
 class LLEmbeddedBrowserWindow;
@@ -355,6 +356,8 @@ class LLQtWebKit
 		// NOTE: this should only be used for testing, as it negates the security model of https.
 		void setIgnoreSSLCertErrors(bool ignore);
 		bool getIgnoreSSLCertErrors();
+
+		const std::vector< std::string > getInstalledCertsList();
 
 		// Copied from indra_constants.h.
 		// The key_code argument to keyboardEvent should either be one of these or a 7-bit ascii character.

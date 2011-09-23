@@ -637,6 +637,13 @@ bool LLQtWebKit::getIgnoreSSLCertErrors()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//
+const std::vector< std::string > LLQtWebKit::getInstalledCertsList()
+{
+	return LLEmbeddedBrowser::getInstance()->getInstalledCertsList();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // utility method to get an LLEmbeddedBrowserWindow* from a window id (int)
 LLEmbeddedBrowserWindow* LLQtWebKit::getBrowserWindowFromWindowId(int browser_window_id)
 {

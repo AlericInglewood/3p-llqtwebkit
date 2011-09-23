@@ -37,6 +37,7 @@
 #include <qsslconfiguration.h>
 #include <qsslsocket.h>
 #include <qdesktopservices.h>
+#include <qdatetime.h>
 #include <iostream>
 
 // singleton pattern - initialization
@@ -461,6 +462,59 @@ void LLEmbeddedBrowser::setIgnoreSSLCertErrors(bool ignore)
 bool LLEmbeddedBrowser::getIgnoreSSLCertErrors()
 {
 	return d->mIgnoreSSLCertErrors;
+}
+
+const std::vector< std::string > LLEmbeddedBrowser::getInstalledCertsList()
+{
+	std::vector< std::string > cert_list;
+
+	QSslCertificate cert;
+	foreach(cert, QSslSocket::defaultCaCertificates())
+	{
+		QString cert_info="";
+
+		QString issuer_info="";
+		issuer_info+="C=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::CountryName);
+		issuer_info+=", ST=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::StateOrProvinceName);
+		issuer_info+=", L=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::LocalityName);
+		issuer_info+=", O=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::Organization);
+		issuer_info+=", OU=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::OrganizationalUnitName);
+		issuer_info+=", CN=";
+		issuer_info+=cert.issuerInfo(QSslCertificate::CommonName);
+		cert_info+=issuer_info;
+		cert_info+="\n";
+
+		QString subject_info="";
+		subject_info+="C=";
+		subject_info+=cert.subjectInfo(QSslCertificate::CountryName);
+		subject_info+=", ST=";
+		subject_info+=cert.subjectInfo(QSslCertificate::StateOrProvinceName);
+		subject_info+=", L=";
+		subject_info+=cert.subjectInfo(QSslCertificate::LocalityName);
+		subject_info+=", O=";
+		subject_info+=cert.subjectInfo(QSslCertificate::Organization);
+		subject_info+=", OU=";
+		subject_info+=cert.subjectInfo(QSslCertificate::OrganizationalUnitName);
+		subject_info+=", CN=";
+		subject_info+=cert.subjectInfo(QSslCertificate::CommonName);
+		cert_info+=subject_info;
+		cert_info+="\n";
+
+		cert_info+="Not valid before: ";
+		cert_info+=cert.effectiveDate().toString();
+		cert_info+="\n";
+		cert_info+="Not valid after: ";
+		cert_info+=cert.expiryDate().toString();
+		cert_info+="\n";
+
+		cert_list.push_back( llToStdString(cert_info) );
+	}
+	return cert_list;
 }
 
 // Second Life viewer specific functions
