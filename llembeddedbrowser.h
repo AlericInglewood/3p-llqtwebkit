@@ -29,7 +29,6 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <qtdebug>
 #include <qdebug>
 
 class LLEmbeddedBrowserWindow;
