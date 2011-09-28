@@ -29,6 +29,8 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <qtdebug>
+#include <qdebug>
 
 class LLEmbeddedBrowserWindow;
 class LLEmbeddedBrowserWindowObserver;
@@ -81,6 +83,8 @@ class LLEmbeddedBrowser
 		bool getIgnoreSSLCertErrors();
 		const std::vector< std::string > getInstalledCertsList();
 
+		void enableQtMessaheHandler( bool enable );
+
 		// Second Life specific functions
 		void setSLObjectEnabled( bool enabled );
         void setAgentLanguage( const std::string& agent_language );
@@ -100,6 +104,8 @@ class LLEmbeddedBrowser
 		bool mPluginsEnabled;
 		bool mJavaScriptEnabled;
 		bool mCookiesEnabled;
+
+		static void qtMessageHandler(QtMsgType type, const char *msg);
 
         static LLEmbeddedBrowser* sInstance;
 };

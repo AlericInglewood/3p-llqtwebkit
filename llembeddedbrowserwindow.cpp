@@ -895,6 +895,16 @@ bool LLEmbeddedBrowserWindow::certError(const std::string &in_url, const std::st
 	return result;
 }
 
+void LLEmbeddedBrowserWindow::onQtDebugMessage( const std::string& msg, const std::string& msg_type)
+{
+	// If there's at least one observer registered, send it the auth request.
+	LLEmbeddedBrowserWindowPrivate::Emitter::iterator i = d->mEventEmitter.begin();
+	if(i != d->mEventEmitter.end())
+	{
+		(*i)->onQtDebugMessage(msg, msg_type);
+	}
+}
+
 void LLEmbeddedBrowserWindow::setWhiteListRegex( const std::string& regex )
 {
 	if ( d )

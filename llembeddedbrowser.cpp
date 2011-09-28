@@ -598,6 +598,45 @@ void LLEmbeddedBrowser::emitLanguage()
 	}
 }
 
+void LLEmbeddedBrowser::qtMessageHandler(QtMsgType type, const char *msg)
+{
+	std::string msg_type("");
+	switch (type)
+	{
+		case QtDebugMsg:
+			msg_type="Debug";
+			break;
+		case QtWarningMsg:
+			msg_type="Warning";
+			break;
+		case QtCriticalMsg:
+			msg_type="Critical";
+			break;
+		case QtFatalMsg:
+			msg_type="Fatal";
+			break;
+	};
+
+	foreach ( LLEmbeddedBrowserWindow* window, sInstance->d->windows )
+	{
+
+		window->onQtDebugMessage( std::string( msg ), msg_type);
+	}
+}
+
+void LLEmbeddedBrowser::enableQtMessaheHandler( bool enable )
+{
+	if ( enable )
+	{
+		qInstallMsgHandler( qtMessageHandler );
+	}
+	else
+	{
+		// remove handler
+		qInstallMsgHandler(0);
+	};
+}
+
 LLNetworkCookieJar::LLNetworkCookieJar(QObject* parent, LLEmbeddedBrowser *browser)
     : NetworkCookieJar(parent)
     , mAllowCookies(true)
