@@ -730,10 +730,6 @@ bool LLEmbeddedBrowserWindowObserver::onCertError(const std::string &, const std
 	return false; // cancel and abort after cert error
 }
 
-void LLEmbeddedBrowserWindowObserver::onQtDebugMessage( const std::string &, const std::string &)
-{
-}
-
 void LLEmbeddedBrowserWindowObserver::onLinkHovered(const EventType&)
 {
 }
@@ -798,9 +794,4 @@ void LLQtWebKit::emitMaturity()
 void LLQtWebKit::emitLanguage()
 {
 	LLEmbeddedBrowser::getInstance()->emitLanguage();
-}
-
-void LLQtWebKit::enableQtMessaheHandler( bool enable )
-{
-	LLEmbeddedBrowser::getInstance()->enableQtMessaheHandler( enable );
 }

@@ -88,7 +88,7 @@ class sslTest :
 			if ( ! ignore_ca_file )
 			{
 				std::cout << "ssltest> Expected certificate authority file location is " << ca_file_loc << std::endl;
-				LLQtWebKit::getInstance()->setCAFile( ca_file_loc.c_str() );
+				LLQtWebKit::getInstance()->addCAFile( ca_file_loc.c_str() );
 			}
 			else
 			{
@@ -164,12 +164,6 @@ class sslTest :
 		{
 			std::cout << "ssltest> Event: location changed to " << eventIn.getStringValue() << std::endl;
 		};
-
-		bool onCertError(const std::string &in_url, const std::string &in_msg)
-		{
-			std::cout << "ssltest> Cert error triggered\n" << in_url << "\n" << in_msg << std::endl;
-			return true;
-		}
 
 	private:
 		int mBrowserWindowWidth;

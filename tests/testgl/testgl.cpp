@@ -169,8 +169,6 @@ class testGL :
 
 			LLQtWebKit::getInstance()->init( mApplicationDir, mApplicationDir, mProfileDir, getNativeWindowHandle() );
 
-			LLQtWebKit::getInstance()->enableQtMessaheHandler( true );
-
 			// set host language test (in reality, string will be language code passed into client)
 			// IMPORTANT: must be called before createBrowserWindow(...)
 			LLQtWebKit::getInstance()->setHostLanguage( "EN-AB-CD-EF" );
@@ -217,7 +215,6 @@ class testGL :
 				}
 			}
 
-			#if 0
 			const std::vector<std::string> before=LLQtWebKit::getInstance()->getInstalledCertsList();
 			std::cout << "Certs before CA.pem load: " << before.size() << " items" << std::endl;
 			for(int i=0;i<before.size();++i)
@@ -225,7 +222,6 @@ class testGL :
 				std::cout << "    " << before[i] << std::endl;
 			}
 			std::cout << "---- end of list ----" << std::endl;
-			#endif
 
 			// Tell llqtwebkit to look for a CA file in the application directory.
 			// If it can't find or parse the file, this should have no effect.
@@ -235,7 +231,6 @@ class testGL :
 			LLQtWebKit::getInstance()->setCAFile( ca_pem_file_loc.c_str() );
 			std::cout << "Expected CA.pem file location is " << ca_pem_file_loc << std::endl;
 
-			#if 0
 			const std::vector<std::string> after=LLQtWebKit::getInstance()->getInstalledCertsList();
 			std::cout << "Certs after CA.pem load: " << after.size() << " items" << std::endl;
 			for(int i=0;i<after.size();++i)
@@ -243,7 +238,6 @@ class testGL :
 				std::cout << "    " << after[i] << std::endl;
 			}
 			std::cout << "---- end of list ----" << std::endl;
-			#endif
 
 			// test Second Life viewer specific functions
 			LLQtWebKit::getInstance()->setSLObjectEnabled( true );				// true means the feature is turned on
@@ -753,11 +747,6 @@ class testGL :
 		{
 			std::cout << "Cert error, url = " << in_url << ", message = " << in_msg << std::endl;
 			return false; // cancel (return true to ignore errors and continue)
-		}
-
-		virtual void onQtDebugMessage( const std::string& msg, const std::string& msg_type)
-		{
-			std::cout << "QtDebugMsg [" << msg_type << "]> " << msg << std::endl;
 		}
 
 		////////////////////////////////////////////////////////////////////////////////

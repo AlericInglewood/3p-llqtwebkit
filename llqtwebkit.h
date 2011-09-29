@@ -44,9 +44,7 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 14
-// version 14:
-	// Added LLEmbeddedBrowserWindowObserver::onQtDebugMessage
+#define LLQTWEBKIT_API_VERSION 13
 // version 13:
 	// Added LLEmbeddedBrowserWindowObserver::onCertError
 // version 12:
@@ -180,9 +178,6 @@ class LLEmbeddedBrowserWindowObserver
 			// mEventURI will be the link
 			// mStringVal will be the title
 			// mStringVal2 will be the text
-
-		// catch qDebug() messages from Qt and pipe them back to host application
-		virtual void onQtDebugMessage( const std::string& msg, const std::string& msg_type);
 };
 #ifdef __GNUC__
 #pragma GCC visibility pop
@@ -363,8 +358,6 @@ class LLQtWebKit
 		bool getIgnoreSSLCertErrors();
 
 		const std::vector< std::string > getInstalledCertsList();
-
-		void enableQtMessaheHandler( bool enable );
 
 		// Copied from indra_constants.h.
 		// The key_code argument to keyboardEvent should either be one of these or a 7-bit ascii character.
