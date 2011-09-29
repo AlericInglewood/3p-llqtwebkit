@@ -29,7 +29,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <QtDebug>
+#include <qdebug>
 
 class LLEmbeddedBrowserWindow;
 class LLEmbeddedBrowserWindowObserver;
