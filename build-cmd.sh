@@ -4,7 +4,7 @@
 set -e
 
 # So we can turn off building qt.
-BUILD_QT=0
+BUILD_QT=1
 while getopts "x" OPTION
 do
     case $OPTION in
