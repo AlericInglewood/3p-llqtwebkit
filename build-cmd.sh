@@ -200,11 +200,11 @@ case "$AUTOBUILD_PLATFORM" in
             rmdir "$install/tmp"
 
             #mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
-			cp "$stage/libQtCore.so.4" "$LIB_DIR"
-			cp "$stage/libQtWebKit.so.4" "$LIB_DIR"
-			cp "$stage/libQtOpenGL.so.4" "$LIB_DIR"
-			cp "$stage/libQtGui.so.4" "$LIB_DIR"
-			cp "$stage/libQtNetwork.so.4" "$LIB_DIR"
+			cp "$stage/lib/libQtCore.so.4" "$LIB_DIR"
+			cp "$stage/lib/libQtWebKit.so.4" "$LIB_DIR"
+			cp "$stage/lib/libQtOpenGL.so.4" "$LIB_DIR"
+			cp "$stage/lib/libQtGui.so.4" "$LIB_DIR"
+			cp "$stage/lib/libQtNetwork.so.4" "$LIB_DIR"
         fi
 
         # Now build llqtwebkit...
