@@ -243,11 +243,11 @@
           <key>manifest</key>
           <array>
             <string>lib/release/libllqtwebkit.a</string>
-			<string>lib/release/libQtCore.so.4</string>
-            <string>lib/release/libQtWebKit.so.4</string>
-            <string>lib/release/libQtGui.so.4</string>
-            <string>lib/release/libQtNetwork.so.4</string>
-            <string>lib/release/libQtOpenGL.so.4</string>
+			<string>lib/release/libQtCore.so.4.7.1</string>
+            <string>lib/release/libQtWebKit.so.4.7.1</string>
+            <string>lib/release/libQtGui.so.4.7.1</string>
+            <string>lib/release/libQtNetwork.so.4.7.1</string>
+            <string>lib/release/libQtOpenGL.so.4.7.1</string>
           </array>
           <key>name</key>
           <string>linux</string>
