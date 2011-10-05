@@ -4,7 +4,7 @@
 set -e
 
 # So we can turn off building qt.
-BUILD_QT=1
+BUILD_QT=0
 while getopts "x" OPTION
 do
     case $OPTION in
@@ -179,10 +179,10 @@ case "$AUTOBUILD_PLATFORM" in
     
                 echo "yes" | \
                 ./configure \
-                    -v -platform linux-g++-32  -fontconfig -fast -no-qt3support -static -release -no-xmlpatterns -no-phonon \
+                    -v -platform linux-g++-32  -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
                     -openssl-linked -no-3dnow -no-sse -no-sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
                     -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff\
-                    -no-sql-sqlite -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng  -qt-gif -opengl desktop  -no-xkb \
+                    -no-sql-sqlite -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop  -no-xkb \
                     -xrender -svg -no-pch -webkit -opensource -I"$packages/include" -L"$packages/lib" --prefix="$install" \
                     -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools
                 make -j12
@@ -190,7 +190,7 @@ case "$AUTOBUILD_PLATFORM" in
                 make install
         
                 # libjscore.a doesn't get installed but some libs depend on it.
-                cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
+                #cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
             popd
 
             # Copy lib's to cannonical autobuild location.
@@ -199,7 +199,12 @@ case "$AUTOBUILD_PLATFORM" in
             mv "$install/tmp/lib" "$install/lib/release"
             rmdir "$install/tmp"
 
-            mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
+            #mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
+			cp "$stage/libQtCore.so.4" "$LIB_DIR"
+			cp "$stage/libQtWebKit.so.4" "$LIB_DIR"
+			cp "$stage/libQtOpenGL.so.4" "$LIB_DIR"
+			cp "$stage/libQtGui.so.4" "$LIB_DIR"
+			cp "$stage/libQtNetwork.so.4" "$LIB_DIR"
         fi
 
         # Now build llqtwebkit...
@@ -215,6 +220,7 @@ case "$AUTOBUILD_PLATFORM" in
 esac
 mkdir -p "$install/LICENSES"
 cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/llqtwebkit.txt"
+echo "$LIB_DIR"
 
 pass
 
