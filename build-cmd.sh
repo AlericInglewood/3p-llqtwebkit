@@ -135,9 +135,9 @@ case "$AUTOBUILD_PLATFORM" in
             pushd "$QT_SOURCE_DIR"
                 export QTDIR="$(pwd)"
                 echo "yes" | \
-                    ./configure -opensource -platform macx-g++40 -no-framework -fast -no-qt3support -prefix "$install" \
-                        -static -release -no-xmlpatterns -no-phonon -webkit -sdk /Developer/SDKs/MacOSX10.5.sdk/ -cocoa \
-                        -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools -nomake examples
+                    ./configure -opensource -openssl-linked -release -platform macx-g++40 -no-framework -fast -no-qt3support -prefix "$install" \
+                        -static -no-xmlpatterns -no-phonon -webkit -sdk /Developer/SDKs/MacOSX10.5.sdk/ -cocoa \
+                        -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools -I"$packages/include" -L"$packages/lib"
                 make -j4
                 make -j4 -C "src/3rdparty/webkit/JavaScriptCore"
                 export PATH="$PATH:$QTDIR/bin"

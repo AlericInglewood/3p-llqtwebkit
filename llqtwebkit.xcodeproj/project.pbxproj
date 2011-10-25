@@ -266,6 +266,8 @@
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
 					"-lqcncodecs",
 					"-lqjpcodecs",
 					"-lqkrcodecs",
@@ -325,6 +327,8 @@
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
 					"-lqcncodecs",
 					"-lqjpcodecs",
 					"-lqkrcodecs",
@@ -412,6 +416,8 @@
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
 					"-lqcncodecs",
 					"-lqjpcodecs",
 					"-lqkrcodecs",
