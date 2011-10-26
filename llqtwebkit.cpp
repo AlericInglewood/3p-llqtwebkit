@@ -800,7 +800,12 @@ void LLQtWebKit::emitLanguage()
 	LLEmbeddedBrowser::getInstance()->emitLanguage();
 }
 
-void LLQtWebKit::enableQtMessaheHandler( bool enable )
+void LLQtWebKit::enableQtMessageHandler( bool enable )
 {
-	LLEmbeddedBrowser::getInstance()->enableQtMessaheHandler( enable );
+	LLEmbeddedBrowser::getInstance()->enableQtMessageHandler( enable );
+}
+
+void LLQtWebKit::setPageZoomFactor( double factor )
+{
+	LLEmbeddedBrowser::getInstance()->setPageZoomFactor( factor );
 }

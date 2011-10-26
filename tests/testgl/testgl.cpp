@@ -169,7 +169,7 @@ class testGL :
 
 			LLQtWebKit::getInstance()->init( mApplicationDir, mApplicationDir, mProfileDir, getNativeWindowHandle() );
 
-			LLQtWebKit::getInstance()->enableQtMessaheHandler( true );
+			LLQtWebKit::getInstance()->enableQtMessageHandler( true );
 
 			// set host language test (in reality, string will be language code passed into client)
 			// IMPORTANT: must be called before createBrowserWindow(...)
@@ -582,6 +582,20 @@ class testGL :
 			else if ( keyIn == 23 )
 			{
 				LLQtWebKit::getInstance()->showWebInspector( true );
+			}
+			else if ( keyIn == '1' )
+			{
+				if ( getLLQtWebKitKeyboardModifierCode() == LLQtWebKit::KM_MODIFIER_CONTROL )
+				{
+					LLQtWebKit::getInstance()->setPageZoomFactor( 1.0 );
+				}
+			}
+			else if ( keyIn == '2' )
+			{
+				if ( getLLQtWebKitKeyboardModifierCode() == LLQtWebKit::KM_MODIFIER_CONTROL )
+				{
+					LLQtWebKit::getInstance()->setPageZoomFactor( 2.0 );
+				}
 			}
 			else
 			{

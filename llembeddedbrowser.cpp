@@ -598,6 +598,14 @@ void LLEmbeddedBrowser::emitLanguage()
 	}
 }
 
+void LLEmbeddedBrowser::setPageZoomFactor( double factor )
+{
+	foreach ( LLEmbeddedBrowserWindow* window, d->windows )
+	{
+		window->setPageZoomFactor( factor );
+	}
+}
+
 void LLEmbeddedBrowser::qtMessageHandler(QtMsgType type, const char *msg)
 {
 	std::string msg_type("");
@@ -624,7 +632,7 @@ void LLEmbeddedBrowser::qtMessageHandler(QtMsgType type, const char *msg)
 	}
 }
 
-void LLEmbeddedBrowser::enableQtMessaheHandler( bool enable )
+void LLEmbeddedBrowser::enableQtMessageHandler( bool enable )
 {
 	if ( enable )
 	{

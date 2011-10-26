@@ -44,7 +44,9 @@ class LLEmbeddedBrowserWindow;
 // This can be useful for times when we're waiting for a rebuild on one platform or another.
 // When you bump this number, please note what the changes were in a comment below the #define,
 // and keep the existing comments as history.
-#define LLQTWEBKIT_API_VERSION 14
+#define LLQTWEBKIT_API_VERSION 15
+// version 15:
+	// Added LLQtWebKit::setPageZoomFactor()
 // version 14:
 	// Added LLEmbeddedBrowserWindowObserver::onQtDebugMessage
 // version 13:
@@ -364,7 +366,7 @@ class LLQtWebKit
 
 		const std::vector< std::string > getInstalledCertsList();
 
-		void enableQtMessaheHandler( bool enable );
+		void enableQtMessageHandler( bool enable );
 
 		// Copied from indra_constants.h.
 		// The key_code argument to keyboardEvent should either be one of these or a 7-bit ascii character.
@@ -443,6 +445,9 @@ class LLQtWebKit
 		void emitLocation();
 		void emitMaturity();
 		void emitLanguage();
+
+		// set the zoom factor for web pages ( can be less than 0.0)
+		void setPageZoomFactor( double factor );
 
 	private:
 		LLQtWebKit();

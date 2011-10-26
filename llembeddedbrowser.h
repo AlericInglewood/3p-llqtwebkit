@@ -82,7 +82,9 @@ class LLEmbeddedBrowser
 		bool getIgnoreSSLCertErrors();
 		const std::vector< std::string > getInstalledCertsList();
 
-		void enableQtMessaheHandler( bool enable );
+		void enableQtMessageHandler( bool enable );
+
+		void setPageZoomFactor( double factor );
 
 		// Second Life specific functions
 		void setSLObjectEnabled( bool enabled );

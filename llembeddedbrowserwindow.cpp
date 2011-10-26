@@ -983,6 +983,13 @@ void LLEmbeddedBrowserWindow::emitLanguage()
 			d->mPage->emitLanguage();
 }
 
+void LLEmbeddedBrowserWindow::setPageZoomFactor( double factor )
+{
+	if ( d )
+		if ( d->mPage )
+			d->mPage->setPageZoomFactor( factor );
+}
+
 LLGraphicsScene::LLGraphicsScene()
     : QGraphicsScene()
     , window(0)

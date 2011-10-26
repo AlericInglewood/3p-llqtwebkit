@@ -71,6 +71,8 @@ class LLWebPage : public QWebPage
 		void emitMaturity();
 		void emitLanguage();
 
+		void setPageZoomFactor( double factor );
+
     protected:
         bool acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest& request, NavigationType type);
 

@@ -140,6 +140,8 @@ public:
 
 	void setWhiteListRegex( const std::string& regex );
 
+	void setPageZoomFactor( double factor );
+
 	// Second Life specific functions
 	void setSLObjectEnabled( bool enabled );
 	void setAgentLanguage( const std::string& agent_language );

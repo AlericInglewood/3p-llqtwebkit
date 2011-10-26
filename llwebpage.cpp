@@ -502,3 +502,11 @@ void LLWebPage::emitLanguage()
 	if ( mJsObject )
 		mJsObject->emitLanguage();
 }
+
+void LLWebPage::setPageZoomFactor( double factor )
+{
+	if ( webView )
+	{
+		webView->setZoomFactor( factor );
+	}
+}
