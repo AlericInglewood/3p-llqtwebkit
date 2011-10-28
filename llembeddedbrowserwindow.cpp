@@ -91,6 +91,8 @@ LLEmbeddedBrowserWindow::LLEmbeddedBrowserWindow()
     d->mGraphicsView->setScene(d->mGraphicsScene);
     d->mGraphicsScene->setStickyFocus(true);
     d->mGraphicsView->viewport()->setParent(0);
+
+    mEnableLoadingOverlay = false;
 }
 
 LLEmbeddedBrowserWindow::~LLEmbeddedBrowserWindow()
@@ -122,6 +124,11 @@ void LLEmbeddedBrowserWindow::showWebInspector(bool show)
 			d->mInspector->setVisible( show );
 		}
 	}
+}
+
+void LLEmbeddedBrowserWindow::enableLoadingOverlay(bool enable)
+{
+	mEnableLoadingOverlay = enable;
 }
 
 // change the background color that gets used between pages (usually white)
@@ -210,14 +217,52 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
     } else
     {
         QPainter painter(&d->mImage);
-#if 1   // Paint from the graphics view
+
         QRectF r(x, y, width, height);
         QRect g(0, 0, d->mView->width(), d->mView->height());
         d->mGraphicsView->render(&painter, r, g);
-#else   // Paint straight from the web page
-        QRegion clip(x, y, width, height);
-        d->mPage->mainFrame()->render(&painter, clip);
-#endif
+
+		if ( mEnableLoadingOverlay && d->mShowLoadingOverlay )
+		{
+			painter.setRenderHint(QPainter::Antialiasing);;
+
+			QBrush brush;
+			QPen pen;
+
+			QColor background_color(QColor(128,160,128,128));
+			brush.setColor(background_color);
+			brush.setStyle(Qt::SolidPattern);
+			pen.setColor(background_color);
+			painter.setPen(pen);
+			painter.setBrush(brush);
+			painter.drawRect(0,0,width, height);
+
+			QColor outer_color(QColor(96,64,64,128));
+			brush.setColor(outer_color);
+			pen.setColor(outer_color);
+			painter.setPen(pen);
+			painter.setBrush(brush);
+			int size = min(width, height);
+			painter.drawEllipse(width/2-size/4, height/2-size/4, size/2, size/2);
+
+			QColor inner_color(QColor(255,255,224,128));
+			brush.setColor(inner_color);
+			pen.setColor(inner_color);
+			painter.setPen(pen);
+			painter.setBrush(brush);
+			painter.drawPie(width/2-size/4, height/2-size/4, size /2, size /2, 0, d->mPercentComplete * 16 * 360 / 100);
+
+			QColor ring_color(QColor(0,0,0,128));
+			brush.setColor(ring_color);
+			brush.setStyle(Qt::NoBrush);
+			pen.setColor(ring_color);
+			pen.setWidth(4);
+			painter.setPen(pen);
+			painter.setBrush(brush);
+			painter.drawEllipse(width/2-size/4, height/2-size/4, size/2 , size/2);
+
+		}
+
         painter.end();
         if (d->mFlipBitmap)
         {
@@ -225,7 +270,7 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
         }
         d->mImage = d->mImage.rgbSwapped();
     }
-//    d->mImage = QGLWidget::convertToGLFormat(d->mImage);
+
     d->mPageBuffer = d->mImage.bits();
     d->mDirty = false;
     return d->mPageBuffer;

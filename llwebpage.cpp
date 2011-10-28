@@ -84,6 +84,11 @@ void LLWebPage::loadProgressSlot(int progress)
 	event.setEventUri(window->getCurrentUri());
 	event.setIntValue(progress);
     window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onUpdateProgress, event);
+
+    if ( progress >= 100 )
+    {
+		window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onPageChanged, event);
+	}
 }
 
 void LLWebPage::linkHoveredSlot(const QString &link, const QString &title, const QString &textContent)
@@ -287,25 +292,31 @@ bool LLWebPage::acceptNavigationRequest(QWebFrame* frame, const QNetworkRequest&
 
 void LLWebPage::loadStarted()
 {
-    if (!window)
-        return;
+	if (!window)
+		return;
 
 	QUrl url( QString::fromStdString( window->getCurrentUri() ) );
-	//qDebug() << "loadStarted() --> url is " << url;
 	checkWhiteList( url );
+
+	window->d->mShowLoadingOverlay = true;
 
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
-    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateBegin, event);
+	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateBegin, event);
 }
 
 void LLWebPage::loadFinished(bool)
 {
-    if (!window)
-        return;
+	if (!window)
+		return;
+
+	window->d->mShowLoadingOverlay = false;
+
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
-    window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateComplete, event);
+	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onPageChanged, event);
+
+	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateComplete, event);
 }
 
 void LLWebPage::windowCloseRequested()

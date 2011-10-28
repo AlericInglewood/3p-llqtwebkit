@@ -805,6 +805,15 @@ void LLQtWebKit::enableQtMessageHandler( bool enable )
 	LLEmbeddedBrowser::getInstance()->enableQtMessageHandler( enable );
 }
 
+void LLQtWebKit::enableLoadingOverlay( int browser_window_id, bool enable)
+{
+	LLEmbeddedBrowserWindow* browser_window = getBrowserWindowFromWindowId(browser_window_id);
+	if (browser_window)
+	{
+		browser_window->enableLoadingOverlay( enable );
+	}
+}
+
 void LLQtWebKit::setPageZoomFactor( double factor )
 {
 	LLEmbeddedBrowser::getInstance()->setPageZoomFactor( factor );

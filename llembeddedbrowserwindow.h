@@ -138,6 +138,8 @@ public:
 
 	void onQtDebugMessage( const std::string& msg, const std::string& msg_type);
 
+	void enableLoadingOverlay(bool enable);
+
 	void setWhiteListRegex( const std::string& regex );
 
 	void setPageZoomFactor( double factor );
@@ -161,6 +163,7 @@ private:
     friend class LLWebView;
     friend class LLEmbeddedBrowserPrivate;
     LLEmbeddedBrowserWindowPrivate *d;
+    bool mEnableLoadingOverlay;
 
 };
 
