@@ -242,7 +242,9 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
 			pen.setColor(outer_color);
 			painter.setPen(pen);
 			painter.setBrush(brush);
-			int size = min(width, height);
+			int size = width;
+			if ( height < width )
+				size = height;
 			painter.drawEllipse(width/2-size/4, height/2-size/4, size/2, size/2);
 
 			QColor inner_color(QColor(255,255,224,128));
