@@ -55,6 +55,15 @@
 @del tests\ssltest\Makefile
 @del tests\ssltest\Makefile.Release
 @del tests\ssltest\Makefile.Debug
+@rmdir tests\ssltest\ssltest_profile\ /s /q
+
+@rem Delete textmode files
+@rmdir tests\textmode\Release\ /s /q
+@rmdir tests\textmode\Debug\ /s /q
+@del tests\textmode\Makefile
+@del tests\textmode\Makefile.Release
+@del tests\textmode\Makefile.Debug
+@rmdir tests\textmode\textmode_profile\ /s /q
 
 @echo.
 @echo Deleted intermediate files.
@@ -108,11 +117,20 @@ nmake clean
 nmake
 popd
 
+@rem clean and make a release version of textmode test app
+pushd .
+cd tests\textmode
+qmake CONFIG-=debug CONFIG+=console
+nmake clean
+nmake
+popd
+
 @rem Hard to see if builds fail so look for what we need afterwards
 @if not exist release\llqtwebkit.lib echo ****** ERROR: Failed to build LLQtWebKit (release) library
 @if not exist tests\build\qttestapp.exe echo ****** ERROR: Failed to build QtTestApp test app
 @if not exist tests\build\testgl.exe echo ****** ERROR: Failed to build testGL test app
 @if not exist tests\build\3dgl.exe echo ****** ERROR: Failed to build 3dGL test app
 @if not exist tests\build\ssltest.exe echo ****** ERROR: Failed to build SSL test app
+@if not exist tests\build\textmode.exe echo ****** ERROR: Failed to build textmode test app
 
 @echo -- End of batch file --
