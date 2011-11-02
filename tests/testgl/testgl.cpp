@@ -169,7 +169,7 @@ class testGL :
 
 			LLQtWebKit::getInstance()->init( mApplicationDir, mApplicationDir, mProfileDir, getNativeWindowHandle() );
 
-			LLQtWebKit::getInstance()->enableQtMessageHandler( true );
+			LLQtWebKit::getInstance()->enableQtMessageHandler( false );
 
 			// set host language test (in reality, string will be language code passed into client)
 			// IMPORTANT: must be called before createBrowserWindow(...)
@@ -599,25 +599,23 @@ class testGL :
 					LLQtWebKit::getInstance()->setPageZoomFactor( 2.0 );
 				}
 			}
+
+			char text[2];
+			if(keyIn < 0x80)
+			{
+				text[0] = (char)keyIn;
+			}
 			else
 			{
-				char text[2];
-				if(keyIn < 0x80)
-				{
-					text[0] = (char)keyIn;
-				}
-				else
-				{
-					text[0] = 0;
-				}
-
-				text[1] = 0;
-
-				std::cerr << "key " << (isDown?"down ":"up ") << (int)keyIn << ", modifiers = " << (int)getLLQtWebKitKeyboardModifierCode() << std::endl;
-
-				// send event to LLQtWebKit
-				LLQtWebKit::getInstance()->keyboardEvent(mBrowserWindowId, isDown?LLQtWebKit::KE_KEY_DOWN:LLQtWebKit::KE_KEY_UP, keyIn, text, getLLQtWebKitKeyboardModifierCode() );
+				text[0] = 0;
 			}
+
+			text[1] = 0;
+
+			std::cerr << "key " << (isDown?"down ":"up ") << (int)keyIn << ", modifiers = " << (int)getLLQtWebKitKeyboardModifierCode() << std::endl;
+
+			// send event to LLQtWebKit
+			LLQtWebKit::getInstance()->keyboardEvent(mBrowserWindowId, isDown?LLQtWebKit::KE_KEY_DOWN:LLQtWebKit::KE_KEY_UP, keyIn, text, getLLQtWebKitKeyboardModifierCode() );
 		};
 
 		////////////////////////////////////////////////////////////////////////////////
