@@ -245,14 +245,21 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
 			int size = width;
 			if ( height < width )
 				size = height;
-			painter.drawEllipse(width/2-size/4, height/2-size/4, size/2, size/2);
+
+			const int symbol_proportion_of_sceen = 6;  // (1/6)
+			const int symbol_center_x=width/2-size/symbol_proportion_of_sceen;
+			const int symbol_center_y=height/2-size/symbol_proportion_of_sceen;
+			const int symbol_width = size/(symbol_proportion_of_sceen/2);
+			const int symbol_height = size/(symbol_proportion_of_sceen/2);
+
+			painter.drawEllipse(symbol_center_x,symbol_center_y,symbol_width,symbol_height);
 
 			QColor inner_color(QColor(255,255,224,128));
 			brush.setColor(inner_color);
 			pen.setColor(inner_color);
 			painter.setPen(pen);
 			painter.setBrush(brush);
-			painter.drawPie(width/2-size/4, height/2-size/4, size /2, size /2, 0, d->mPercentComplete * 16 * 360 / 100);
+			painter.drawPie(symbol_center_x,symbol_center_y,symbol_width,symbol_height, 0, d->mPercentComplete * 16 * 360 / 100);
 
 			QColor ring_color(QColor(0,0,0,128));
 			brush.setColor(ring_color);
@@ -261,8 +268,7 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
 			pen.setWidth(4);
 			painter.setPen(pen);
 			painter.setBrush(brush);
-			painter.drawEllipse(width/2-size/4, height/2-size/4, size/2 , size/2);
-
+			painter.drawEllipse(symbol_center_x,symbol_center_y,symbol_width,symbol_height);
 		}
 
         painter.end();

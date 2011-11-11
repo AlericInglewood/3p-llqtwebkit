@@ -86,9 +86,12 @@ void LLWebPage::loadProgressSlot(int progress)
     window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onUpdateProgress, event);
 
     if ( progress >= 100 )
-    {
-		window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onPageChanged, event);
-	}
+		window->d->mShowLoadingOverlay = false;
+
+	window->d->mDirty = true;
+	window->grabWindow(0,0,webView->boundingRect().width(),webView->boundingRect().height());
+
+	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onPageChanged, event);
 }
 
 void LLWebPage::linkHoveredSlot(const QString &link, const QString &title, const QString &textContent)
@@ -300,6 +303,9 @@ void LLWebPage::loadStarted()
 
 	window->d->mShowLoadingOverlay = true;
 
+	window->d->mDirty = true;
+	window->grabWindow(0,0,webView->boundingRect().width(),webView->boundingRect().height());
+
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
 	window->d->mEventEmitter.update(&LLEmbeddedBrowserWindowObserver::onNavigateBegin, event);
@@ -311,6 +317,9 @@ void LLWebPage::loadFinished(bool)
 		return;
 
 	window->d->mShowLoadingOverlay = false;
+
+	window->d->mDirty = true;
+	window->grabWindow(0,0,webView->boundingRect().width(),webView->boundingRect().height());
 
 	LLEmbeddedBrowserWindowEvent event(window->getWindowId());
 	event.setEventUri(window->getCurrentUri());
