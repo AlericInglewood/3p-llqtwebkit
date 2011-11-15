@@ -178,6 +178,7 @@ case "$AUTOBUILD_PLATFORM" in
                 patch -p1 < "../patches/000_qt_linux_mkspec_force_g++-4.1.patch"
     
                 echo "yes" | \
+                OPENSSL_LIBS="-L$packages/lib/release -lssl -lcrypto" \
                 ./configure \
                     -v -platform linux-g++-32  -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
                     -openssl-linked -no-3dnow -no-sse -no-sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
