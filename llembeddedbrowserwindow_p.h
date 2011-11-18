@@ -166,6 +166,7 @@ class LLEmbeddedBrowserWindowPrivate
         , mCurrentMouseButtonState(Qt::NoButton)
         , mPercentComplete(0)
         , mShowLoadingOverlay(false)
+        , mTimeLoadStarted(0)
         , mStatusText("")
         , mTitle("")
         , mCurrentUri("")
@@ -231,6 +232,7 @@ class LLEmbeddedBrowserWindowPrivate
 
     int16_t mPercentComplete;
     bool mShowLoadingOverlay;
+    time_t mTimeLoadStarted;
     std::string mStatusText;
     std::string mTitle;
     std::string mCurrentUri;

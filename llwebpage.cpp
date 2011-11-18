@@ -34,6 +34,8 @@
 #include <qwebelement.h>
 #include <qgraphicsproxywidget.h>
 
+#include <ctime>
+
 #include "llqtwebkit.h"
 #include "llembeddedbrowser.h"
 #include "llembeddedbrowserwindow.h"
@@ -302,6 +304,8 @@ void LLWebPage::loadStarted()
 	checkWhiteList( url );
 
 	window->d->mShowLoadingOverlay = true;
+
+	window->d->mTimeLoadStarted=time(NULL);
 
 	window->d->mDirty = true;
 	window->grabWindow(0,0,webView->boundingRect().width(),webView->boundingRect().height());

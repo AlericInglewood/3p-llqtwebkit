@@ -24,6 +24,7 @@
  */
 
 #include <sstream>
+#include <ctime>
 
 #include <qaction.h>
 #include <qwebframe.h>
@@ -222,14 +223,33 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
         QRect g(0, 0, d->mView->width(), d->mView->height());
         d->mGraphicsView->render(&painter, r, g);
 
-		if ( mEnableLoadingOverlay && d->mShowLoadingOverlay )
+	    d->mDirty = false;
+
+		const time_t seconds_before_show_overlay = 1;
+
+		if ( mEnableLoadingOverlay &&
+				d->mShowLoadingOverlay &&
+					time(NULL) - d->mTimeLoadStarted >= seconds_before_show_overlay )
 		{
 			painter.setRenderHint(QPainter::Antialiasing);;
 
 			QBrush brush;
 			QPen pen;
 
-			QColor background_color(QColor(128,160,128,128));
+			int size = width;
+			if ( height < width )
+				size = height;
+
+			const int symbol_translucency = 64;  // 0=fully trans, 255=opaque
+			const int symbol_proportion_of_sceen = 8;  // (1/8)
+			const int symbol_diameter = size/(symbol_proportion_of_sceen);
+			const int symbol_start_line = symbol_diameter*2/3;
+			const int symbol_end_line = symbol_diameter;
+			const int symbol_num_segments = 20;
+			const int symbol_line_width = size/60;
+			if ( size < 4 ) size = 4;
+
+			QColor background_color(QColor(128,128,128,symbol_translucency));
 			brush.setColor(background_color);
 			brush.setStyle(Qt::SolidPattern);
 			pen.setColor(background_color);
@@ -237,38 +257,19 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
 			painter.setBrush(brush);
 			painter.drawRect(0,0,width, height);
 
-			QColor outer_color(QColor(96,64,64,128));
-			brush.setColor(outer_color);
-			pen.setColor(outer_color);
-			painter.setPen(pen);
-			painter.setBrush(brush);
-			int size = width;
-			if ( height < width )
-				size = height;
+			painter.translate(QPoint(width/2, height/2));
 
-			const int symbol_proportion_of_sceen = 6;  // (1/6)
-			const int symbol_center_x=width/2-size/symbol_proportion_of_sceen;
-			const int symbol_center_y=height/2-size/symbol_proportion_of_sceen;
-			const int symbol_width = size/(symbol_proportion_of_sceen/2);
-			const int symbol_height = size/(symbol_proportion_of_sceen/2);
+			static int offset=0;
+			painter.rotate(((qreal)(offset++%(symbol_num_segments))/(qreal)symbol_num_segments)*360.0f);
 
-			painter.drawEllipse(symbol_center_x,symbol_center_y,symbol_width,symbol_height);
-
-			QColor inner_color(QColor(255,255,224,128));
-			brush.setColor(inner_color);
-			pen.setColor(inner_color);
-			painter.setPen(pen);
-			painter.setBrush(brush);
-			painter.drawPie(symbol_center_x,symbol_center_y,symbol_width,symbol_height, 0, d->mPercentComplete * 16 * 360 / 100);
-
-			QColor ring_color(QColor(0,0,0,128));
-			brush.setColor(ring_color);
-			brush.setStyle(Qt::NoBrush);
-			pen.setColor(ring_color);
-			pen.setWidth(4);
-			painter.setPen(pen);
-			painter.setBrush(brush);
-			painter.drawEllipse(symbol_center_x,symbol_center_y,symbol_width,symbol_height);
+			for ( int count=0; count<symbol_num_segments; ++count)
+			{
+				int translucency = ((qreal)(count)/(qreal)symbol_num_segments)*256.0f;
+				painter.setPen(QPen(QBrush(QColor(96,96,96,translucency)), (qreal)symbol_line_width));
+				painter.drawLine(symbol_start_line, 0, symbol_end_line, 0);
+				painter.rotate(360.0f/(qreal)symbol_num_segments);
+			}
+			d->mDirty = true;	// force dirty so updates happen frequently during load
 		}
 
         painter.end();
@@ -280,7 +281,7 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
     }
 
     d->mPageBuffer = d->mImage.bits();
-    d->mDirty = false;
+
     return d->mPageBuffer;
 }
 
