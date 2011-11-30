@@ -182,7 +182,7 @@ case "$AUTOBUILD_PLATFORM" in
                 ./configure \
                     -v -platform linux-g++-32  -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
                     -openssl-linked -no-3dnow -no-sse -no-sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
-                    -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff\
+                    -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff -qt-gif -qt-libjpeg\
                     -no-sql-sqlite -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop  -no-xkb \
                     -xrender -svg -no-pch -webkit -opensource -I"$packages/include" -L"$packages/lib" --prefix="$install" \
                     -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools
@@ -200,7 +200,8 @@ case "$AUTOBUILD_PLATFORM" in
             mv "$install/tmp/lib" "$install/lib/release"
             rmdir "$install/tmp"
 
-            #mv "$stage/plugins/imageformats"/libq*.a "$LIB_DIR"
+            cp "$stage/plugins/imageformats/libqgif.so" "$LIB_DIR"
+            cp "$stage/plugins/imageformats/libqjpeg.so" "$LIB_DIR"
 			cp "$stage/lib/libQtCore.so.4.7.1" "$LIB_DIR"
 			cp "$stage/lib/libQtWebKit.so.4.7.1" "$LIB_DIR"
 			cp "$stage/lib/libQtOpenGL.so.4.7.1" "$LIB_DIR"

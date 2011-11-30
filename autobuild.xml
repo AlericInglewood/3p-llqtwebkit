@@ -258,6 +258,8 @@
             <string>lib/release/libQtWebKit.so</string>
             <string>lib/release/libQtWebKit.so.4</string>
             <string>lib/release/libQtWebKit.so.4.7.1</string>
+            <string>lib/release/libqgif.so</string>
+            <string>lib/release/libqjpeg.so</string>
           </array>
           <key>name</key>
           <string>linux</string>
