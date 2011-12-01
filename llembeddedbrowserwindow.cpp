@@ -225,53 +225,57 @@ unsigned char* LLEmbeddedBrowserWindow::grabWindow(int x, int y, int width, int 
 
 	    d->mDirty = false;
 
-		const time_t seconds_before_show_overlay = 1;
+	    const bool spinner_enabled = false;
+	    if ( spinner_enabled )
+	    {
+			const time_t seconds_before_show_overlay = 1;
 
-		if ( mEnableLoadingOverlay &&
-				d->mShowLoadingOverlay &&
-					time(NULL) - d->mTimeLoadStarted >= seconds_before_show_overlay )
-		{
-			painter.setRenderHint(QPainter::Antialiasing);;
-
-			QBrush brush;
-			QPen pen;
-
-			int size = width;
-			if ( height < width )
-				size = height;
-
-			const int symbol_translucency = 64;  // 0=fully trans, 255=opaque
-			const int symbol_proportion_of_sceen = 8;  // (1/8)
-			const int symbol_diameter = size/(symbol_proportion_of_sceen);
-			const int symbol_start_line = symbol_diameter*2/3;
-			const int symbol_end_line = symbol_diameter;
-			const int symbol_num_segments = 20;
-			const int symbol_line_width = size/60;
-			if ( size < 4 ) size = 4;
-
-			QColor background_color(QColor(128,128,128,symbol_translucency));
-			brush.setColor(background_color);
-			brush.setStyle(Qt::SolidPattern);
-			pen.setColor(background_color);
-			painter.setPen(pen);
-			painter.setBrush(brush);
-			painter.drawRect(0,0,width, height);
-
-			painter.translate(QPoint(width/2, height/2));
-
-			static int offset=0;
-			painter.rotate(((qreal)(offset++%(symbol_num_segments))/(qreal)symbol_num_segments)*360.0f);
-
-			for ( int count=0; count<symbol_num_segments; ++count)
+			if ( mEnableLoadingOverlay &&
+					d->mShowLoadingOverlay &&
+						time(NULL) - d->mTimeLoadStarted >= seconds_before_show_overlay )
 			{
-				int translucency = ((qreal)(count)/(qreal)symbol_num_segments)*256.0f;
-				painter.setPen(QPen(QBrush(QColor(96,96,96,translucency)), (qreal)symbol_line_width));
-				painter.drawLine(symbol_start_line, 0, symbol_end_line, 0);
-				painter.rotate(360.0f/(qreal)symbol_num_segments);
-			}
-			d->mDirty = true;	// force dirty so updates happen frequently during load
-		}
+				painter.setRenderHint(QPainter::Antialiasing);;
 
+				QBrush brush;
+				QPen pen;
+
+				int size = width;
+				if ( height < width )
+					size = height;
+
+				const int symbol_translucency = 64;  // 0=fully trans, 255=opaque
+				const int symbol_proportion_of_sceen = 8;  // (1/8)
+				const int symbol_diameter = size/(symbol_proportion_of_sceen);
+				const int symbol_start_line = symbol_diameter*2/3;
+				const int symbol_end_line = symbol_diameter;
+				const int symbol_num_segments = 20;
+				const int symbol_line_width = size/60;
+				if ( size < 4 ) size = 4;
+
+				QColor background_color(QColor(128,128,128,symbol_translucency));
+				brush.setColor(background_color);
+				brush.setStyle(Qt::SolidPattern);
+				pen.setColor(background_color);
+				painter.setPen(pen);
+				painter.setBrush(brush);
+				painter.drawRect(0,0,width, height);
+
+				painter.translate(QPoint(width/2, height/2));
+
+				static int offset=0;
+				painter.rotate(((qreal)(offset++%(symbol_num_segments))/(qreal)symbol_num_segments)*360.0f);
+
+				for ( int count=0; count<symbol_num_segments; ++count)
+				{
+					int translucency = ((qreal)(count)/(qreal)symbol_num_segments)*256.0f;
+					painter.setPen(QPen(QBrush(QColor(96,96,96,translucency)), (qreal)symbol_line_width));
+					painter.drawLine(symbol_start_line, 0, symbol_end_line, 0);
+					painter.rotate(360.0f/(qreal)symbol_num_segments);
+				}
+				d->mDirty = true;	// force dirty so updates happen frequently during load
+			}
+		}
+		
         painter.end();
         if (d->mFlipBitmap)
         {
