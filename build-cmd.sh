@@ -180,7 +180,7 @@ case "$AUTOBUILD_PLATFORM" in
                 echo "yes" | \
                 OPENSSL_LIBS="-L$packages/lib/release -lssl -lcrypto" \
                 ./configure \
-                    -v -platform linux-g++-32  -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
+                    -v -platform linux-g++-32 -static -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
                     -openssl-linked -no-3dnow -no-sse -no-sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
                     -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff -qt-gif -qt-libjpeg\
                     -no-sql-sqlite -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop  -no-xkb \
@@ -191,7 +191,7 @@ case "$AUTOBUILD_PLATFORM" in
                 make install
         
                 # libjscore.a doesn't get installed but some libs depend on it.
-                #cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
+                cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
             popd
 
             # Copy lib's to cannonical autobuild location.
@@ -200,13 +200,12 @@ case "$AUTOBUILD_PLATFORM" in
             mv "$install/tmp/lib" "$install/lib/release"
             rmdir "$install/tmp"
 
-            cp "$stage/plugins/imageformats/libqgif.so" "$LIB_DIR"
-            cp "$stage/plugins/imageformats/libqjpeg.so" "$LIB_DIR"
-			cp "$stage/lib/libQtCore.so.4.7.1" "$LIB_DIR"
-			cp "$stage/lib/libQtWebKit.so.4.7.1" "$LIB_DIR"
-			cp "$stage/lib/libQtOpenGL.so.4.7.1" "$LIB_DIR"
-			cp "$stage/lib/libQtGui.so.4.7.1" "$LIB_DIR"
-			cp "$stage/lib/libQtNetwork.so.4.7.1" "$LIB_DIR"
+            cp "$stage/lib/libQtCore.a" "$LIB_DIR"
+            cp "$stage/lib/libQtWebKit.a" "$LIB_DIR"
+            cp "$stage/lib/libQtOpenGL.a" "$LIB_DIR"
+            cp "$stage/lib/libQtGui.a" "$LIB_DIR"
+            cp "$stage/lib/libQtNetwork.a" "$LIB_DIR"
+            cp "$stage/lib/libjscore.a" "$LIB_DIR"
         fi
 
         # Now build llqtwebkit...
