@@ -3,6 +3,30 @@
 <map>
     <key>installables</key>
     <map>
+      <key>freeglut</key>
+      <map>
+        <key>description</key>
+        <string>Freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library</string>
+        <key>license</key>
+        <string>X-Consortium</string>
+        <key>name</key>
+        <string>freeglut</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>825d5a9bafcc5bfe28dc4c1c4f87c576</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freeglut/rev/221064/arch/CYGWIN/installer/freeglut-2.6.0-windows-20110214.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+        </map>
+      </map>
       <key>openssl</key>
       <map>
         <key>license</key>
@@ -113,181 +137,36 @@
       <key>license</key>
       <string>LGPL</string>
       <key>license_file</key>
-      <string>LICENSES/qt.txt</string>
+      <string>LICENSES/llqtwebkit.txt</string>
       <key>name</key>
-      <string>qt</string>
+      <string>llqtwebkit</string>
       <key>platforms</key>
       <map>
         <key>common</key>
         <map>
           <key>build_directory</key>
           <string>stage</string>
+          <key>configurations</key>
+          <map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                  <string>-x</string>
+                </array>
+                <key>command</key>
+                <string>sh</string>
+              </map>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
+          </map>
           <key>manifest</key>
           <array>
-            <string>include/*</string>
-            <string>include/Qt/*</string>
-            <string>include/QtCore/*</string>
-            <string>include/QtDeclarative/*</string>
-            <string>include/QtGui/*</string>
-            <string>include/QtMultimedia/*</string>
-            <string>include/QtNetwork/*</string>
-            <string>include/QtOpenGL/*</string>
-            <string>include/QtScript/*</string>
-            <string>include/QtScriptTools/*</string>
-            <string>include/QtSql/*</string>
-            <string>include/QtSvg/*</string>
-            <string>include/QtTest/*</string>
-            <string>include/QtWebKit/*</string>
-            <string>include/QtXml/*</string>
-            <string>mkspecs/*</string>
-            <string>mkspecs/aix-g++/*</string>
-            <string>mkspecs/aix-g++-64/*</string>
-            <string>mkspecs/aix-xlc/*</string>
-            <string>mkspecs/aix-xlc-64/*</string>
-            <string>mkspecs/common/*</string>
-            <string>mkspecs/common/aix/*</string>
-            <string>mkspecs/common/c89/*</string>
-            <string>mkspecs/common/posix/*</string>
-            <string>mkspecs/common/symbian/*</string>
-            <string>mkspecs/common/symbian/header-wrappers/*</string>
-            <string>mkspecs/common/symbian/stl-off/*</string>
-            <string>mkspecs/common/wince/*</string>
-            <string>mkspecs/cygwin-g++/*</string>
-            <string>mkspecs/darwin-g++/*</string>
-            <string>mkspecs/features/*</string>
-            <string>mkspecs/features/mac/*</string>
-            <string>mkspecs/features/symbian/*</string>
-            <string>mkspecs/features/unix/*</string>
-            <string>mkspecs/features/win32/*</string>
-            <string>mkspecs/freebsd-g++/*</string>
-            <string>mkspecs/freebsd-g++34/*</string>
-            <string>mkspecs/freebsd-g++40/*</string>
-            <string>mkspecs/freebsd-icc/*</string>
-            <string>mkspecs/hpux-acc/*</string>
-            <string>mkspecs/hpux-acc-64/*</string>
-            <string>mkspecs/hpux-acc-o64/*</string>
-            <string>mkspecs/hpux-g++/*</string>
-            <string>mkspecs/hpux-g++-64/*</string>
-            <string>mkspecs/hpuxi-acc-32/*</string>
-            <string>mkspecs/hpuxi-acc-64/*</string>
-            <string>mkspecs/hpuxi-g++-64/*</string>
-            <string>mkspecs/hurd-g++/*</string>
-            <string>mkspecs/irix-cc/*</string>
-            <string>mkspecs/irix-cc-64/*</string>
-            <string>mkspecs/irix-g++/*</string>
-            <string>mkspecs/irix-g++-64/*</string>
-            <string>mkspecs/linux-cxx/*</string>
-            <string>mkspecs/linux-ecc-64/*</string>
-            <string>mkspecs/linux-g++/*</string>
-            <string>mkspecs/linux-g++-32/*</string>
-            <string>mkspecs/linux-g++-64/*</string>
-            <string>mkspecs/linux-g++-maemo/*</string>
-            <string>mkspecs/linux-icc/*</string>
-            <string>mkspecs/linux-icc-32/*</string>
-            <string>mkspecs/linux-icc-64/*</string>
-            <string>mkspecs/linux-kcc/*</string>
-            <string>mkspecs/linux-llvm/*</string>
-            <string>mkspecs/linux-lsb-g++/*</string>
-            <string>mkspecs/linux-pgcc/*</string>
-            <string>mkspecs/lynxos-g++/*</string>
-            <string>mkspecs/macx-g++/*</string>
-            <string>mkspecs/macx-g++40/*</string>
-            <string>mkspecs/macx-g++42/*</string>
-            <string>mkspecs/macx-icc/*</string>
-            <string>mkspecs/macx-llvm/*</string>
-            <string>mkspecs/macx-pbuilder/*</string>
-            <string>mkspecs/macx-xcode/*</string>
-            <string>mkspecs/macx-xlc/*</string>
-            <string>mkspecs/modules/*</string>
-            <string>mkspecs/netbsd-g++/*</string>
-            <string>mkspecs/openbsd-g++/*</string>
-            <string>mkspecs/qws/*</string>
-            <string>mkspecs/qws/freebsd-generic-g++/*</string>
-            <string>mkspecs/qws/linux-arm-g++/*</string>
-            <string>mkspecs/qws/linux-arm-gnueabi-g++/*</string>
-            <string>mkspecs/qws/linux-armv6-g++/*</string>
-            <string>mkspecs/qws/linux-avr32-g++/*</string>
-            <string>mkspecs/qws/linux-cellon-g++/*</string>
-            <string>mkspecs/qws/linux-dm7000-g++/*</string>
-            <string>mkspecs/qws/linux-dm800-g++/*</string>
-            <string>mkspecs/qws/linux-generic-g++/*</string>
-            <string>mkspecs/qws/linux-generic-g++-32/*</string>
-            <string>mkspecs/qws/linux-ipaq-g++/*</string>
-            <string>mkspecs/qws/linux-lsb-g++/*</string>
-            <string>mkspecs/qws/linux-mips-g++/*</string>
-            <string>mkspecs/qws/linux-powerpc-g++/*</string>
-            <string>mkspecs/qws/linux-sh-g++/*</string>
-            <string>mkspecs/qws/linux-sh4al-g++/*</string>
-            <string>mkspecs/qws/linux-sharp-g++/*</string>
-            <string>mkspecs/qws/linux-x86-g++/*</string>
-            <string>mkspecs/qws/linux-x86_64-g++/*</string>
-            <string>mkspecs/qws/linux-zylonite-g++/*</string>
-            <string>mkspecs/qws/macx-generic-g++/*</string>
-            <string>mkspecs/qws/solaris-generic-g++/*</string>
-            <string>mkspecs/sco-cc/*</string>
-            <string>mkspecs/sco-g++/*</string>
-            <string>mkspecs/solaris-cc/*</string>
-            <string>mkspecs/solaris-cc-64/*</string>
-            <string>mkspecs/solaris-cc-64-stlport/*</string>
-            <string>mkspecs/solaris-cc-stlport/*</string>
-            <string>mkspecs/solaris-g++/*</string>
-            <string>mkspecs/solaris-g++-64/*</string>
-            <string>mkspecs/symbian/*</string>
-            <string>mkspecs/symbian/linux-armcc/*</string>
-            <string>mkspecs/symbian/linux-armcc/features/*</string>
-            <string>mkspecs/symbian/linux-gcce/*</string>
-            <string>mkspecs/symbian/linux-gcce/features/*</string>
-            <string>mkspecs/symbian-abld/*</string>
-            <string>mkspecs/symbian-sbsv2/*</string>
-            <string>mkspecs/symbian-sbsv2/flm/*</string>
-            <string>mkspecs/symbian-sbsv2/flm/qt/*</string>
-            <string>mkspecs/tru64-cxx/*</string>
-            <string>mkspecs/tru64-g++/*</string>
-            <string>mkspecs/unixware-cc/*</string>
-            <string>mkspecs/unixware-g++/*</string>
-            <string>mkspecs/unsupported/*</string>
-            <string>mkspecs/unsupported/linux-host-g++/*</string>
-            <string>mkspecs/unsupported/linux-scratchbox2-g++/*</string>
-            <string>mkspecs/unsupported/qnx-g++/*</string>
-            <string>mkspecs/unsupported/qws/*</string>
-            <string>mkspecs/unsupported/qws/qnx-641/*</string>
-            <string>mkspecs/unsupported/qws/qnx-generic-g++/*</string>
-            <string>mkspecs/unsupported/qws/qnx-i386-g++/*</string>
-            <string>mkspecs/unsupported/qws/qnx-ppc-g++/*</string>
-            <string>mkspecs/unsupported/vxworks-ppc-dcc/*</string>
-            <string>mkspecs/unsupported/vxworks-ppc-g++/*</string>
-            <string>mkspecs/unsupported/vxworks-simpentium-dcc/*</string>
-            <string>mkspecs/unsupported/vxworks-simpentium-g++/*</string>
-            <string>mkspecs/unsupported/win32-g++-cross/*</string>
-            <string>mkspecs/win32-borland/*</string>
-            <string>mkspecs/win32-g++/*</string>
-            <string>mkspecs/win32-icc/*</string>
-            <string>mkspecs/win32-msvc2003/*</string>
-            <string>mkspecs/win32-msvc2005/*</string>
-            <string>mkspecs/win32-msvc2008/*</string>
-            <string>mkspecs/win32-msvc2010/*</string>
-            <string>mkspecs/wince50standard-armv4i-msvc2005/*</string>
-            <string>mkspecs/wince50standard-armv4i-msvc2008/*</string>
-            <string>mkspecs/wince50standard-mipsii-msvc2005/*</string>
-            <string>mkspecs/wince50standard-mipsii-msvc2008/*</string>
-            <string>mkspecs/wince50standard-mipsiv-msvc2005/*</string>
-            <string>mkspecs/wince50standard-mipsiv-msvc2008/*</string>
-            <string>mkspecs/wince50standard-sh4-msvc2005/*</string>
-            <string>mkspecs/wince50standard-sh4-msvc2008/*</string>
-            <string>mkspecs/wince50standard-x86-msvc2005/*</string>
-            <string>mkspecs/wince50standard-x86-msvc2008/*</string>
-            <string>mkspecs/wince60standard-armv4i-msvc2005/*</string>
-            <string>mkspecs/wince60standard-x86-msvc2005/*</string>
-            <string>mkspecs/wincewm50pocket-msvc2005/*</string>
-            <string>mkspecs/wincewm50pocket-msvc2008/*</string>
-            <string>mkspecs/wincewm50smart-msvc2005/*</string>
-            <string>mkspecs/wincewm50smart-msvc2008/*</string>
-            <string>mkspecs/wincewm60professional-msvc2005/*</string>
-            <string>mkspecs/wincewm60professional-msvc2008/*</string>
-            <string>mkspecs/wincewm60standard-msvc2005/*</string>
-            <string>mkspecs/wincewm60standard-msvc2008/*</string>
-            <string>mkspecs/wincewm65professional-msvc2005/*</string>
-            <string>mkspecs/wincewm65professional-msvc2008/*</string>
+            <string>include/llqtwebkit.h</string>
           </array>
           <key>name</key>
           <string>common</string>
@@ -312,13 +191,20 @@
               <key>name</key>
               <string>Release</string>
             </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
           </map>
           <key>manifest</key>
           <array>
-            <string>lib/*.a</string>
-            <string>plugins/codecs/*.a</string>
-            <string>plugins/imageformats/*.a</string>
-            <string>bin/*</string>
+            <string>lib/release/libllqtwebkit.dylib</string>
           </array>
           <key>name</key>
           <string>darwin</string>
@@ -343,13 +229,37 @@
               <key>name</key>
               <string>Release</string>
             </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
           </map>
           <key>manifest</key>
           <array>
-            <string>plugins/codecs/*.a</string>
-            <string>plugins/imageformats/*.a</string>
-            <string>bin/*</string>
-            <string>lib/*.a</string>
+            <string>lib/release/libllqtwebkit.a</string>
+            <string>lib/release/libQtCore.so</string>
+            <string>lib/release/libQtCore.so.4</string>
+            <string>lib/release/libQtCore.so.4.7.1</string>
+            <string>lib/release/libQtGui.so</string>
+            <string>lib/release/libQtGui.so.4</string>
+            <string>lib/release/libQtGui.so.4.7.1</string>
+            <string>lib/release/libQtNetwork.so</string>
+            <string>lib/release/libQtNetwork.so.4</string>
+            <string>lib/release/libQtNetwork.so.4.7.1</string>
+            <string>lib/release/libQtOpenGL.so</string>
+            <string>lib/release/libQtOpenGL.so.4</string>
+            <string>lib/release/libQtOpenGL.so.4.7.1</string>
+            <string>lib/release/libQtWebKit.so</string>
+            <string>lib/release/libQtWebKit.so.4</string>
+            <string>lib/release/libQtWebKit.so.4.7.1</string>
+            <string>lib/release/libqgif.so</string>
+            <string>lib/release/libqjpeg.so</string>
           </array>
           <key>name</key>
           <string>linux</string>
@@ -376,18 +286,27 @@
               <key>name</key>
               <string>Release</string>
             </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
           </map>
           <key>manifest</key>
           <array>
-            <string>lib/debug/*.lib</string>
-            <string>lib/debug/*.dll</string>
-            <string>lib/debug/codecs/*.dll</string>
-            <string>lib/debug/imageformats/*.dll</string>
             <string>lib/release/*.lib</string>
             <string>lib/release/*.dll</string>
             <string>lib/release/codecs/*.dll</string>
             <string>lib/release/imageformats/*.dll</string>
-            <string>bin/*</string>
+            <string>lib/debug/*.lib</string>
+            <string>lib/debug/*.dll</string>
+            <string>lib/debug/codecs/*.dll</string>
+            <string>lib/debug/imageformats/*.dll</string>
           </array>
           <key>name</key>
           <string>windows</string>
