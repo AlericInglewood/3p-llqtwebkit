@@ -158,7 +158,7 @@
                   <string>-x</string>
                 </array>
                 <key>command</key>
-                <string>sh</string>
+                <string>bash</string>
               </map>
               <key>name</key>
               <string>ReleaseNoQt</string>
