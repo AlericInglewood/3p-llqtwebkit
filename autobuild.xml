@@ -18,9 +18,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>825d5a9bafcc5bfe28dc4c1c4f87c576</string>
+              <string>74758efd7fc6246f704ea702c4b3e310</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freeglut/rev/221064/arch/CYGWIN/installer/freeglut-2.6.0-windows-20110214.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/freeglut-2.6.0-windows-20110214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -42,9 +42,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>38ea083fe1204ee106b4d44d9811af19</string>
+              <string>1acdf58efa7a728fd390a710c659ec65</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/249044/arch/Darwin/installer/openssl-1.0.0g-darwin-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/openssl-1.0.0g-darwin-20120712.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -54,21 +54,33 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7dc5191a3d95074a6ed3bd53f57420e5</string>
+              <string>c57c14353e07e45c0f168313f26ace8e</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/249044/arch/Linux/installer/openssl-1.0.0g-linux-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/openssl-1.0.0g-linux-20120207.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>e4d434731ad8280e85f5177da8d8ed3a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/openssl-1.0.0g-linux-x86_64-20120605.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ed6cbaf9860a03bc99ac301277f1452a</string>
+              <string>30062b843657b745ab297bb674ac0b6e</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/249044/arch/CYGWIN/installer/openssl-1.0.0g-windows-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/openssl-1.0.0g-windows-20120207.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -94,9 +106,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>86f045c2a8881309eedb3d4ca960077f</string>
+              <string>7daee7ada1bcc90fa367775f04e9950a</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/249037/arch/Darwin/installer/zlib-1.2.6-darwin-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/zlib-1.2.5-darwin-20110211.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -106,21 +118,33 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>39797a9e13ece9c05c713b55ee0175f0</string>
+              <string>c2707c0214bd0d58b35c77fa351f8cb0</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/249037/arch/Linux/installer/zlib-1.2.6-linux-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/zlib-1.2.5-linux-20110314.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>367cb642f1471f85f1094827ac960dbe</string>
+              <key>url</key>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/zlib-1.2.6-linux-x86_64-20120419.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>81ee608ed385b291e4e7af973ec4b021</string>
+              <string>d76dad53f2984827db98fd9d62232ab2</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/249037/arch/CYGWIN/installer/zlib-1.2.6-windows-20120207.tar.bz2</string>
+              <string>https://bitbucket.org/SingularityViewer/libraries/downloads/zlib-1.2.5-windows-20120704.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
