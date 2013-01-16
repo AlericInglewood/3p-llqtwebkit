@@ -190,7 +190,6 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>include/llqtwebkit.h</string>
           </array>
           <key>name</key>
           <string>common</string>
@@ -266,16 +265,82 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>lib/release/libllqtwebkit.a</string>
-            <string>lib/release/libQtCore.a</string>
-            <string>lib/release/libQtGui.a</string>
-            <string>lib/release/libQtNetwork.a</string>
-            <string>lib/release/libQtOpenGL.a</string>
-            <string>lib/release/libQtWebKit.a</string>
-            <string>lib/release/libjscore.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtCore.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtGui.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtMultimedia.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtNetwork.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtOpenGL.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtScript.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtSvg.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtWebKit.a</string>
+	    <string>libraries/i686-linux/lib/release/libQtXml.a</string>
+	    <string>libraries/i686-linux/lib/release/libjscore.a</string>
+	    <string>libraries/i686-linux/lib/release/imageformats/libqico.a</string>
+	    <string>libraries/i686-linux/lib/release/imageformats/libqsvg.a</string>
+	    <string>libraries/i686-linux/lib/release/codecs/libqcncodecs.a</string>
+	    <string>libraries/i686-linux/lib/release/codecs/libqjpcodecs.a</string>
+	    <string>libraries/i686-linux/lib/release/codecs/libqkrcodecs.a</string>
+	    <string>libraries/i686-linux/lib/release/codecs/libqtwcodecs.a</string>
+	    <string>libraries/i686-linux/lib/release/libllqtwebkit.a</string>
+	    <string>libraries/i686-linux/include/llqtwebkit.h</string>
           </array>
           <key>name</key>
           <string>linux</string>
+        </map>
+        <key>linux64</key>
+        <map>
+          <key>configurations</key>
+          <map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>bash</string>
+                <key>options</key>
+                <array>
+                  <string>../build-cmd.sh</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+            <key>ReleaseNoQt</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>False</string>
+              <key>name</key>
+              <string>ReleaseNoQt</string>
+            </map>
+          </map>
+          <key>manifest</key>
+          <array>
+	    <string>libraries/x86_64-linux/lib/release/libQtCore.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtGui.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtMultimedia.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtNetwork.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtOpenGL.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtScript.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtSvg.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtWebKit.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libQtXml.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libjscore.a</string>
+	    <string>libraries/x86_64-linux/lib/release/imageformats/libqico.a</string>
+	    <string>libraries/x86_64-linux/lib/release/imageformats/libqsvg.a</string>
+	    <string>libraries/x86_64-linux/lib/release/codecs/libqcncodecs.a</string>
+	    <string>libraries/x86_64-linux/lib/release/codecs/libqjpcodecs.a</string>
+	    <string>libraries/x86_64-linux/lib/release/codecs/libqkrcodecs.a</string>
+	    <string>libraries/x86_64-linux/lib/release/codecs/libqtwcodecs.a</string>
+	    <string>libraries/x86_64-linux/lib/release/libllqtwebkit.a</string>
+	    <string>libraries/x86_64-linux/include/llqtwebkit.h</string>
+          </array>
+          <key>name</key>
+          <string>linux64</string>
         </map>
         <key>windows</key>
         <map>

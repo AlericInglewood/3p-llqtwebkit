@@ -1,5 +1,12 @@
 #!/bin/bash
 
+cd "`dirname "$0"`"
+top="`pwd`"
+stage="$top/stage"
+
+packages="$stage/packages"
+install="$stage"
+
 # make errors fatal
 set -e
 
@@ -30,12 +37,6 @@ eval "$("$AUTOBUILD" source_environment)"
 
 # turn on verbose debugging output for logging.
 set -x
-
-stage="$(pwd)"
-packages="$stage/packages"
-install="$stage"
-
-cd "$(dirname "$0")"
 
 case "$AUTOBUILD_PLATFORM" in
     "windows")        
@@ -161,67 +162,96 @@ case "$AUTOBUILD_PLATFORM" in
         cp "llqtwebkit.h" "$install/include"
     ;;
     "linux")
-        LIB_DIR="$install/lib/release"
-        export MAKEFLAGS="-j12"
-        export CXX="g++-4.1" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
-        export CC='gcc-4.1' CFLAGS="-m32 -fno-stack-protector"
-        export LD="g++-4.1" LDFLAGS="-m32"
+        LIB_DIR="$install/libraries/i686-linux/lib/release"
+        export MAKEFLAGS="-j8"
+        export CXX="g++" CXXFLAGS="-DQT_NO_INOTIFY -m32 -fno-stack-protector"
+        export CC="gcc" CFLAGS="-m32 -fno-stack-protector"
+        export LD="g++" LDFLAGS="-m32"
 
         #Build qt...
         if [ $BUILD_QT -ne 0 ]
         then
-            pushd "$QT_SOURCE_DIR"
+            mkdir -p "$stage/qt-builddir"
+            pushd "$stage/qt-builddir"
                 export QTDIR="$(pwd)"
-                echo "DISTCC_HOSTS=$DISTCC_HOSTS"
-    
-                # fix for build on lenny (not sure why the qt build isn't obeying the environment var
-                patch -p1 < "../patches/000_qt_linux_mkspec_force_g++-4.1.patch"
-    
+ 
                 echo "yes" | \
-                OPENSSL_LIBS="-L$packages/lib/release -lssl -lcrypto" \
-                ./configure \
+                OPENSSL_LIBS="-L$packages/libraries/i686-linux/lib/release -lssl -lcrypto" \
+                "$top/$QT_SOURCE_DIR"/configure \
                     -v -platform linux-g++-32 -static -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
-                    -openssl-linked -no-3dnow -no-sse -no-sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
-                    -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff -qt-gif -qt-libjpeg\
-                    -no-sql-sqlite -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop  -no-xkb \
-                    -xrender -svg -no-pch -webkit -opensource -I"$packages/include" -L"$packages/lib/release" --prefix="$install" \
+                    -openssl-linked -no-3dnow -no-sse -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
+                    -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff -qt-gif -qt-libjpeg \
+                    -no-sql-sqlite -no-sql-psql -no-sql-mysql -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop -no-xkb \
+                    -xrender -svg -no-pch -webkit -opensource -no-declarative -no-rpath -no-accessibility \
+		    -I"$packages/libraries/i686-linux/include" -L"$packages/libraries/i686-linux/lib/release" \
+		    -prefix "$install" -libdir "$LIB_DIR" -plugindir "$LIB_DIR" -prefix-install \
                     -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools
-                make -j12
-                export PATH="$PATH:$QTDIR/bin"
+                make
+                export PATH="$QTDIR/bin:$PATH"
                 make install
         
                 # libjscore.a doesn't get installed but some libs depend on it.
-                cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$install/lib"
+                cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$LIB_DIR"
             popd
-
-            # Copy lib's to cannonical autobuild location.
-            mkdir -p "$install/tmp"
-            cp -a "$install/lib" "$install/tmp"
-            mv "$install/tmp/lib" "$install/lib/release"
-            rmdir "$install/tmp"
-
-            cp "$stage/lib/libQtCore.a" "$LIB_DIR"
-            cp "$stage/lib/libQtWebKit.a" "$LIB_DIR"
-            cp "$stage/lib/libQtOpenGL.a" "$LIB_DIR"
-            cp "$stage/lib/libQtGui.a" "$LIB_DIR"
-            cp "$stage/lib/libQtNetwork.a" "$LIB_DIR"
-            cp "$stage/lib/libjscore.a" "$LIB_DIR"
         fi
 
         # Now build llqtwebkit...
-        export PATH=$PATH:"$install/bin/"
+        export PATH="$install/bin/:$PATH"
         qmake -platform linux-g++-32 CONFIG-=debug
-        make -j12
+        make
 
         cp "libllqtwebkit.a" "$LIB_DIR"
 
-        mkdir -p "$install/include"
-        cp "llqtwebkit.h" "$install/include"
+        mkdir -p "$install/libraries/i686-linux/include"
+        cp "llqtwebkit.h" "$install/libraries/i686-linux/include"
+    ;;
+    "linux64")
+        LIB_DIR="$install/libraries/x86_64-linux/lib/release"
+        export MAKEFLAGS="-j8"
+        export CXX="g++" CXXFLAGS="-DQT_NO_INOTIFY -m64 -fno-stack-protector"
+        export CC="gcc" CFLAGS="-m64 -fno-stack-protector"
+        export LD="g++" LDFLAGS="-m64"
+
+        #Build qt...
+        if [ $BUILD_QT -ne 0 ]
+        then
+            mkdir -p "$stage/qt-builddir"
+            pushd "$stage/qt-builddir"
+                export QTDIR="$(pwd)"
+ 
+                echo "yes" | \
+                OPENSSL_LIBS="-L$packages/libraries/x86_64-linux/lib/release -lssl -lcrypto" \
+                "$top/$QT_SOURCE_DIR"/configure \
+                    -v -platform linux-g++-64 -static -fontconfig -fast -no-qt3support -release -no-xmlpatterns -no-phonon \
+                    -openssl-linked -no-3dnow -no-sse -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-gtkstyle \
+                    -no-xinput -no-sm -buildkey LL$(date +%s) -qt-libtiff -qt-gif -qt-libjpeg \
+                    -no-sql-sqlite -no-sql-psql -no-sql-mysql -no-scripttools -no-cups -no-dbus -qt-libmng -no-glib -qt-libpng -opengl desktop -no-xkb \
+                    -xrender -svg -no-pch -webkit -opensource -no-declarative -no-rpath -no-accessibility \
+		    -I"$packages/libraries/x86_64-linux/include" -L"$packages/libraries/x86_64-linux/lib/release" \
+		    -prefix "$install" -libdir "$LIB_DIR" -plugindir "$LIB_DIR" -prefix-install \
+                    -nomake examples -nomake demos -nomake docs -nomake translations -nomake tools
+                make
+                export PATH="$QTDIR/bin:$PATH"
+                make install
+        
+                # libjscore.a doesn't get installed but some libs depend on it.
+                cp "./src/3rdparty/webkit/JavaScriptCore/release/libjscore.a" "$LIB_DIR"
+            popd
+        fi
+
+        # Now build llqtwebkit...
+        export PATH="$install/bin/:$PATH"
+        qmake -platform linux-g++-64 CONFIG-=debug
+        make
+
+        cp "libllqtwebkit.a" "$LIB_DIR"
+
+        mkdir -p "$install/libraries/x86_64-linux/include"
+        cp "llqtwebkit.h" "$install/libraries/x86_64-linux/include"
     ;;
 esac
 mkdir -p "$install/LICENSES"
 cp "LLQTWEBKIT_LICENSE.txt" "$install/LICENSES/llqtwebkit.txt"
-echo "$LIB_DIR"
 
 pass
 

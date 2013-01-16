@@ -86,6 +86,12 @@ contains(QMAKE_HOST.os,Windows):moc_dir_short ~= s,^.:,/,
 contains(moc_dir_short, ^[/\\\\].*):INCLUDEPATH += $$MOC_DIR
 else:INCLUDEPATH += $$OUT_PWD/$$MOC_DIR
 
+#Singu Note: the same is needed for .rcc/release-static
+rcc_dir_short = $$RCC_DIR
+contains(QMAKE_HOST.os,Windows):rcc_dir_short ~= s,^.:,/,
+contains(rcc_dir_short, ^[/\\\\].*):INCLUDEPATH += $$RCC_DIR
+else:INCLUDEPATH += $$OUT_PWD/$$RCC_DIR
+
 # Backwards compatibility: Make shadow builds with default MOC_DIR work
 # if the user did not add the source dir explicitly.
 equals(MOC_DIR, .) {
