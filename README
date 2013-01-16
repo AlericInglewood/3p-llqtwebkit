@@ -1,0 +1,25 @@
+# This repository was initially created to create a linux64 llqtwebkit package.
+
+# It is now also used to generate packages with a directory
+# structure as needed by Singularity and to upgrade the version
+# of the software.
+
+# Created as follows:
+git-hg clone https://bitbucket.org/lindenlab/3p-llqtwebkit linden-3p-llqtwebkit
+cd linden-3p-llqtwebkit
+git-hg checkout llqtwebkit
+git checkout -b singularity
+
+# To fetch from upstream:
+cd linden-3p-llqtwebkit
+git-hg fetch
+git merge llqtwebkit
+
+# To build the package:
+cd linden-3p-llqtwebkit
+correct_autobuild_xml
+git diff
+git commit -a -m 'Updated urls of prebuilt packages.'
+autobuild install
+autobuild build
+autobuild package
