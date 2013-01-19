@@ -5,18 +5,18 @@
 # of the software.
 
 # Created as follows:
-git-hg clone https://bitbucket.org/lindenlab/3p-llqtwebkit linden-3p-llqtwebkit
-cd linden-3p-llqtwebkit
+git-hg clone https://bitbucket.org/lindenlab/3p-llqtwebkit 3p-llqtwebkit
+cd 3p-llqtwebkit
 git-hg checkout llqtwebkit
 git checkout -b singularity
 
 # To fetch from upstream:
-cd linden-3p-llqtwebkit
+cd 3p-llqtwebkit
 git-hg fetch
 git merge llqtwebkit
 
 # To build the package:
-cd linden-3p-llqtwebkit
+cd 3p-llqtwebkit
 correct_autobuild_xml
 git diff
 git commit -a -m 'Updated urls of prebuilt packages.'
